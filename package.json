@@ -1,0 +1,25 @@
+{
+  "name": "guara.api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+	"start": "node index.js  --experimental-modules",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ineben/guara.api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ineben/guara.api/issues"
+  },
+  "homepage": "https://github.com/ineben/guara.api#readme",
+  "dependencies": {
+    "fastparallel": "^2.3.0",
+    "fastseries": "^1.7.2",
+    "syllable-es": "^1.0.1"
+  }
+}
