@@ -14,8 +14,8 @@ for(const entrada of entradas){
 	.then( (translation) => {
 		console.log("==========================");
 		console.log(entrada[1]);
-		console.log("Entrada", entrada[0]);
-		console.log("Salida", translation);
+		console.log("Entrada:", entrada[0]);
+		console.log("Salida:", translation);
 	}).catch( (e) => {
 		console.log(e);
 	})	
