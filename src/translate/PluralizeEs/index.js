@@ -249,7 +249,10 @@ pluralize.addIrregularRule = function(single, plural){
 	['él', 'ellos'],
 	['el', 'los'],
 	['élla', 'ellas'],
-	['la', 'las']
+	['la', 'las'],
+	['esta', 'estas'],
+	['esto', 'estos'],
+	['este', 'estes'],
 ].forEach( function(rule){
 	return pluralize.addIrregularRule(rule[0], rule[1]);
 });
@@ -299,5 +302,6 @@ pluralize.addIrregularRule = function(single, plural){
 	'yo',
 	'es'
 ].forEach(pluralize.addUncountableRule);
+
 
 module.exports = {restoreCase, pluralize};
