@@ -15,7 +15,7 @@ for(const entrada of entradas){
 		console.log("==========================");
 		console.log(entrada[1]);
 		console.log("Entrada", entrada[0]);
-		console.log("Entrada", translation);
+		console.log("Salida", translation);
 	}).catch( (e) => {
 		console.log(e);
 	})	
