@@ -12,7 +12,10 @@ const entradas = [
 for(const entrada of entradas){
 	translate(entrada[0], 1, null, null, entrada[2])
 	.then( (translation) => {
-		console.log(entrada[1], translation);
+		console.log("==========================");
+		console.log(entrada[1]);
+		console.log("Entrada", entrada[0]);
+		console.log("Entrada", translation);
 	}).catch( (e) => {
 		console.log(e);
 	})	
