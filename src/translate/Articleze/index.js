@@ -5,7 +5,7 @@ const maleArticleRules = [
 	}],
 	[/(ell|aquell|est)([o]{1})(s)?/i, {
 		toNeutral: "$1e$3",
-		toFemale: "$1a$2"
+		toFemale: "$1a$3"
 	}],
 	[/(l)(o)(s)/i, {
 		toNeutral: "$1e$3",

@@ -2,86 +2,17 @@ const {restoreCase, pluralize} = require("./PluralizeEs");
 const articleze = require("./Articleze");
 const genderize = require("./Genderize");
 const steed = require("./Steedz")();
+const Cloudant = require('@cloudant/cloudant');
 
-const staticDictionary = [
+const cloudant = Cloudant(
 	{
-		base: "profesor",
-		female: "profesora",
-		type: "sujeto",
-		living: true,
-		profession: true,
-		sinonimos: []
-	},
-	{
-		base: "mesa",
-		type: "sujeto",
-		living: false,
-		sinonimos: []
-	},
-	{
-		base: "hijo",
-		female: "hija",
-		neutral: "hije",
-		type: "sujeto",
-		living: true,
-		sinonimos: []
-	},
-	{
-		base: "lindo",
-		female: "linda",
-		neutral: "linde",
-		type: "adjetivo",
-		sinonimos: []
-	},
-	{
-		base: "joven",
-		type: "sujeto",
-		living: true,
-		profession: false,
-		sinonimos: [
-			{
-				region: 1,
-				palabra: "pibe",
-				female: "piba",
-				grado: 3
-			},
-			{
-				region: 1,
-				palabra: "chabon",
-				grado: 4
-			},
-			{
-				region: 2,
-				palabra: "chamo",
-				female: "chama",
-				grado: 3
-			},
-			{
-				region: 2,
-				palabra: "carajo",
-				female: "caraja",
-				grado: 4
-			}
-		]
-	},
-	{
-		base: "feo",
-		type: "adjetivo",
-		sinonimos: [
-			{
-				region: 0,
-				palabra: "horrible",
-				grado: 3
-			}
-			,
-			{
-				region: 1,
-				palabra: "batracio",
-				grado: 4
-			}
-		]
+		account: "f7c359be-1f39-4c2f-82a0-3020878141a4-bluemix", 
+		password: "2fa3033a07b8795be43cda64bd4576875ab9dd0e5a5be66cb57306bb0c3b5c17"
 	}
-];
+);
+const db = cloudant.db.use('guara');
+
+
 
 function WordState(dictionary, toRegion, toGrade, fromRegion){
 	//this.words = words;
@@ -164,29 +95,43 @@ const findWord = function(word, cb){
 
 const getWords = async (words, toRegion, toGrade, fromRegion) => {
 	return new Promise( async (resolve, reject) => {
-		
-		const result = [...staticDictionary], orders = {};
-		
+		const queryString = [];
+		//divide them in groups of 200
 		for(const word of words){
-			orders[word] = findWord;
+			queryString.push(`palabra:${word}`);
 		}
 		
-		/*		
-		let foundObject = findWord(word, result, toRegion, fromRegion, toGrade);	
-		if(foundObject){
-			formatedWords[word] = {...foundObject};
-		}*/
-		
-		const formatedWords = await steed.parallel(
-			new WordState(result, toRegion, fromRegion, toGrade), 
-			orders);
+		db.search('palabras', 'palabra', {
+			include_docs:true, 
+			q: queryString.join(" OR ");
+		}, 
+		(er, dbResponse) => {
+			if (er) {
+				console.log(err);
+				reject(err);
+			}
 			
-		for(let key in formatedWords){
-			if(formatedWords[key] == null)
-				delete formatedWords[key];
-		}
-		
-		resolve(formatedWords);
+			const result = [], orders = {};
+			
+			for(const item of dbResponse.rows){
+				result.push(item.doc);
+			}
+			
+			for(const word of words){
+				orders[word] = findWord;
+			}
+			
+			const formatedWords = await steed.parallel(
+				new WordState(result, toRegion, fromRegion, toGrade), 
+				orders);
+				
+			for(let key in formatedWords){
+				if(formatedWords[key] == null)
+					delete formatedWords[key];
+			}
+			
+			resolve(formatedWords);
+		});
 	});
 };
 
@@ -225,8 +170,7 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 			.replace("  ", " ")
 			.replace(/[^a-z\s]/gi, '');
 			
-		const 
-			words = [...new Set(workableQuery.split(" "))],
+		const words = [...new Set(workableQuery.split(" "))],
 			searchWord = [];
 		
 		words.forEach( (word, i) => {
@@ -261,6 +205,7 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 					switch(translatedWords[keyword].type){
 						case "sujeto":
 							if(inclusive && translatedWords[keyword].living){
+								
 								if(newPhrase.length > 0){ //La nueva frase tiene mas de una entrada, buscamos el articulo anterior y corregimos el genero
 									switchPreviousWordsGender(newPhrase, translatedWords, oldPhrase, "neutral", articleze.toNeutral, genderize.toAdjetiveNeutral);
 								}

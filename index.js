@@ -1,4 +1,8 @@
-const translate = require("./src/translate");
+const server = require("./src/server/index_test");
+
+
+
+/*const translate = require("./src/translate");
 
 const entradas = [
 	["Los jovenes son fuertes", "cambio de region:", false],
@@ -19,4 +23,4 @@ for(const entrada of entradas){
 	}).catch( (e) => {
 		console.log(e);
 	})	
-}
+}*/
