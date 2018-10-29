@@ -19,7 +19,7 @@ const clean = function(body){
 const basic = function(schema){
 	const data = {};
 	for(let key in schema){
-		if(!schema.hasOwnProperty("private"))
+		if(!schema[key].hasOwnProperty("private"))
 			data[key] = clean({...schema[key]});
 	}
 	return data;
@@ -27,6 +27,16 @@ const basic = function(schema){
 
 const process = function(schema, validKey, requiredKey = 'null'){
 	const data = {
+		querystring : {
+			type: "object",
+			additionalProperties: false,
+			properties : {
+				lang: {
+					type: "string", 
+					default: "es"
+				}
+			}
+		},
 		body: {
 			type: "object",
 			additionalProperties: false,
@@ -46,9 +56,9 @@ const process = function(schema, validKey, requiredKey = 'null'){
 		}
 	};
 	for(let key in schema){
-		if(schema.hasOwnProperty(validKey)){
+		if(schema[key].hasOwnProperty(validKey)){
 			data.body.properties[key] = clean({...schema[key]});
-			if(schema.hasOwnProperty(requiredKey))
+			if(schema[key].hasOwnProperty(requiredKey))
 				data.body.required.push(key);
 		}
 	}
@@ -74,8 +84,7 @@ const toResponseSingle = function(schema){
 		required : ["success"],
 		properties: {
 			success: { 
-				type: "boolean", 
-				default: true
+				type: "boolean"
 			}, 
 			item: {
 				type: "object", 
@@ -85,8 +94,13 @@ const toResponseSingle = function(schema){
 				type: "string"
 			},
 			deleteToken : {
-				type: "boolean",
-				default: false
+				type: "boolean"
+			}, 
+			expires : {
+				type: "integer"
+			},
+			token : {
+				type: "string"
 			}
 		}
 	};
@@ -113,8 +127,7 @@ const toResponseArray = function(schema){
 				type: "string"
 			},
 			deleteToken : {
-				type: "boolean",
-				default: false
+				type: "boolean"
 			},
 			total: {
 				type: "integer"
@@ -125,13 +138,23 @@ const toResponseArray = function(schema){
 
 const remove = function(){
 	const data = {
+		querystring : {
+			type: "object",
+			additionalProperties: false,
+			properties : {
+				lang: {
+					type: "string", 
+					default: "es"
+				}
+			}
+		},
 		params : {
 			type: "object",
 			additionalProperties: false,
 			properties : {
 				id: {
 					type: "string", 
-					pattern: "^[0-9a-zA-Z-]$"
+					pattern: "^[0-9a-zA-Z-]{1,}$"
 				}
 			}
 		},
@@ -169,13 +192,23 @@ const remove = function(){
 
 const get = function(schema){
 	const data = {
+		querystring : {
+			type: "object",
+			additionalProperties: false,
+			properties : {
+				lang: {
+					type: "string", 
+					default: "es"
+				}
+			}
+		},
 		params : {
 			type: "object",
 			additionalProperties: false,
 			properties : {
 				id: {
 					type: "string", 
-					pattern: "^[0-9a-zA-Z-]$"
+					pattern: "^[0-9a-zA-Z-]{1,}$"
 				}
 			}
 		},
@@ -192,6 +225,15 @@ const retrieve = function(schema){
 			type: "object",
 			additionalProperties: false,
 			properties : {
+				lang: {
+					type: "string", 
+					default: "es"
+				},
+				query: {
+					type: "object",
+					additionalProperties: false,
+					properties: {}
+				},
 				limit: {
 					type: "integer", 
 					default: 20
@@ -202,7 +244,7 @@ const retrieve = function(schema){
 				}, 
 				order: {
 					type: "array", 
-					default: null, 
+					default: [], 
 					items: {
 						type: "array", 
 						default: null, 
@@ -226,10 +268,10 @@ const retrieve = function(schema){
 	for(let key in schema){
 		if(schema.hasOwnProperty("searchable")){
 			const clone = clean({...schema[key]});
-			data.querystring.properties[key] = clone;
+			data.querystring.properties.query.properties[key] = clone;
 			if(queryActions.hasOwnProperty(clone.type))
 				for(const kkey in queryActions[clone.type])
-					data.querystring.properties[`${key}_${kkey}`] = clone;
+					data.querystring.properties.query.properties[`${key}_${kkey}`] = clone;
 		}
 	}
 	return data;

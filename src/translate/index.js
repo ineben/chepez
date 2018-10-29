@@ -93,45 +93,66 @@ const findWord = function(word, cb){
 	
 };
 
+
+
 const getWords = async (words, toRegion, toGrade, fromRegion) => {
 	return new Promise( async (resolve, reject) => {
-		const queryString = [];
-		//divide them in groups of 200
+		const queryString = [[]], 
+			result = [];
+		let key = 0, 
+			pushes = 0,
+			resolved = 0,
+			toReject = false;
+		
 		for(const word of words){
-			queryString.push(`palabra:${word}`);
+			queryString[key].push(`palabra:${word}`);
+			pushes++;
+			if(pushes == 200){
+				key++;
+				pushes = 0;
+			}
 		}
 		
-		db.search('palabras', 'palabra', {
-			include_docs:true, 
-			q: queryString.join(" OR ");
-		}, 
-		(er, dbResponse) => {
+		const resolver = async function(er, dbResponse){
+			resolved++;
+			
 			if (er) {
 				console.log(err);
-				reject(err);
+				toReject = err;
+			}else if(!toReject){
+				for(const item of dbResponse.rows){
+					result.push(item.doc);
+				}
 			}
 			
-			const result = [], orders = {};
-			
-			for(const item of dbResponse.rows){
-				result.push(item.doc);
+			if(resolved == queryString.length){
+				if(toReject)
+					reject(toReject);
+				else{
+					const orders = {};
+					for(const word of words){
+						orders[word] = findWord;
+					}
+					
+					const formatedWords = await steed.parallel(
+						new WordState(result, toRegion, fromRegion, toGrade), 
+						orders);
+						
+					for(let key in formatedWords){
+						if(formatedWords[key] == null)
+							delete formatedWords[key];
+					}
+					
+					resolve(formatedWords);
+				}
 			}
-			
-			for(const word of words){
-				orders[word] = findWord;
-			}
-			
-			const formatedWords = await steed.parallel(
-				new WordState(result, toRegion, fromRegion, toGrade), 
-				orders);
-				
-			for(let key in formatedWords){
-				if(formatedWords[key] == null)
-					delete formatedWords[key];
-			}
-			
-			resolve(formatedWords);
-		});
+		};
+		
+		for(const query of queryString)
+			db.search('palabras', 'palabra', {
+				include_docs:true, 
+				q: query.join(" OR ")
+			}, resolver);
 	});
 };
 

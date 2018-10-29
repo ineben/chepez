@@ -15,11 +15,11 @@ class Quota extends Base{
 		const data = await this.makeData(body);
 		
 		if(Object.keys(data).length == 0)
-			return new Response(false, "lang.emptyBodyError");
+			return new Response(false, lang.emptyBodyError);
 		
 		for(const key in this._schema){
 			if(this._schema[key].required && !data[key]){
-				return new Response(false, "lang[this._schema[key].required]");
+				return new Response(false, lang[this._schema[key].required]);
 			}
 		}
 		

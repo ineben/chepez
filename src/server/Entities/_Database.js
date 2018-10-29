@@ -55,7 +55,7 @@ class Database{
 			if(!oldBody._id)
 				return reject(new Response(false, lang.mustSendID));
 			
-			data = {...data, _id : oldBody._id};
+			data = {...oldBody, ...data, collection: this.table};
 			
 			if(!oldBody._rev){
 				const oldDocument = await this.selectOne(lang, {_id : oldBody._id});
@@ -167,7 +167,7 @@ class Database{
 	async selectOne(lang = {}, find = {}){
 		return new Promise((resolve, reject) => {
 			
-			if(Object.keys(find).length == 1 && find._id){
+			if(Object.keys(find).length == 1 && find._id && typeof find._id == "string"){
 				conn.get(find._id, (err, result) => {
 					if(err){
 						resolve(new Response(false, lang.searchNoResults));

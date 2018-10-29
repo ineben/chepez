@@ -25,16 +25,13 @@ const {User, Quota} = require("./Entities");
 	password: "09101992",
 	email: "gabomartz@gmail.com",
 	priv: 1,
-})
+})*/
 
-Quota.doInsert({}, {
-	user : '307333f5-5c59-4b79-a19f-81b5337186066',
-	valid : true,
-	total: 999,
-	reset: 1
+Quota.doSelectOne({}, {
+	_id : '307333f5-5c59-4b79-a19f-81b5337186066'
 })
 .then((reponse) => {
 	console.log("then", reponse);
 }).catch((err) => {
 	console.log("err", err);
-});*/
+});

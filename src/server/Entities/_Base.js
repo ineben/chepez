@@ -122,7 +122,7 @@ class Base extends Database{
 	}
 	
 	async doRemove(lang, id, rev){
-		let res = this.remove(lang, id, rev);
+		let res = this.deleteOne(lang, id, rev);
 		return res;
 	}
 	

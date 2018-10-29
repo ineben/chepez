@@ -11,6 +11,7 @@ const EntitySchema = {
 		type: "string",
 		$filter: "uuid",
 		insertable: true,
+		insertRequired: true,
 		searchable: true,
 		linkedWith: Entities.User
 	}, 
@@ -29,6 +30,7 @@ const EntitySchema = {
 		required: "quotaTotalRequired",
 		minimum: 1, 
 		insertable: true,
+		insertRequired: true,
 		searchable: true,
 		updateable: true
 	}, 
@@ -38,6 +40,7 @@ const EntitySchema = {
 		required: "quotaResetRequired",
 		minimum: 1, 
 		insertable: true,
+		insertRequired: true,
 		searchable: true,
 		updateable: true
 	}, 

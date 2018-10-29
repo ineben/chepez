@@ -1,6 +1,6 @@
-const server = require("./src/server/index_test");
+const server = require("./src/server");
 
-
+server.start();
 
 /*const translate = require("./src/translate");
 
