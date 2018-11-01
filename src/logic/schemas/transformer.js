@@ -25,7 +25,7 @@ const basic = function(schema){
 	return data;
 };
 
-const process = function(schema, validKey, requiredKey = 'null'){
+const process = function(schema, validKey, requiredKey = 'null', params = {}){
 	const data = {
 		querystring : {
 			type: "object",
@@ -37,6 +37,7 @@ const process = function(schema, validKey, requiredKey = 'null'){
 				}
 			}
 		},
+		params : params,
 		body: {
 			type: "object",
 			additionalProperties: false,
@@ -65,12 +66,24 @@ const process = function(schema, validKey, requiredKey = 'null'){
 	return data;
 };
 
-const create = function(schema){
-	return process(schema, "insertable", "insertRequired");
+const create = function(schema, params = {}){
+	return process(schema, "insertable", "insertRequired", params);
 };
 
-const update = function(schema){
-	return process(schema, "updateable", "updateRequired");
+const update = function(
+schema,
+params = {
+	type: "object",
+	additionalProperties: false,
+	properties : {
+		id: {
+			type: "string", 
+			pattern: "^[0-9a-zA-Z-]{1,}$"
+		}
+	}
+})
+{
+	return process(schema, "updateable", "updateRequired", params);
 };
 
 const updateSelf = function(schema){
@@ -283,5 +296,7 @@ module.exports = {
 	updateSelf,
 	remove,
 	retrieve,
-	get
+	get,
+	toResponseSingle,
+	toResponseArray
 };

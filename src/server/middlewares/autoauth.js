@@ -1,5 +1,5 @@
-const {User} = require('../Entities'),
-	Response = require('../Entities/_Response');
+const {User} = require('../../logic/Entities'),
+	Response = require('../../logic/Entities/_Response');
 
 const autoauth = async function(req, res, next){
 	let jwtoken;

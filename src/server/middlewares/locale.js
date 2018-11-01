@@ -1,4 +1,4 @@
-const Lang = require('../Entities/_Lang');
+const Lang = require('../../logic/Entities/_Lang');
 const URL = require('url');
 	
 const middleWare = async function(req, res, next){

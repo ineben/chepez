@@ -32,6 +32,7 @@ class Quota extends Base{
 		data.created = Date.now();
 		data.lastUsed = Date.now();
 		data.lastReset = Date.now();
+		data.validUntil = Date.now() + data.reset * 24 * 60 * 60 * 1000;
 		data.lastUpdate = 0;
 		data.valid = true;
 		

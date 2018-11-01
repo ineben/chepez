@@ -1,10 +1,10 @@
 'use strict';
 
 
-const UserSchemas = require("../schemas/user");
-const {User} = require("../Entities");
-const UserC = require("../Entities/User");
-const Response = require("../Entities/_Response");
+const UserSchemas = require("../../logic/schemas/user");
+const {User} = require("../../logic/Entities");
+const UserC = require("../../logic/Entities/User");
+const Response = require("../../logic/Entities/_Response");
 
 module.exports = async function(app, opts){
 	

@@ -1,9 +1,9 @@
 'use strict';
 
-const QuotaSchemas = require("../schemas/quota");
-const {Quota} = require("../Entities");
-const UserC = require("../Entities/User");
-const Response = require("../Entities/_Response");
+const QuotaSchemas = require("../../logic/schemas/quota");
+const {Quota} = require("../../logic/Entities");
+const UserC = require("../../logic/Entities/User");
+const Response = require("../../logic/Entities/_Response");
 
 module.exports = async function(app, opts){
 	

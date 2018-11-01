@@ -1,7 +1,7 @@
 'use strict';
 
-const {Quota} = require("../Entities");
-const Response = require("../Entities/_Response");
+const {Quota} = require("../../logic/Entities");
+const Response = require("../../logic/Entities/_Response");
 const translate = require("../../translate");
 
 module.exports = async function(app, opts){
@@ -72,10 +72,13 @@ module.exports = async function(app, opts){
 			if(token.item.restante == 0)
 				return new Response(false, req.raw.lang.translatorNoCredits);
 			
+			if(token.item.validUntil < Date.now())
+				return new Response(false, req.raw.lang.translatorExpired);
+			
 			try{
 				const output = await translate(req.query.phrase, req.query.toRegion, req.query.toGrade, null, req.query.inclusive);
 				
-				const update = await Quota.updateOne(req.raw.lang, token.item, {restante: token.item.restante-1});
+				const update = await Quota.updateOne(req.raw.lang, token.item, {lastUsed: Date.now(), restante: token.item.restante-1});
 				const r = new Response(true);
 				
 				r.phrase = output;

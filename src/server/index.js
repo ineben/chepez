@@ -27,6 +27,7 @@ app.get("/", async (req, reply) => {
 
 
 app.register(require('./router/auth'), {prefix: '/auth'});
+app.register(require('./router/docs'), {prefix: '/docs'});
 app.register(require('./router/quotas'), {prefix: '/quotas'});
 app.register(require('./router/translator'), {prefix: '/translator'});
 app.register(require('./router/users'), {prefix: '/users'});

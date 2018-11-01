@@ -1,3 +1,6 @@
+const {restoreCase, pluralize} = require("../PluralizeEs");
+const articleze = require("../Articleze");
+
 const maleProfessionNouns = [
 	[
 		/^([áéíóúña-z]{1,}[^áéíóúaeiou]$)/i, 
@@ -110,6 +113,33 @@ function inferGender(rules){
 };
 
 const genderize = {};
+
+genderize.switchPreviousWordsGender = function(phrase, translatedWords, oldPhrase, gender, articleGenderBender, adjetiveGenderBender){
+	let len = phrase.length;
+	while(len--){
+		if(articleze.isArticle(phrase[len])){
+			phrase[len] = restoreCase(phrase[len], articleGenderBender(phrase[len]));
+			return;
+		}else{
+			
+			let keyword = oldPhrase[len].toLowerCase();
+			const isPlural = pluralize.isPlural(keyword);
+			if(isPlural){
+				keyword = pluralize.singular(keyword);
+			}
+			if(translatedWords.hasOwnProperty(keyword)){
+				let replaceWord = translatedWords[keyword].palabra;
+				if(translatedWords[keyword].type == "adjetivo"){
+					replaceWord = translatedWords[keyword].neutral || adjetiveGenderBender(replaceWord);
+					if(isPlural){
+						replaceWord = pluralize.plural(replaceWord);
+					}
+					phrase[len] = restoreCase(phrase[len], replaceWord);
+				}
+			}
+		}
+	}
+};
 
 genderize.adjetiveIsMale = inferGender(maleAdjetive);
 genderize.adjetiveIsFemale = inferGender(femaleAdjetive);

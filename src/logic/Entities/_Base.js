@@ -31,13 +31,13 @@ class Base extends Database{
 		}
 	}
 	
-	async makeFind(body){
-		const data = await makeFind(this._schema, body);
+	async makeFind(body, schema){
+		const data = await makeFind(schema || this._schema, body);
 		return data;
 	}
 	
-	async makeData(body){
-		const data = await makeData(this._schema, body);
+	async makeData(body, schema){
+		const data = await makeData(schema || this._schema, body);
 		return data; 
 	}
 		

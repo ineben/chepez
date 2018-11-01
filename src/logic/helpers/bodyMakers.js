@@ -97,15 +97,37 @@ const IP = {
 };	
 
 const VPs = {
-	/*array(value, schema){
-		if(typeof schema == "object"){
-			this.proccessBody(schema.schema, value, value);
-		}else if(typeof this._valueParsers[schema] == "function"){
-			value = this._valueParsers[schema](value, schema);
+	array(key, cb){
+		const schema = this.schema[key].items.properties;
+		let value = [];
+		const promises = [];
+		if(!Array.isArray(this.data[key])){
+			value.push(this.data[key]);
+		}else
+			value = this.data[key];
+		
+		for(const entry of value){
+			promises.push(makeData(schema, entry));
 		}
-		return value;
+		
+		Promise.all(promises)
+		.then(results => {
+			const returns = [];
+			for(const result of results){
+				if(Object.keys(result).length > 0){
+					returns.push(result);
+				}
+			}
+			if(returns.length > 0)
+				cb(null, returns);
+			else
+				cb(null, null);
+		})
+		.catch( e => {
+			cb(null, null);
+		})
 	},
-	objectid(key, cb){
+	/*objectid(key, cb){
 		if(!ObjectID.isValid(this.data[key])) {cb(null, null); return;}
 		cb(null, new ObjectID(this.data[key]));
 	},*/

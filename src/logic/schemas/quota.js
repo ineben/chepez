@@ -10,6 +10,7 @@ const EntitySchema = {
 	user: {
 		type: "string",
 		$filter: "uuid",
+		required: "quotaInsertRequired",
 		insertable: true,
 		insertRequired: true,
 		searchable: true,
@@ -48,6 +49,9 @@ const EntitySchema = {
 		type: "integer"
 	}, 
 	lastUsed: {
+		type: "integer"
+	}, 
+	validUntil: {
 		type: "integer"
 	}, 
 	lastReset: {
