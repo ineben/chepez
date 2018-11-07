@@ -1,0 +1,38 @@
+#add.controllerWrapper(ng-controller='word as enVM')
+	.section.mt-0
+		include ./include/insert.pug
+		
+		.container-fluid
+			.row
+				#results.col-12.px-3.mt-4
+					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#resultsCollapse", aria-expanded="true", aria-controls="resultsCollapse", filter-color="black")
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.results}}
+							i.float-right.fas.fa-chevron-down
+					#resultsCollapse.show.collapse
+						.col-12.px-2.py-4.bg-white
+							.table-responsive
+								table.table.table-bordered 
+									thead.bg-info.text-white
+										tr
+											th.text-uppercase(scope="col", ng-repeat="(key, value) in enVM.schema", ng-if="value._$displayAs") {{rVM.Lang.lang[value._$label]}}
+											th.text-uppercase(scope="col") {{rVM.Lang.lang.accions}}
+									tbody
+										tr(ng-repeat='item in enVM.Entity.item.sinonimos')
+											
+											td.text-uppercase(scope="col", ng-repeat="(key, value) in enVM.schema", ng-if="value._$displayAs")
+												span(ng-if="value._$displayAs == 'boolean'") {{item[key] ? rVM.Lang.lang.yes : rVM.Lang.lang.no}}
+												span(ng-if="value._$displayAs == 'text'") {{item[key]}}
+												span(ng-if="value._$displayAs == 'date'") {{item[key] | date : 'yyyy-MM-dd HH:mm:ss'}}
+												span(ng-if="value._$displayAs == 'select'") 
+													div(ng-repeat="option in value._$options")
+														span(ng-if="option.value == item[key]") {{rVM.Lang.lang[option.option]}}
+											td.text-uppercase 
+												button.btn.rounded(class="{{button.class}}", type="button", ng-repeat="button in enVM.buttons", ng-click="button.function(item)")
+													i.fas(class="{{button.icon}}")
+									thead.bg-info.text-white(ng-if="enVM.Entity.items.length > 5")
+										tr
+											th.text-uppercase(scope="col", ng-repeat="(key, value) in enVM.schema", ng-if="value._$displayAs") {{rVM.Lang.lang[value._$label]}}
+											th.text-uppercase(scope="col") {{rVM.Lang.lang.accions}}
+				
+		//include ./include/search.pug
+		include ./include/update.pug

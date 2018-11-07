@@ -17,7 +17,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 		
-			return await User.doSelectFull(req.raw.lang, req.query.query, req.query.order, req.query.skip, req.query.limit, req.query.projection);
+			return await User.doSelectFull(req.raw.lang, req.query, req.query.$order, req.query.$start, req.query.$limit, req.query.$projection);
 		}
 	});
 	
@@ -30,7 +30,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 			
-			return await User.doSelectOneFull(req.raw.lang, req.params.id);
+			return await User.doSelectOneFull(req.raw.lang,  {_id: req.params.id});
 		}
 	});
 	

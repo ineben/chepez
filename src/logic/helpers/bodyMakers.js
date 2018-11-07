@@ -435,13 +435,17 @@ function getKeyAndAction(index, cb){
 async function applyFilter(key, cb){
 	const promises = [];
 	for(let kkey in this.data[key].values){
+		
 		const tempData = {}, tempCalls = {}, tempSchema = {};
+		
 		tempData[this.data[key].actions[kkey]] = this.data[key].values[kkey];
 		tempCalls[this.data[key].actions[kkey]] = VPs[this.schema[key].$filter];
 		tempSchema[this.data[key].actions[kkey]] = this.schema[key];
+		
 		promises.push(
 			steed.parallel(new ValueState(tempSchema, tempData), tempCalls)
 		);
+		
 	}
 	const results = await Promise.all(promises);
 	cb(null, results);
@@ -522,7 +526,7 @@ async function makeFind(sch, data){
 			delete data[results[key].orgName]
 			delete results[key];
 		}
-
+		
 	const valueResults = await steed.parallel(new ValueState(sch, toProccess), toCall);
 	
 	const newObject = {};

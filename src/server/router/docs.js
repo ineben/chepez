@@ -1,6 +1,6 @@
 'use strict';
 const DocSchemas = require("../../logic/schemas/doc");
-const transformer = require("../../logic/schemas/transformer");
+const transformer = require("../../logic/schemas/_transformer");
 const {Doc} = require("../../logic/Entities");
 const UserC = require("../../logic/Entities/User");
 const Response = require("../../logic/Entities/_Response");
@@ -58,7 +58,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 		
-			return await Doc.doSelectFull(req.raw.lang, req.query.query, req.query.order, req.query.skip, req.query.limit, req.query.projection);
+			return await Doc.doSelectFull(req.raw.lang, req.query, req.query.$order, req.query.$start, req.query.$limit, req.query.$projection);
 		}
 	});
 	
@@ -70,8 +70,7 @@ module.exports = async function(app, opts){
 			
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
-			
-			return await Doc.doSelectOneFull(req.raw.lang, req.params.id);
+			return await Doc.doSelectOne(req.raw.lang, {_id: req.params.id});
 		}
 	});
 	
@@ -84,7 +83,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 			
-			const oldBody = await Doc.doSelectOne(req.raw.lang, req.params.id);
+			const oldBody = await Doc.doSelectOne(req.raw.lang, {_id: req.params.id});
 			if(!oldBody.success)
 				return oldBody;
 			
@@ -101,7 +100,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 			
-			const oldBody = await Doc.doSelectOne(req.raw.lang, req.params.id);
+			const oldBody = await Doc.doSelectOne(req.raw.lang, {_id: req.params.id});
 			if(!oldBody.success)
 				return oldBody;
 			
@@ -133,7 +132,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 			
-			const oldBody = await Doc.doSelectOne(req.raw.lang, req.params.word);
+			const oldBody = await Doc.doSelectOne(req.raw.lang, {_id: req.params.word});
 			if(!oldBody.success)
 				return oldBody;
 			
@@ -150,7 +149,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 			
-			const oldBody = await Doc.doSelectOne(req.raw.lang, req.params.word);
+			const oldBody = await Doc.doSelectOne(req.raw.lang, {_id: req.params.word});
 			if(!oldBody.success)
 				return oldBody;
 			
@@ -167,7 +166,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 			
-			const oldBody = await Doc.doSelectOne(req.raw.lang, req.params.word);
+			const oldBody = await Doc.doSelectOne(req.raw.lang, {_id: req.params.word});
 			if(!oldBody.success)
 				return oldBody;
 			

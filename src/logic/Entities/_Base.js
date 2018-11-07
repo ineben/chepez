@@ -115,6 +115,7 @@ class Base extends Database{
 	
 	async doUpdate(lang, oldBody, body){
 		let data = await this.makeData(body);
+		data.lastUpdate = Date.now();
 		if(Object.keys(data).length > 0){
 			return await this.updateOne(lang, oldBody, data);
 		}else
@@ -134,6 +135,7 @@ class Base extends Database{
 	
 	async doSelectFull(lang, body, order, skip, limit, projection){
 		let data = await this.makeFind(body);
+		
 		let res = await this.select(lang, data, order, skip, limit, projection);
 		if(res.success && res.items.length > 0){
 			res.items = await Promise.all( res.items.map( async (item) => {

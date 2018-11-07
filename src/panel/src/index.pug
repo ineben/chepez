@@ -1,0 +1,16 @@
+doctype html
+html(lang="es_LA", ng-app='app', ng-controller="root as rVM")
+	head
+		title(ng-bind='title')
+		
+		base(href="/")
+		meta(name="theme-color", content="#e70012")
+		meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+		meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no')
+
+		link(rel='apple-touch-icon', sizes='76x76', ng-href='{{rVM.URL.upload}}square/192/isologo.png')
+		link(rel='icon', type='image/png', ng-href='{{rVM.URL.upload}}square/192/isologo.png')
+		
+	body.sidebar-collapse
+		div#main(ui-view="")

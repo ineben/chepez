@@ -67,12 +67,12 @@ class Database{
 			}else{
 				data = {...data, _rev : oldBody._rev};
 			}
-				
 			
-			conn.insert(data, (err, res) => {
+			conn.insert(data, async (err, res) => {
 				if(err){
 					reject(new Response(false, lang.updateError));
 				}else{
+					//await this.deleteOne(lang, data._id, data._rev);
 					resolve(new Response(true, data));
 				}
 			});
@@ -90,14 +90,16 @@ class Database{
 				
 				if(!oldDocument.success)
 					return reject(oldDocument);
+				rev = oldDocument.item._rev;
 			}
 				
 			
 			conn.destroy(id, rev, (err, res) => {
 				if(err){
-					reject(new Response(false, lang.deleteError));
+					console.log(err);
+					resolve(new Response(false, lang.deleteError));
 				}else{
-					resolve(new Response(true, data));
+					resolve(new Response(true));
 				}
 			});
 		});
@@ -130,6 +132,7 @@ class Database{
 	
 	async select(lang = {}, filter = {}, order = [], skip = -1, limit = -1, fields = ''){
 		return new Promise((resolve, reject) => {
+			
 			const query = {
 				selector : {...filter, collection : this.table}
 			};
@@ -158,7 +161,7 @@ class Database{
 					if(result.docs.length > 0)
 						resolve(new Response(true, result.docs));
 					else
-						resolve(new Response(false, lang.searchNoResults));
+						resolve(new Response(true, []));
 				}
 			});
 		});

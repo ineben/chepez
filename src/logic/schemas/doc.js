@@ -1,8 +1,10 @@
-const transformer = require('./transformer');
+const transformer = require('./_transformer');
 
 const sinonimSchema = {
 	_id: {
 		type: "string",
+		_$displayAs: "text",
+		_$label: "id",
 		$filter: "uuid"
 	},
 	region: {
@@ -10,39 +12,85 @@ const sinonimSchema = {
 		$filter: "integer",
 		insertable: true,
 		updateable: true,
-		insertRequired: true
+		insertRequired: true,
+		_$label: "docRegion",
+		_$displayAs: "select",
+		_$inputType: "select",
+		_$options: [
+			{value: 1, option: "argentina"},
+			{value: 2, option: "bolivia"},
+			{value: 3, option: "chile"},
+			{value: 4, option: "colombia"},
+			{value: 5, option: "costaRica"},
+			{value: 6, option: "cuba"},
+			{value: 7, option: "ecuador"},
+			{value: 8, option: "elSalvador"},
+			{value: 9, option: "espana"},
+			{value: 10, option: "guatemala"},
+			{value: 11, option: "honduras"},
+			{value: 12, option: "mexico"},
+			{value: 13, option: "nicaragua"},
+			{value: 14, option: "panama"},
+			{value: 15, option: "paraguay"},
+			{value: 16, option: "peru"},
+			{value: 17, option: "puertoRico"},
+			{value: 18, option: "repubicaDominicana"},
+			{value: 19, option: "uruguay"},
+			{value: 20, option: "venezuela"}
+		],
 	},
 	grado: {
 		type: "integer",
 		$filter: "integer",
 		insertable: true,
 		updateable: true,
-		insertRequired: true
+		insertRequired: true,
+		_$label: "docGrado",
+		_$inputType: "select",
+		_$displayAs: "select",
+		_$options: [
+			{value: 1, option: "docGradoFormal"},
+			{value: 2, option: "docGradoCasual"},
+			{value: 3, option: "docGradoInformal"},
+			{value: 4, option: "docGradoVeryInformal"}
+		],
 	},				
 	palabra: {
 		type: "string",
 		$filter: "string",
 		insertable: true,
 		updateable: true,
-		insertRequired: true
+		insertRequired: true,
+		_$label: "docPalabra",
+		_$displayAs: "text",
+		_$inputType: "text",
 	}, 
 	female: {
 		type: "string",
 		$filter: "string",
 		insertable: true,
-		updateable: true
+		updateable: true,
+		_$label: "docFemale",
+		_$displayAs: "text",
+		_$inputType: "text",
 	}, 
 	neutral: {
 		type: "string",
 		$filter: "string",
 		insertable: true,
-		updateable: true
+		updateable: true,
+		_$label: "docNeutral",
+		_$displayAs: "text",
+		_$inputType: "text",
 	}, 
 	plural: {
 		type: "string",
 		$filter: "string",
 		insertable: true,
-		updateable: true
+		updateable: true,
+		_$label: "docPlural",
+		_$displayAs: "text",
+		_$inputType: "text",
 	}
 };
 
@@ -50,6 +98,7 @@ const EntitySchema = {
 	_id: {
 		type: "string",
 		$filter: "uuid",
+		_$displayAs: "text",
 		mainIndex: true,
 	}, 
 	base: {
@@ -58,28 +107,40 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		insertRequired: true,
-		searchable: true
+		searchable: true,
+		_$label: "docPalabra",
+		_$displayAs: "text",
+		_$inputType: "text",
 	}, 
-	femenine: {
+	female: {
 		type: "string",
 		$filter: "string",
 		insertable: true,
 		updateable: true,
-		searchable: true
+		searchable: true,
+		_$label: "docFemale",
+		_$displayAs: "text",
+		_$inputType: "text",
 	}, 
 	neutral: {
 		type: "string",
 		$filter: "string",
 		insertable: true,
 		updateable: true,
-		searchable: true
+		searchable: true,
+		_$label: "docNeutral",
+		_$displayAs: "text",
+		_$inputType: "text",
 	}, 
 	plural: {
 		type: "string",
 		$filter: "string",
 		insertable: true,
 		updateable: true,
-		searchable: true
+		searchable: true,
+		_$label: "docPlural",
+		_$displayAs: "text",
+		_$inputType: "text",
 	}, 
 	type: {
 		type: "string",
@@ -87,21 +148,43 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		insertRequired: true,
-		searchable: true
+		searchable: true,
+		_$label: "docType",
+		_$inputType: "select",
+		_$displayAs: "select",
+		_$options: [
+			{value: "sujeto", option: "docTypeNoun"},
+			{value: "verbo", option: "docTypeVerb"},
+			{value: "adjetivo", option: "docTypeAdjetive"}
+		],
 	}, 
 	living: {
 		type: "boolean",
 		$filter: "boolean",
 		insertable: true,
 		updateable: true,
-		searchable: true
+		searchable: true,
+		_$label: "docLiving",
+		_$inputType: "select",
+		_$displayAs: "boolean",
+		_$options: [
+			{value: true, option: "yes"},
+			{value: false, option: "no"}
+		],
 	}, 
 	profession: {
 		type: "boolean",
 		$filter: "boolean",
 		insertable: true,
 		updateable: true,
-		searchable: true
+		searchable: true,
+		_$label: "docProfession",
+		_$inputType: "select",
+		_$displayAs: "boolean",
+		_$options: [
+			{value: true, option: "yes"},
+			{value: false, option: "no"}
+		],
 	}, 
 	created: {
 		type: "integer"
@@ -124,14 +207,14 @@ const EntitySchema = {
 	}
 };
 
-const InsertSchema = transformer.create(EntitySchema);
-const UpdateSchema = transformer.update(EntitySchema);
-//const UpdateSelfSchema = transformer.updateSelf(EntitySchema);
-const RemoveSchema = transformer.remove(EntitySchema);
-const GetSchema = transformer.get(EntitySchema);
-const RetrieveSchema = transformer.retrieve(EntitySchema);
 
-const InsertSinonimSchema = transformer.create(sinonimSchema, {
+const InsertSchema = transformer.create({...EntitySchema});
+const UpdateSchema = transformer.update({...EntitySchema});
+const RemoveSchema = transformer.remove({...EntitySchema});
+const GetSchema = transformer.get({...EntitySchema});
+const RetrieveSchema = transformer.retrieve({...EntitySchema});
+
+const InsertSinonimSchema = transformer.create({...sinonimSchema}, {
 	type: "object",
 	additionalProperties: false,
 	properties : {
@@ -141,7 +224,7 @@ const InsertSinonimSchema = transformer.create(sinonimSchema, {
 		}
 	}
 });
-const UpdateSinonimSchema = transformer.update(sinonimSchema, {
+const UpdateSinonimSchema = transformer.update({...sinonimSchema}, {
 	type: "object",
 	additionalProperties: false,
 	properties : {
@@ -155,8 +238,7 @@ const UpdateSinonimSchema = transformer.update(sinonimSchema, {
 		}
 	}
 });
-
-const RemoveSinonimSchema = transformer.remove(sinonimSchema, {
+const RemoveSinonimSchema = transformer.remove({...sinonimSchema}, {
 	type: "object",
 	additionalProperties: false,
 	properties : {
@@ -173,14 +255,14 @@ const RemoveSinonimSchema = transformer.remove(sinonimSchema, {
 
 module.exports = {
 	sinonimSchema : {...sinonimSchema},
-	InsertSinonimSchema : {...InsertSinonimSchema},
-	UpdateSinonimSchema : {...UpdateSinonimSchema},
-	RemoveSinonimSchema : {...RemoveSinonimSchema},
+	InsertSinonimSchema : InsertSinonimSchema,
+	UpdateSinonimSchema : UpdateSinonimSchema,
+	RemoveSinonimSchema : RemoveSinonimSchema,
+	
 	EntitySchema : {...EntitySchema},
-	InsertSchema : {...InsertSchema},
-	UpdateSchema : {...UpdateSchema},
-	//UpdateSelfSchema : {...UpdateSelfSchema},
-	RemoveSchema : {...RemoveSchema},
-	GetSchema : {...GetSchema},
-	RetrieveSchema : {...RetrieveSchema}
+	InsertSchema : InsertSchema,
+	UpdateSchema : UpdateSchema,
+	RemoveSchema : RemoveSchema,
+	GetSchema : GetSchema,
+	RetrieveSchema : RetrieveSchema
 };

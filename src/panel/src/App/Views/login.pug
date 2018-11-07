@@ -1,0 +1,32 @@
+div(ng-controller="login as loVM")
+	.wrapper
+		.login-page
+			.page-header
+				.page-header-image
+				.container
+					.col-sm-8.col-md-6.col-lg-6.col-lg-4.content-center.p-5.bg-white(style="color: black")
+						.card.card-login.card-plain
+							form.form(ng-submit="loVM.submit();")
+								.header.header-primary.text-center
+									.logo-container
+										img(ng-src="{{rVM.URL.upload}}logo.png",alt="")
+								.content
+									.input-group.input-lg
+										.input-group-prepend.mr-0
+											span.input-group-addon.input-group-text(style="border-left: 1px solid !important;")
+												i.fas.fa-user
+										input.form-control(required, ng-model="loVM.AuthAPI.login.email", type="email",placeholder="{{rVM.Lang.lang.email}}", style="padding: 25px 23px")
+									.input-group.input-lg
+										.input-group-prepend.mr-0
+											span.input-group-addon.input-group-text(style="border-left: 1px solid !important;")
+												i.fas.fa-key
+										input.form-control(required, ng-model="loVM.AuthAPI.login.password", type="password", placeholder="{{rVM.Lang.lang.password}}", style="padding: 25px 23px")
+									//.row.mt-4
+										.col-12.col-sm-6
+											.checkbox.m-0
+												input#checkbox(type="checkbox")
+												label(for="checkbox") {{rVM.Lang.lang.rememberMe}}
+										.col-12.col-sm-6
+											a.link(href="#",style="text-decoration: none;") {{rVM.Lang.lang.haveYouForgottenYourPassword}}
+								.footer.text-center
+									button.btn.btn-danger.btn-round.btn-lg.btn-block(type="submit") {{rVM.Lang.lang.login}}

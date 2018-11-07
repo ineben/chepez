@@ -17,7 +17,7 @@ const app = fastify({
 //app.register(require('fastify-sse'));
 app.register(require('fastify-favicon'), {path : __dirname});
 app.register(require('fastify-cors'), { origin: "*", optionsSuccessStatus: 200 });
-app.register(require('fastify-compress'));
+//app.register(require('fastify-compress'));
 
 app.use(require('./middlewares/locale'));
 
@@ -35,12 +35,12 @@ app.register(require('./router/users'), {prefix: '/users'});
 
 module.exports = {
 	start(){
-		app.listen(8080, (err, addr) => {
+		app.listen(8082, '0.0.0.0', (err, addr) => {
 			if(err){
 				console.error(err)
 			}
 			
-			console.log(`server listening on ${addr} on proccess ${process.pid}`)
+			console.log(`Server listening on ${addr} on proccess ${process.pid}`)
 		});
 	}
 };

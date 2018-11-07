@@ -1,0 +1,70 @@
+# Output debugging info
+# loglevel: debug
+
+# Major version of Bootstrap: 3 or 4
+bootstrapVersion: 4
+
+# Webpack loaders, order matters
+extractStyles: true
+styleLoaders:
+  - css-loader
+  - postcss-loader
+  - sass-loader
+styles:
+
+  # Mixins
+  mixins: true
+
+  # Reset and dependencies
+  print: true
+
+  # Core CSS
+  buttons: true
+  forms: true
+  grid: true
+  images: true
+  reboot: true
+  tables: true
+  type: true
+
+  # Components
+  alert: false
+  badge: false
+  breadcrumb: false
+  button-group: true
+  card: true
+  close: true
+  custom-forms: true
+  dropdown: true
+  input-group: true
+  jumbotron: false
+  list-group: false
+  media: false
+  nav: true
+  navbar: true
+  pagination: true
+  progress: false
+  transitions: true
+
+  # Components w/ JavaScript
+  carousel: false
+  modal: true
+  popover: false
+  tooltip: false
+
+  # Utility classes
+  utilities: true
+
+### Bootstrap scripts
+scripts:
+  alert: false
+  button: true
+  carousel: false
+  collapse: true
+  dropdown: true
+  modal: true
+  popover: false
+  scrollspy: false
+  tab: false
+  tooltip: false
+  util: true

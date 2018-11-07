@@ -1,4 +1,5 @@
 const Cloudant = require('@cloudant/cloudant');
+const steed = require("../Steedz")();
 const cloudant = Cloudant(
 	{
 		account: "f7c359be-1f39-4c2f-82a0-3020878141a4-bluemix", 

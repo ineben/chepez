@@ -49,14 +49,15 @@ class Doc extends Base{
 			}
 		}
 		
-		if(upsert){
-			word.sinonimos.push({...word.sinonimos[key], ...data, _id: id});
+		if(!upsert){
+			word.sinonimos.push({...data, _id: id});
 		}
 		
 		return this.updateOne(lang, {_rev: word._rev, _id: word._id}, word);
 	}
 	
 	async insertSinonim(lang, word, sinonim){
+		
 		const data = await this.makeData(sinonim, Schema.sinonimSchema);
 		
 		if(Object.keys(data).length == 0)

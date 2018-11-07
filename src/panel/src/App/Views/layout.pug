@@ -1,0 +1,34 @@
+div(ng-controller="layout as laVM")
+	nav.navbar.navbar-expand-lg.bg-white.fixed-top(color-on-scroll="400", color-on="false")
+			.container-fluid
+				#navWrap.navbar-translate
+					button.navbar-toggler(ng-if="rVM.Auth.isLogged", type="button",data-toggle="collapse",data-target="#navigation",aria-controls="navigation-index",aria-expanded="false",aria-label="Toggle navigation")
+						span.navbar-toggler-bar.bar1.bg-danger
+						span.navbar-toggler-bar.bar2.bg-danger
+						span.navbar-toggler-bar.bar3.bg-danger
+					.d-flex.p-2.align-items-center.ml-2.mr-auto
+						span.d-none.d-md-block.d-lg-block.d-xl-block {{rVM.Lang.lang.todayIs}} {{ laVM.now | date : 'EEEE dd LLLL, yyyy'}}
+					ul.nav.d-flex.justify-content-end(ng-if="rVM.Auth.isLogged")
+						li.nav-item.dropdown
+							a.nav-link.dropdown-toggle(href="#", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
+								i.fas.fa-user
+								span(style="color: #888;") {{rVM.Auth.user.email}}
+							.dropdown-menu.dropdown-custom.bg-white
+								a.dropdown-item(ng-click="rVM.Auth.logout()") {{rVM.Lang.lang.logout}}
+				#navigation.collapse.navbar-collapse.justify-content-end(ng-show="rVM.Auth.isAdmin", filter-color="black")
+					.navbar-brand.m-0.px-5.mb-3
+						.d-inline-block.px-2(style="vertical-align: middle;")
+							span
+								b.text-white(style="font-size: 14px;") {{rVM.Auth.user.email}}
+					hr.white
+					ul#mainNav.navbar-nav(menu-accordion="true")
+						li.nav-item
+							a.nav-link(ui-sref="base.users")
+								i.fas.fa-users.fa-lg(style="width: 30px")
+								p {{rVM.Lang.lang.users}}
+						li.nav-item
+							a.nav-link(ui-sref="base.words")
+								i.fas.fa-book.fa-lg(style="width: 30px")
+								p {{rVM.Lang.lang.words}}
+	#wrapper.wrapper
+		div#main(ui-view="")

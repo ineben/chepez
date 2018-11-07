@@ -238,24 +238,24 @@ const retrieve = function(schema){
 			type: "object",
 			additionalProperties: false,
 			properties : {
-				lang: {
+				$lang: {
 					type: "string", 
 					default: "es"
-				},
+				},/*
 				query: {
 					type: "object",
 					additionalProperties: false,
 					properties: {}
-				},
-				limit: {
+				},*/
+				$limit: {
 					type: "integer", 
 					default: 20
 				}, 
-				start: {
+				$start: {
 					type: "integer", 
 					default: 0
 				}, 
-				order: {
+				$order: {
 					type: "array", 
 					default: [], 
 					items: {
@@ -266,7 +266,7 @@ const retrieve = function(schema){
 						}
 					}
 				}, 
-				projection: {
+				$projection: {
 					type: "array", 
 					items: {
 						type: "string"
@@ -279,12 +279,12 @@ const retrieve = function(schema){
 		}
 	};
 	for(let key in schema){
-		if(schema.hasOwnProperty("searchable")){
+		if(schema[key].hasOwnProperty("searchable")){
 			const clone = clean({...schema[key]});
-			data.querystring.properties.query.properties[key] = clone;
+			data.querystring.properties/*.query.properties*/[key] = clone;
 			if(queryActions.hasOwnProperty(clone.type))
-				for(const kkey in queryActions[clone.type])
-					data.querystring.properties.query.properties[`${key}_${kkey}`] = clone;
+				for(const kkey of queryActions[clone.type])
+					data.querystring.properties/*.query.properties*/[`${key}_${kkey}`] = clone;
 		}
 	}
 	return data;
