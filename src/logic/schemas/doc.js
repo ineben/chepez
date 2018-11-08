@@ -98,6 +98,7 @@ const EntitySchema = {
 	_id: {
 		type: "string",
 		$filter: "uuid",
+		_$label: "id",
 		_$displayAs: "text",
 		mainIndex: true,
 	}, 

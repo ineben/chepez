@@ -34,7 +34,6 @@ const reseterCallback = function(err, dbResponse){
 };
 
 const reseter = function(){
-	console.log("reseter");
 	db.search('quotaExpirations', 'expirations', {
 		include_docs:true, 
 		q: "expired:true"

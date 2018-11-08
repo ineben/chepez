@@ -43,7 +43,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 			
-			const oldBody = await User.doSelectOne(req.raw.lang, req.params.id);
+			const oldBody = await User.doSelectOne(req.raw.lang, {_id: req.params.id});
 			if(!oldBody.success)
 				return oldBody;
 			
@@ -60,7 +60,7 @@ module.exports = async function(app, opts){
 			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
 				return new Response(false, req.raw.lang.invalidToken);
 			
-			const oldBody = await User.doSelectOne(req.raw.lang, req.params.id);
+			const oldBody = await User.doSelectOne(req.raw.lang,  {_id: req.params.id});
 			if(!oldBody.success)
 				return oldBody;
 			
