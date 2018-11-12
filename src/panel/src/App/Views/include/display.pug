@@ -1,0 +1,18 @@
+.container-fluid
+	.row
+		.col-12.px-3.mt-4
+			.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#viewCollapse", aria-expanded="true", aria-controls="viewCollapse", filter-color="black")
+				h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.view}}
+					i.float-right.fas.fa-chevron-down
+			#viewCollapse.show.collapse.col.p-4.bg-white
+				form.col
+					.row.justify-content-center.mb-5
+						.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6(ng-repeat="(key, value) in enVM.vSchema", ng-if="!value.private && value._$inputType")
+							.form-group
+								label.text-muted {{rVM.Lang.lang[value._$label]}}:
+								input.form-control(disabled="true", ng-if="value._$inputType == 'password'", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", placeholder="{{rVM.Lang.lang[value._$label]}}", type="password", ng-model="enVM.vEntity.item[key]")
+								input.form-control(disabled="true", ng-if="value._$inputType == 'email'", placeholder="{{rVM.Lang.lang[value._$label]}}", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", type="email", ng-model="enVM.vEntity.item[key]")
+								input.form-control(disabled="true", ng-if="value._$inputType == 'text'", placeholder="{{rVM.Lang.lang[value._$label]}}", minlength="{{ value.minLength || 0}}",  maxlength="{{ value.maxLength || 9999}}", type="text", ng-model="enVM.vEntity.item[key]")
+								input.form-control(disabled="true", ng-if="value._$inputType == 'integer'", placeholder="{{rVM.Lang.lang[value._$label]}}", step="1", min="{{ value.minimum || -2147483647}}",  max="{{ value.maximum || 2147483647}}", type="number", ng-model="enVM.vEntity.item[key]")
+								input.form-control(disabled="true", ng-if="value._$inputType == 'float'", placeholder="{{rVM.Lang.lang[value._$label]}}", step="any", min="{{ value.minimum || -2147483647}}",  max="{{ value.maximum || 2147483647}}", type="number", ng-model="enVM.vEntity.item[key]")
+								select.form-control(disabled="true", ng-if="value._$inputType == 'select'", ng-options="item.value as rVM.Lang.lang[item.option] for item in value._$options", ng-model="enVM.vEntity.item[key]")

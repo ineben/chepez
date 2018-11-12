@@ -69,6 +69,15 @@ class User extends Base{
 		if(user === undefined) return false;
 		return user.priv == 1;	
 	}
+	
+	static isTranslator(user){
+		if(user === undefined) return false;
+		return user.priv == 2;	
+	}
+	static isUser(user){
+		if(user === undefined) return false;
+		return user.priv == 3;	
+	}
 
 	async process(lang, item){
 		delete item.password;

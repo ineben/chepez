@@ -40,5 +40,7 @@ const reseter = function(){
 	}, reseterCallback);
 };
 
+reseter();
+
 
 setInterval(reseter, 5 * 60 * 1000);

@@ -1,11 +1,12 @@
 import {default as Auth, addAuthCallback, removeAuthCallback, AuthInterface} from "../../Lib/Auth";
-import {User} from "../../Lib/Api";
+import {User, Translate} from "../../Lib/Api";
 
 export default class IndexController{
 	
 	constructor($scope){
 		'ngInject';
 		this.User = new User();
+		this.Translate = new Translate();
 		this.User.updateSelf = Auth.user;
 		
 		this.AuthInterface = new AuthInterface(

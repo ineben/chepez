@@ -1,21 +1,53 @@
-.index-page(ng-controller='index as ixVM')
+.controllerWrapper.index-page(ng-controller='index as ixVM')
 	.clear-filter(filter-color="orange")
-		.controllerWrapper
-			.container-fluid#edit
-				.row.justify-content-center
-					.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6.px-3.mt-4.justify-content-center
-						.col-12.py-3.px-5.sectionHeader
-							h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.editProfile}}
-						.col-12.p-4.bg-white
-							form.col(ng-submit="ixVM.sendPut();")
-								.row.justify-content-center.mb-5
-									.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
-										.form-group
-											label.text-muted {{rVM.Lang.lang.userEmail}}:
-											input.form-control(placeholder="{{rVM.Lang.lang.userEmail}}", ng-model="ixVM.user.updateSelf.email", type="email")
-									.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
-										.form-group
-											label.text-muted {{rVM.Lang.lang.userPassword}}:
-											input.form-control(placeholder="{{rVM.Lang.lang.userPassword}}", ng-model="ixVM.user.updateSelf.password", minlenghth="8", type="password")
-									.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12.text-center
-										button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.edit}}
+		.container-fluid#edit
+			.row.justify-content-center
+				.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6.px-3.mt-4.justify-content-center
+					.col-12.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#editCollapse", aria-expanded="true", aria-controls="translateCollapse", filter-color="black")
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.editProfile}}
+							i.float-right.fas.fa-chevron-down
+					#editCollapse.show.collapse.col.col-12.p-4.bg-white
+						form.col(ng-submit="ixVM.sendPut();")
+							.row.justify-content-center.mb-5
+								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
+									.form-group
+										label.text-muted {{rVM.Lang.lang.userEmail}}:
+										input.form-control(placeholder="{{rVM.Lang.lang.userEmail}}", ng-model="ixVM.user.updateSelf.email", type="email")
+								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
+									.form-group
+										label.text-muted {{rVM.Lang.lang.userPassword}}:
+										input.form-control(placeholder="{{rVM.Lang.lang.userPassword}}", ng-model="ixVM.user.updateSelf.password", minlenghth="8", type="password")
+								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12.text-center
+									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.edit}}
+		.container-fluid(ng-if="!rVM.Auth.isUser")
+			.row
+				.col-12.px-3.mt-4
+					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#translateCollapse", aria-expanded="true", aria-controls="translateCollapse", filter-color="black")
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.translate}}
+							i.float-right.fas.fa-chevron-down
+					#translateCollapse.show.collapse.col.p-4.bg-white
+						form.col(ng-submit="ixVM.Translate.doSearch();")
+							.row.justify-content-center.mb-5
+								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+									.form-group
+										label.text-muted {{rVM.Lang.lang.translatePhrase}}:
+										input.form-control(required, type="text", ng-model="ixVM.Translate.search.phrase")
+								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+									.form-group
+										label.text-muted {{rVM.Lang.lang.docRegion}}:
+										select.form-control(ng-options="item.value as rVM.Lang.lang[item.option] for item in ixVM.secondSchema.region._$options track by item.value", ng-model="ixVM.Translate.search.toRegion")
+								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+									.form-group
+										label.text-muted {{rVM.Lang.lang.docGrado}}:
+										select.form-control(ng-options="item.value as rVM.Lang.lang[item.option] for item in ixVM.secondSchema.grado._$options track by item.value", ng-model="ixVM.Translate.search.toGrade")
+								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+									.form-group
+										label.text-muted {{rVM.Lang.lang.translateInclusive}}:
+										select.form-control(ng-model="ixVM.Translate.search.inclusive")
+											option(value="{{true}}") {{rVM.Lang.lang.yes}}
+											option(value="{{false}}") {{rVM.Lang.lang.no}}
+								.col-12
+									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.translate}}
+								.col-12(ng-if="ixVM.Translate.phrase")
+									h4.text-center {{rVM.Lang.lang.translateResults}}
+									h5 {{ixVM.Translate.phrase}}

@@ -13,8 +13,23 @@ app.register(require('fastify-http-proxy'), {
 	upstream: 'http://localhost:8082',
 	prefix: '/api'
 });
-app.register(require('fastify-static'), {root: DIST_FOLDER, prefix: '/*'});
+app.register(require('fastify-static'), {root: DIST_FOLDER, prefix: '/static'});
 
+const reg = /\.(?:js|css|jpg|png|jpeg)/gm;
+
+app.get('/:name', (request, reply) => {
+	if(reg.test(request.params.name)){
+		console.log(request.params.name, reg.test(request.params.name));
+	
+		reply.sendFile(request.params.name);
+	}else{
+		reply.sendFile("index.html");
+	}
+});
+
+app.get('/*', (request, reply) => {
+	reply.sendFile("index.html");
+});
 module.exports = {
 	start(){
 		app.listen(8081, '0.0.0.0', (err, addr) => {

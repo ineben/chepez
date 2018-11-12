@@ -1,57 +1,20 @@
 #add.controllerWrapper(ng-controller='words as enVM')
 	.section.mt-0
-		.container-fluid
-			.row
-				.col-12.px-3.mt-4
-					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#translateCollapse", aria-expanded="true", aria-controls="translateCollapse", filter-color="black")
-						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.translate}}
-							i.float-right.fas.fa-chevron-down
-					#translateCollapse.show.collapse.col.p-4.bg-white
-						form.col(ng-submit="enVM.Translate.doSearch();")
-							.row.justify-content-center.mb-5
-								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
-									.form-group
-										label.text-muted {{rVM.Lang.lang.translatePhrase}}:
-										input.form-control(required, type="text", ng-model="enVM.Translate.search.phrase")
-								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
-									.form-group
-										label.text-muted {{rVM.Lang.lang.docRegion}}:
-										select.form-control(ng-options="item.value as rVM.Lang.lang[item.option] for item in enVM.secondSchema.region._$options track by item.value", ng-model="enVM.Translate.search.toRegion")
-								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
-									.form-group
-										label.text-muted {{rVM.Lang.lang.docGrado}}:
-										select.form-control(ng-options="item.value as rVM.Lang.lang[item.option] for item in enVM.secondSchema.grado._$options track by item.value", ng-model="enVM.Translate.search.toGrade")
-								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
-									.form-group
-										label.text-muted {{rVM.Lang.lang.translateInclusive}}:
-										select.form-control(ng-model="enVM.Translate.search.inclusive")
-											option(value="{{true}}") {{rVM.Lang.lang.yes}}
-											option(value="{{false}}") {{rVM.Lang.lang.no}}
-								.col-12
-									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.translate}}
-								.col-12(ng-if="enVM.Translate.phrase")
-									h4.text-center {{rVM.Lang.lang.translateResults}}
-									h5 {{enVM.Translate.phrase}}
-		.container-fluid
-			.row
-				.col-12.px-3.mt-4
-					.col.py-3.px-5.sectionHeader(filter-color="black")
-						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.wordDisclaimer}}
-						
-		include ./include/insert.pug
+		div(ng-if="rVM.Auth.isAdmin")
+			include ./include/insert.pug
 		.container-fluid
 			.row
 				.col-12.px-3.mt-4
 					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#fiterCollapse", aria-expanded="true", aria-controls="translateCollapse", filter-color="black")
-						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.search}}
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.search}} {{rVM.Entity.insert.living}}
 							i.float-right.fas.fa-chevron-down
 					#fiterCollapse.show.collapse.col.p-4.bg-white
-						form.col(ng-submit="enVM.Entity.doSearchWord();")
+						form.col(ng-submit="enVM.Entity.doSearch();")
 							.row.justify-content-center.mb-5
 								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
 									.form-group
-										label.text-muted {{rVM.Lang.lang.docPalabra}}:
-										input.form-control(required, type="text", ng-model="enVM.Entity.searchWord.word")
+										label.text-muted {{rVM.Lang.lang.docType}}:
+										select.form-control(ng-options="item.value as rVM.Lang.lang[item.option] for item in enVM.schema.type._$options track by item.value", ng-model="enVM.Entity.search.type")
 								.col-12
 									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.search}}
 		include ./include/search.pug

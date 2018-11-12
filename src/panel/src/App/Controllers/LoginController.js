@@ -1,4 +1,5 @@
 import Auth from "../../Lib/Auth";
+import {EntitySchema, sinonimSchema} from "../../../../logic/schemas/doc";
 import {Auth as AuthAPI} from "../../Lib/Api";
 
 
@@ -8,7 +9,9 @@ export default class LoginController{
 		'ngInject';
 		this.$state = $state;
 		this.URL = URL;
-		this.AuthAPI = new AuthAPI()
+		this.AuthAPI = new AuthAPI();
+		this.schema = EntitySchema;
+		this.secondSchema = sinonimSchema;
 		this.Auth = Auth;
 		if(!this.Auth.isLogged)
 			$state.go("base.signIn");

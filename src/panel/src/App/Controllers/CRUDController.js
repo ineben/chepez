@@ -5,6 +5,7 @@ export default class CRUDController{
 		this.$timeout = $timeout;
 		this.toastr = toastr;
 		this.$anchorScroll = $anchorScroll;
+		this.$anchorScroll();
 	}
 	
 	

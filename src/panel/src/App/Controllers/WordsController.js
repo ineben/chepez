@@ -1,6 +1,14 @@
-import {Doc, Translate} from "../../Lib/Api";
+import {Doc} from "../../Lib/Api";
 import {EntitySchema, sinonimSchema} from "../../../../logic/schemas/doc";
 import CRUDController from "./CRUDController";
+import {default as Auth, addAuthCallback, removeAuthCallback, AuthInterface} from "../../Lib/Auth";
+
+
+const search = {};
+const insert = {
+	living: false,
+	profession: false
+};
 
 export default class WordsController extends CRUDController{
 	
@@ -9,9 +17,10 @@ export default class WordsController extends CRUDController{
 		super($timeout, $anchorScroll, toastr);
 		this.$state = $state;
 		this.Entity = new Doc();
-		this.Translate = new Translate();
+		this.Entity.search = search;
+		this.Entity.insert = insert;
+		this.Entity.doSearch();
 		this.schema = EntitySchema;
-		this.secondSchema = sinonimSchema;
 		const context = this;
 		this.buttons = [
 			{
@@ -19,21 +28,42 @@ export default class WordsController extends CRUDController{
 				class: "btn-info",
 				icon: "fa-book"
 			},
-			{
+		]; 
+		
+		this.AuthInterface = new AuthInterface(
+			() => { }, //onLogin
+			() => { context.setButtons(context); }, //onUserGotten
+			() => { }, //onLogout
+		);
+		
+		addAuthCallback(this.AuthInterface);
+		
+		this.setButtons(context);
+		
+	}
+	
+	setButtons(context){
+		if(Auth.isAdmin){
+			this.buttons.push({
 				function: this.setUpdate.bind(context),
 				class: "btn-success",
 				icon: "fa-edit"
-			},
-			{
+			});
+			this.buttons.push({
 				function: this.setDelete.bind(context),
 				class: "btn-danger",
 				icon: "fa-trash"
-			},
-		]; 
+			});
+		}
 	}
 	
 	async insert(){
+		const nI = {
+			living: insert.living,
+			profession: insert.profession
+		};
 		const response = await this.Entity.doInsert();
+		this.Entity.insert = insert = nI;
 	}
 	
 	goSinonims(item){

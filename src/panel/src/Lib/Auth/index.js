@@ -59,6 +59,16 @@ class Auth{
 		if(!this.isLogged || !this.user) return;
 		return this.user.priv == 1;
 	}
+	
+	get isTranslator(){
+		if(!this.isLogged || !this.user) return;
+		return this.user.priv == 2;
+	}
+	
+	get isUser(){
+		if(!this.isLogged || !this.user) return;
+		return this.user.priv == 3;
+	}
 		
 	get token(){
 		return this._token || localStorage.getItem('token');

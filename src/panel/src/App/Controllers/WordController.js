@@ -1,6 +1,8 @@
 import {Doc} from "../../Lib/Api";
-import {sinonimSchema} from "../../../../logic/schemas/doc";
+import {EntitySchema, sinonimSchema} from "../../../../logic/schemas/doc";
 import CRUDController from "./CRUDController";
+
+const insert = {};
 
 export default class WordsController extends CRUDController{
 	
@@ -9,8 +11,11 @@ export default class WordsController extends CRUDController{
 		super($timeout, $anchorScroll, toastr);
 		this.word = $stateParams.id;
 		this.Entity = new Doc();
+		this.Entity.insert = insert;
+		this.vEntity = this.Entity;
 		this.Entity.doGet(this.word);
 		this.schema =  sinonimSchema;
+		this.vSchema =  EntitySchema;
 		const context = this;
 		this.buttons = [
 			{
@@ -27,9 +32,15 @@ export default class WordsController extends CRUDController{
 	}
 	
 	async insert(){
+		const nI = {
+			region: insert.region,
+			grado: insert.grado
+		};
 		const response = await this.Entity.doInsertSinonimo(this.word);
-		if(response.success)
+		if(response.success){
+			this.Entity.insert = insert = nI;
 			this.Entity.doGet(this.word);
+		}
 	}
 	
 	async update(){

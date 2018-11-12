@@ -41,7 +41,7 @@ module.exports = async function(app, opts){
 		}, 
 		handler: async function(req, reply){
 			
-			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
+			if(!req.raw.user || (!UserC.isAdmin(req.raw.user) &&  !UserC.isTranslator(req.raw.user)))
 				return new Response(false, req.raw.lang.invalidToken);
 			
 			const words = await queryWordsPromise(`palabra:${req.query.word}`);
@@ -55,7 +55,7 @@ module.exports = async function(app, opts){
 		url: "/search", 
 		schema: {...DocSchemas.RetrieveSchema}, 
 		handler: async function(req, reply){
-			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
+			if(!req.raw.user || (!UserC.isAdmin(req.raw.user) &&  !UserC.isTranslator(req.raw.user)))
 				return new Response(false, req.raw.lang.invalidToken);
 		
 			return await Doc.doSelectFull(req.raw.lang, req.query, req.query.$order, req.query.$start, req.query.$limit, req.query.$projection);
@@ -68,7 +68,7 @@ module.exports = async function(app, opts){
 		schema: {...DocSchemas.GetSchema}, 
 		handler: async function(req, reply){
 			
-			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
+			if(!req.raw.user || (!UserC.isAdmin(req.raw.user) &&  !UserC.isTranslator(req.raw.user)))
 				return new Response(false, req.raw.lang.invalidToken);
 			return await Doc.doSelectOne(req.raw.lang, {_id: req.params.id});
 		}
@@ -146,7 +146,7 @@ module.exports = async function(app, opts){
 		schema: {...DocSchemas.UpdateSinonimSchema}, 
 		handler: async function(req, reply){
 			
-			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
+			if(!req.raw.user || (!UserC.isAdmin(req.raw.user) && !UserC.isTranslator(req.raw.user)))
 				return new Response(false, req.raw.lang.invalidToken);
 			
 			const oldBody = await Doc.doSelectOne(req.raw.lang, {_id: req.params.word});
@@ -163,7 +163,7 @@ module.exports = async function(app, opts){
 		schema: {...DocSchemas.InsertSinonimSchema}, 
 		handler: async function(req, reply){
 			
-			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
+			if(!req.raw.user || (!UserC.isAdmin(req.raw.user) &&  !UserC.isTranslator(req.raw.user)))
 				return new Response(false, req.raw.lang.invalidToken);
 			
 			const oldBody = await Doc.doSelectOne(req.raw.lang, {_id: req.params.word});
