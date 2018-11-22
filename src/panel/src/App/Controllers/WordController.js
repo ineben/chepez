@@ -2,7 +2,7 @@ import {Doc} from "../../Lib/Api";
 import {EntitySchema, sinonimSchema} from "../../../../logic/schemas/doc";
 import CRUDController from "./CRUDController";
 
-const insert = {};
+let insert = {};
 
 export default class WordsController extends CRUDController{
 	
@@ -32,7 +32,7 @@ export default class WordsController extends CRUDController{
 	}
 	
 	async insert(){
-		const nI = {
+		let nI = {
 			region: insert.region,
 			grado: insert.grado
 		};

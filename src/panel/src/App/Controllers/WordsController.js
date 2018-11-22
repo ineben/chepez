@@ -4,8 +4,8 @@ import CRUDController from "./CRUDController";
 import {default as Auth, addAuthCallback, removeAuthCallback, AuthInterface} from "../../Lib/Auth";
 
 
-const search = {};
-const insert = {
+let search = {};
+let insert = {
 	living: false,
 	profession: false
 };
