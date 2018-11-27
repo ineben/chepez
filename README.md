@@ -1,3 +1,75 @@
+# Definiciones
+
+Usuario: mail y contraseña con X número de llamadas a API
+
+# Secciones
+
+## Admin
+- Para usuarios que tienen acceso a ambas con llamadas ilimitadas
+
+- lo que ahora es usuarios va acá dentro
+
+- Editar y agregar usuarios
+
+## Comunidad
+Para usuarios Trabajadores / traductores
+Empiezan con 15 llamadas gratis y ganan una llamada por cada input que hacen
+
+### Agregar:
+
+Nosotros deberíamos poder proponer palabras y frases para que traduzcan.
+
+Agregar palabras nuevas.
+
+### Consultar:
+Consulta de palabras que no hayan puesto ellos
+
+### Resultados:
+pueden ver todas las palabras que agregaron
+
+# Clasificaciones de palabras (Agregar)
+## Tipo de palabra
+### Adjetivo, Sustantivo, Verbo, Adverbio
+Importante: al ingresar una palabra debe guardar como predefinido lo elegido anteriormente
+
+### Adjetivo
+- Forma femenina
+- Forma masculina
+- Forma neutral (con e)
+- Plural: palabra +s (tic de ok o de cambiar?)
+
+### Sustantivo
+- Forma femenina
+- Forma masculina
+- Forma neutral (con e)
+- Es un objeto animado: si o no
+  ? > Un objeto animado es un sujeto de ser sexuado- Por ejemplo: profesora/profesor-
+
+  No aplica a objetos sin ánima- Por ejemplo: la sal, el agua, la planta, el árbol-
+
+
+Objetos inanimados
+> Diferencia entre objetos vivientes y de profesión?
+
+
+## Clientes
+Para Usuarios que pagan: consulta de textos-
+Tropicaliza automáticamente y autocorrige
+> ver algoritmo de autocorrección y corpus
+
+
+# Pendientes
+- Cambio de colores a paleta
+- Tipogragía Open sans
+- Subir a servidor
+- Deben funcionar los comandos de teclado: tab, enter, bla, para todo
+- Integración con APIs de Watson:
+  - Text to speech
+  - Natural Language Understanding?
+  - Traducción
+  - Probar bot
+
+
 # Guara
 
 ## Lista de comandos disponibles
