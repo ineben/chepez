@@ -19,8 +19,6 @@ const reg = /\.(?:js|css|jpg|png|jpeg)/gm;
 
 app.get('/:name', (request, reply) => {
 	if(reg.test(request.params.name)){
-		console.log(request.params.name, reg.test(request.params.name));
-	
 		reply.sendFile(request.params.name);
 	}else{
 		reply.sendFile("index.html");
