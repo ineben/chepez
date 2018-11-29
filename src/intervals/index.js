@@ -11,6 +11,7 @@ const cloudant = Cloudant(
 const db = cloudant.db.use('guara');
 
 const reseterCallback = function(err, dbResponse){
+	console.log(dbResponse);
 	if(err){
 		console.log(err);
 		return;
@@ -36,7 +37,7 @@ const reseterCallback = function(err, dbResponse){
 const reseter = function(){
 	db.search('quotaExpirations', 'expirations', {
 		include_docs:true, 
-		q: "expired:true"
+		q: "expired:false"
 	}, reseterCallback);
 };
 

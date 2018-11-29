@@ -1,6 +1,6 @@
-const Base = require('./_Base')
+const Base = require('./_Base'),
 	Response = require('./_Response'),
-	bcrypt = require('bcrypt');
+	bcrypt = require('bcrypt'),
 	jwt = require('jsonwebtoken'),
 	SECRET = "UALA401278000",
 	Hashids = require("hashids"),

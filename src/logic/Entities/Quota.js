@@ -1,4 +1,4 @@
-const Base = require(__dirname + '/_Base')
+const Base = require(__dirname + '/_Base'),
 	Response = require(__dirname + '/_Response'),
 	path = require('path');
 
