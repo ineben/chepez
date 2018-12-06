@@ -10,6 +10,7 @@
 	"translatorNoCredits":"No tienes creditos restantes",
 	"translatorExpired":"Tus creditos han expirado",
 	"translatorError":"Error al traducir",
+	"watsonSessionIdError":"Error al traducir",
 	
 	
 	"invalidID":"ID invalido",

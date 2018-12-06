@@ -11,7 +11,6 @@ const cloudant = Cloudant(
 const db = cloudant.db.use('guara');
 
 const reseterCallback = function(err, dbResponse){
-	console.log(dbResponse);
 	if(err){
 		console.log(err);
 		return;

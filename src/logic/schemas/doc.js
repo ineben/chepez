@@ -156,7 +156,8 @@ const EntitySchema = {
 		_$options: [
 			{value: "sujeto", option: "docTypeNoun"},
 			{value: "verbo", option: "docTypeVerb"},
-			{value: "adjetivo", option: "docTypeAdjetive"}
+			{value: "adjetivo", option: "docTypeAdjetive"},
+			{value: "adjverbio", option: "docTypeAdverb"},
 		],
 	}, 
 	living: {

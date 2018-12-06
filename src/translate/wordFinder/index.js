@@ -47,10 +47,11 @@ function findWord(word, cb){
 				living: dic.living,
 				profession: dic.profession
 			};
+			
 			for(const sinonim of dic.sinonimos){
 				if(sinonim.region == this.toRegion){
 					if(this.toGrade !== undefined){
-						if(this.toGrade == sinonim.grade){							
+						if(this.toGrade == sinonim.grado){							
 							reWord = {
 								...sinonim,
 								type: dic.type, 
@@ -59,7 +60,7 @@ function findWord(word, cb){
 							};
 							break;
 						}else{
-							const dif = Math.abs(this.toGrade - sinonim.grade);
+							const dif = Math.abs(this.toGrade - sinonim.grado);
 							if(currentGrade === null || dif < currentGrade){
 								reWord = {
 									...sinonim,
@@ -139,8 +140,8 @@ async function getWords(words, toRegion, toGrade, fromRegion){
 			resolved++;
 			
 			if (er) {
-				console.log(err);
-				toReject = err;
+				console.log(er);
+				toReject = er;
 			}else if(!toReject){
 				for(const item of dbResponse.rows){
 					result.push(item.doc);

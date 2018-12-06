@@ -1,3 +1,31 @@
+li.message {
+    margin: 5px 0;
+}
+
+li.message div {
+    background: #424242;
+    display: inline-block;
+    padding: 8px;
+    color: #FAFAFA;
+    border-radius: 5px;
+    border: 1px solid #222;
+	float: right;
+}
+
+li.message div.watson {
+    background: #FF6488;
+    color: #FAFAFA;
+    border: 1px solid #bb173d;
+	float:left;
+}
+
+ul.messages {
+    list-style: none;
+    padding: 0;
+	display: flex;
+    flex-direction: column-reverse;
+}
+
 @media screen and (min-width: 992px) {
 	.niceWrapper{
 		width: calc(100% - 300px) !important;

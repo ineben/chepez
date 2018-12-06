@@ -1,6 +1,7 @@
 import {default as Auth, addAuthCallback, removeAuthCallback, AuthInterface} from "../../Lib/Auth";
-import {User, Translate} from "../../Lib/Api";
+import {User, Translate, Watson} from "../../Lib/Api";
 import {EntitySchema, sinonimSchema} from "../../../../logic/schemas/doc";
+import {emit} from '../../Lib/AngularJSInterface';
 
 
 export default class IndexController{
@@ -8,6 +9,7 @@ export default class IndexController{
 	constructor($scope){
 		'ngInject';
 		this.User = new User();
+		this.Watson = new Watson();
 		this.Translate = new Translate();
 		this.User.updateSelf = Auth.user;
 		this.secondSchema = sinonimSchema;
@@ -26,6 +28,16 @@ export default class IndexController{
 		
 	}
 	
+	async submitMessage(){
+		this.Watson.messages.unshift({message: this.Watson.insert.text});
+		const response = await this.Watson.doInsert();
+		if(response.success){
+			this.Watson.messages.unshift({watson: true, message: response.item});
+			if(response.session)
+				this.Watson.insert.session = response.session;
+		}
+		emit();
+	}
 	
 	async sendPut(){
 		const response = await this.User.doUpdateSelf();

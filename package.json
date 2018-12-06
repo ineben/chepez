@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "set NODE_ENV=production && node index.js",
-	"service:start": "pm2 start index.js -i max -n guara",
+    "service:start": "pm2 start index.js -i max -n guara",
     "build:panel": "set NODE_COMMAND=build && webpack --config ./src/panel/webpack.config.dist.js",
     "test:panel": "set NODE_COMMAND=test && set NODE_ENV=development && webpack-dev-server --hot --inline --config ./src/panel/webpack.config.js"
   },
@@ -43,7 +43,8 @@
     "steed": "^1.1.3",
     "syllable-es": "^1.0.1",
     "uuid": "^3.3.2",
-    "uuid-validate": "0.0.3"
+    "uuid-validate": "0.0.3",
+    "watson-developer-cloud": "^3.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",

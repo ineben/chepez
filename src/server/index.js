@@ -21,16 +21,12 @@ app.register(require('fastify-cors'), { origin: "*", optionsSuccessStatus: 200 }
 
 app.use(require('./middlewares/locale'));
 
-app.get("/", async (req, reply) => {
-	reply.code(200).send({hi: `Hello from ${process.pid}`});
-});
-
-
 app.register(require('./router/auth'), {prefix: '/auth'});
 app.register(require('./router/docs'), {prefix: '/docs'});
 app.register(require('./router/quotas'), {prefix: '/quotas'});
 app.register(require('./router/translator'), {prefix: '/translator'});
 app.register(require('./router/users'), {prefix: '/users'});
+app.register(require('./router/watson'), {prefix: '/watson'});
 
 
 module.exports = {

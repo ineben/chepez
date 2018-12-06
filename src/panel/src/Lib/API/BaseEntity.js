@@ -1,6 +1,6 @@
 import {CancelToken} from 'axios';
-import HTTPClient from './HTTPClient';
 import Lang from '../Lang';
+import HTTPClient from './HTTPClient';
 import {emitSuccess, emitWarning, emitError} from '../MessageInterface';
 import {emit} from '../AngularJSInterface';
 

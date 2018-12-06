@@ -19,6 +19,24 @@
 										input.form-control(placeholder="{{rVM.Lang.lang.userPassword}}", ng-model="ixVM.user.updateSelf.password", minlenghth="8", type="password")
 								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12.text-center
 									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.edit}}
+		.container-fluid
+			.row
+				.col-12.px-3.mt-4
+					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#watsonCollapse", aria-expanded="true", aria-controls="watsonCollapse", filter-color="black")
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.useWatson}}
+							i.float-right.fas.fa-chevron-down
+					#watsonCollapse.show.collapse.col.p-4.bg-white
+						ul.messages.col
+							li.message(ng-repeat="message in ixVM.Watson.messages  | limitTo : 6")
+								div(ng-class="{'watson': message.watson}")
+									span(ng-bind-html="message.message")
+						form.col(ng-submit="ixVM.submitMessage();")
+							.row.justify-content-center.mb-5
+								.col-8.col-sm-8.col-md-10.col-lg-10.col-xl-10
+									.form-group
+										input.form-control(placeholder="{{rVM.Lang.lang.message}}", required, type="text", ng-model="ixVM.Watson.insert.text", ng-disabled="ixVM.Watson.ongoingInsert")
+								.col-4.col-sm-4.col-md-2.col-lg-2.col-xl-2
+									button.btn.btn-primary.btn-block.m-0(type="submit", ng-disabled="ixVM.Watson.ongoingInsert") {{rVM.Lang.lang.send}}
 		.container-fluid(ng-if="!rVM.Auth.isUser")
 			.row
 				.col-12.px-3.mt-4
@@ -47,7 +65,7 @@
 											option(value="{{true}}") {{rVM.Lang.lang.yes}}
 											option(value="{{false}}") {{rVM.Lang.lang.no}}
 								.col-12
-									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.translate}}
+									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.send}}
 								.col-12(ng-if="ixVM.Translate.phrase")
 									h4.text-center {{rVM.Lang.lang.translateResults}}
 									h5 {{ixVM.Translate.phrase}}

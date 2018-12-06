@@ -7,6 +7,7 @@ import {default as User} from './UserEntity';
 import {default as Quota} from './QuotaEntity';
 import {default as Doc} from './DocEntity';
 import {default as Translate} from './TranslateEntity';
+import {default as Watson} from './WatsonEntity';
 
 export {
 	User,
@@ -14,6 +15,7 @@ export {
 	Auth,
 	Doc,
 	Translate,
+	Watson,
 	Response, 
 	addHTTPCallback, 
 	removeHTTPCallback, 
