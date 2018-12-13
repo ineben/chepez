@@ -122,15 +122,20 @@ genderize.switchPreviousWordsGender = function(phrase, translatedWords, oldPhras
 			return;
 		}else{
 			
-			let keyword = oldPhrase[len].toLowerCase();
+			const Okeyword = oldPhrase[len].toLowerCase();
+			
+			if(new RegExp(/[\.!?¡¿]/g).test(Okeyword)) break;
+			
+			const keyword = Okeyword.match(/([áéíóúña-z]{1,})/gi)[0];
 			const isPlural = pluralize.isPlural(keyword);
 			if(isPlural){
 				keyword = pluralize.singular(keyword);
 			}
+			
 			if(translatedWords.hasOwnProperty(keyword)){
 				let replaceWord = translatedWords[keyword].palabra;
 				if(translatedWords[keyword].type == "adjetivo"){
-					replaceWord = translatedWords[keyword].neutral || adjetiveGenderBender(replaceWord);
+					replaceWord = translatedWords[keyword][gender] || adjetiveGenderBender(replaceWord);
 					if(isPlural){
 						replaceWord = pluralize.plural(replaceWord);
 					}
@@ -178,26 +183,21 @@ genderize.matchNounGender = function(oldWord, newWord, dictionaryWord){
 	if(oldWord == newWord) return newWord;
 	
 	if(dictionaryWord.profession){
-		
 		if(genderize.professionIsMale(oldWord)){
-			return genderize.toProfessionMale(newWord);
+			return dictionaryWord.palabra || genderize.toProfessionMale(newWord);
 		}else if(genderize.professionIsFemale(oldWord)){
 			return dictionaryWord.female || genderize.toProfessionFemale(newWord);
-		}else if(genderize.professionIsMale(oldWord)){
+		}else if(genderize.professionIsNeutral(oldWord)){
 			return dictionaryWord.neutral || genderize.toProfessionNeutral(newWord);
 		}else return newWord;
-		
 	}else{
-		
 		if(genderize.nounIsMale(oldWord)){
-			return genderize.toNounMale(newWord);
+			return dictionaryWord.palabra || genderize.toNounMale(newWord);
 		}else if(genderize.nounIsFemale(oldWord)){
 			return dictionaryWord.female || genderize.toNounFemale(newWord);
-		}else if(genderize.nounIsMale(oldWord)){
+		}else if(genderize.nounIsNeutral(oldWord)){
 			return dictionaryWord.neutral || genderize.toNounNeutral(newWord);
 		}else return newWord;
-		
-		
 	}
 };
 

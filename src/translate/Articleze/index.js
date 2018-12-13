@@ -99,4 +99,34 @@ articleze.toMale = function(word){
 articleze.toNeutral = function(word){
 	return toGender(word, [...maleArticleRules, ...femaleArticleRules], "toNeutral");
 };
+
+articleze.findGenderOfPreviousArticle = function(phrase, translatedWords, oldPhrase){
+	let len = phrase.length;
+	while(len--){
+		if(articleze.isArticle(phrase[len])){
+			if(articleze.articleIsMale(phrase[len])){
+				return "male";
+			}else if(articleze.articleIsFemale(phrase[len])){
+				return "female";
+			}else if(articleze.articleIsNeutral(phrase[len])){
+				return "neutral";
+			}
+			return false;
+		}else{
+			
+			let keyword = oldPhrase[len].toLowerCase();
+			const isPlural = pluralize.isPlural(keyword);
+			if(isPlural){
+				keyword = pluralize.singular(keyword);
+			}
+			if(translatedWords.hasOwnProperty(keyword)){
+				let replaceWord = translatedWords[keyword].palabra;
+				if(translatedWords[keyword].type == "sujeto"){
+					return false;
+				}
+			}
+		}
+	}
+};
+
 module.exports = articleze;
