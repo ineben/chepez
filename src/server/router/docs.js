@@ -52,6 +52,121 @@ module.exports = async function(app, opts){
 	
 	app.route({
 		method: 'GET',
+		url: "/searchByRegion/:region", 
+		schema: {
+			headers : {
+				type: "object",
+				additionalProperties: true,
+				required: ["Authorization"],
+				properties: {
+					Authorization : {type: "string"}
+				}
+			},
+			querystring : {
+				type: "object",
+				additionalProperties: false,
+				properties : {
+					$lang: {
+						type: "string", 
+						default: "es"
+					},
+					bookmark : {
+						type : "string"
+					},
+					types : {
+						type : "array",
+						items : {
+							type : "number"
+						}
+					},
+					$limit: {
+						type: "integer", 
+						default: 20
+					}
+				}
+			},
+			params: {
+				type: "object",
+				additionalProperties: false,
+				properties : {
+					region: {
+						type: "number"
+					}
+				}
+			},
+			response: {
+				'2xx' : {
+					type: "object",
+					required : ["success"],
+					additionalProperties: false,
+					properties: {
+						success: {
+							type: "boolean", 
+							default: true
+						}, 
+						items: {
+							type: "array", 
+							items: {
+								type: "object",
+								properties: {
+									id : {
+										type: "string"
+									},
+									fields : {
+										type : "object",
+										additionalProperties : true,
+										properties : {
+											type : {
+												type : "number"
+											},
+											base : {
+												type : "string"
+											}
+										}
+									}
+								}
+							}
+						},
+						mes : {
+							type: "string"
+						},
+						deleteToken : {
+							type: "boolean"
+						},
+						total: {
+							type: "integer"
+						},
+						bookmark : {
+							type: "string"
+						}
+					}
+				}
+			}
+			
+		}, 
+		handler: async function(req, reply){
+			if(!req.raw.user || (!UserC.isAdmin(req.raw.user) &&  !UserC.isTranslator(req.raw.user)))
+				return new Response(false, req.raw.lang.invalidToken);
+		
+			const params = {
+				q : `key_${req.params.region}:[0 TO Infinity]`,
+				limit: req.query.$limit,
+				sort: [`-key_${req.params.region}`]
+			};
+			
+			if(req.query.types){
+				params.q = `${params.q} AND type:(${req.query.types.join(' OR ')})`;
+			}
+			
+			if(req.query.bookmark)
+				params.bookmark = req.query.bookmark;
+			
+			return await Doc.searchIndex(req.raw.lang, "palabras", "sinonimsPerRegion", params);
+		}
+	});
+	
+	app.route({
+		method: 'GET',
 		url: "/search", 
 		schema: {...DocSchemas.RetrieveSchema}, 
 		handler: async function(req, reply){
@@ -121,6 +236,19 @@ module.exports = async function(app, opts){
 		}
 	});
 	
+	app.route({
+		method: 'POST',
+		url: "/bulk", 
+		schema: {...DocSchemas.InsertBulkSchema}, 
+		handler: async function(req, reply){
+			
+			if(!req.raw.user || !UserC.isAdmin(req.raw.user))
+				return new Response(false, req.raw.lang.invalidToken);
+			
+			return await Doc.doInsertBulk(req.raw.lang, req.body);
+		}
+	});
+	
 	//sinonimos
 	
 	app.route({
@@ -154,6 +282,23 @@ module.exports = async function(app, opts){
 				return oldBody;
 			
 			return await Doc.updateSinonim(req.raw.lang, oldBody.item, req.params.id, req.body);
+		}
+	});
+	
+	app.route({
+		method: 'POST',
+		url: "/wordBulk/:word", 
+		schema: {...DocSchemas.InsertBulkSinonimSchema}, 
+		handler: async function(req, reply){
+			
+			if(!req.raw.user || (!UserC.isAdmin(req.raw.user) &&  !UserC.isTranslator(req.raw.user)))
+				return new Response(false, req.raw.lang.invalidToken);
+			
+			const oldBody = await Doc.doSelectOne(req.raw.lang, {_id: req.params.word});
+			if(!oldBody.success)
+				return oldBody;
+			
+			return await Doc.insertBulkSinonim(req.raw.lang, oldBody.item, req.body);
 		}
 	});
 	

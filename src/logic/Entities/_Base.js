@@ -113,6 +113,42 @@ class Base extends Database{
 			return new Response(false, lang.emptyBodyError);
 	}
 	
+	async doInsertBulk(lang, bodies){
+		const promises = [];
+		for(const body of bodies){
+			promises.push(this.makeData(body));
+		}
+		
+		const datas = await Promise.all(promises);
+		const validDatas = [];
+		const errors = [];
+		
+		for(const index in datas){
+			const data = datas[index];
+			if(Object.keys(data).length > 0){
+				for(const key in this._schema){
+					if(this._schema[key].required && !data[key]){
+						errors.push({index: index, mes: lang[this._schema[key].required]});
+						continue;
+					}
+				}
+				validDatas.push(data);
+			}else{
+				errors.push({index: index, mes: lang.emptyBodyError});
+			}
+		}
+		
+		let r;
+		if(validDatas.length > 0){
+			r = await this.insertMany(lang, validDatas);
+		}else{
+			r = new Response(false);
+		}
+		
+		r.errors = errors;
+		return r;
+	}
+	
 	async doUpdate(lang, oldBody, body){
 		let data = await this.makeData(body);
 		data.lastUpdate = Date.now();

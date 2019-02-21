@@ -66,8 +66,56 @@ const process = function(schema, validKey, requiredKey = 'null', params = {}){
 	return data;
 };
 
+const processBulk = function(schema, validKey, requiredKey = 'null', params = {}){
+	const data = {
+		querystring : {
+			type: "object",
+			additionalProperties: false,
+			properties : {
+				lang: {
+					type: "string", 
+					default: "es"
+				}
+			}
+		},
+		params : params,
+		body: {
+			type: "array",
+			items : {
+				type : "object",
+				additionalProperties: false,
+				required: [],
+				properties : {}
+			}
+		},
+		headers : {
+			type: "object",
+			additionalProperties: true,
+			required: ["Authorization"],
+			properties: {
+				Authorization : {type: "string"}
+			}
+		},
+		response: {
+			'2xx' : toResponseSingle(schema)
+		}
+	};
+	for(let key in schema){
+		if(schema[key].hasOwnProperty(validKey)){
+			data.body.items.properties[key] = clean({...schema[key]});
+			if(schema[key].hasOwnProperty(requiredKey))
+				data.body.items.required.push(key);
+		}
+	}
+	return data;
+};
+
 const create = function(schema, params = {}){
 	return process(schema, "insertable", "insertRequired", params);
+};
+
+const createBulk = function(schema, params = {}){
+	return processBulk(schema, "insertable", "insertRequired", params);
 };
 
 const update = function(
@@ -114,6 +162,20 @@ const toResponseSingle = function(schema){
 			},
 			token : {
 				type: "string"
+			},
+			errors : {
+				type : "array",
+				items: {
+					type : "object",
+					properties : {
+						index : {
+							type : "number"
+						},
+						mes : {
+							type : "string"
+						}
+					}
+				}
 			}
 		}
 	};
@@ -292,6 +354,7 @@ const retrieve = function(schema){
 
 module.exports = {
 	create,
+	createBulk,
 	update,
 	updateSelf,
 	remove,

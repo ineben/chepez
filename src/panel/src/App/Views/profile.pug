@@ -1,0 +1,25 @@
+.controllerWrapper.index-page(ng-controller='profile as ixVM')
+	.clear-filter(filter-color="orange")
+		.container-fluid#edit
+			.row.justify-content-center
+				.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6.px-3.mt-4.justify-content-center
+					.col-12.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#editCollapse", aria-expanded="true", aria-controls="translateCollapse", filter-color="black")
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.editProfile}}
+							i.float-right.fas.fa-chevron-down
+					#editCollapse.show.collapse.col.col-12.p-4.bg-white
+						form.col(ng-submit="ixVM.sendPut();")
+							.row.justify-content-center.mb-5
+								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
+									.form-group
+										label.text-muted {{rVM.Lang.lang.userEmail}}:
+										input.form-control(placeholder="{{rVM.Lang.lang.userEmail}}", ng-model="ixVM.User.updateSelf.email", type="email")
+								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
+									.form-group
+										label.text-muted {{rVM.Lang.lang.userPassword}}:
+										input.form-control(placeholder="{{rVM.Lang.lang.userPassword}}", ng-model="ixVM.User.updateSelf.password", minlenghth="8", type="password")
+								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
+									.form-group
+										label.text-muted {{rVM.Lang.lang.userRegion}}:
+										select.form-control(ng-options="item.value as rVM.Lang.lang[item.option] for item in ixVM.userSchema.region._$options", ng-model="ixVM.User.updateSelf.region")
+								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12.text-center
+									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.edit}}

@@ -98,6 +98,10 @@ class Auth{
 		localStorage.removeItem("expires");
 	}
 	
+	gibUser(){
+		return this._user;
+	}
+	
 	get user(){
 		return this._user;
 	}
@@ -175,8 +179,8 @@ export default auth;
 export const addAuthCallback = (cb) => {
 	if(cb === undefined) throw new Error("AuthInterface is undefined");
 	if(!cb instanceof AuthInterface){
-		if(cb.onSuccess && cb.onWarning && cb.onError)
-			cb = new AuthInterface(cb.onSuccess, cb.onWarning, cb.onError);
+		if(cb.onLogin && cb.onUserGotten && cb.onLogout)
+			cb = new AuthInterface(cb.onLogin, cb.onUserGotten, cb.onLogout);
 		else 
 			throw new Error("AuthInterface must have onStart, onProgress and onStop functions");
 	}

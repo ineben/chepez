@@ -76,22 +76,27 @@ import 'angular-toastr/dist/angular-toastr.tpls.js';
 import 'sprintf-js';
 import sprintf from 'sprintf-js/src/angular-sprintf';
 import 'angular-i18n/angular-locale_es';
+import angularInview from 'angular-inview';
 
 
 import config from './App/config';
 
 
+import AddWordController from './App/Controllers/AddWordController';
 import RootController from './App/Controllers/RootController';
 import LayoutController from './App/Controllers/LayoutController';
 import LoginController from './App/Controllers/LoginController';
 import IndexController from './App/Controllers/IndexController';
+import IndexTRController from './App/Controllers/IndexTRController';
 import UsersController from './App/Controllers/UsersController';
+import ProfileController from './App/Controllers/ProfileController';
 import QuotasController from './App/Controllers/QuotasController';
 import WordsController from './App/Controllers/WordsController';
 import WordController from './App/Controllers/WordController';
 
 const app = angular.module('app', [
-	uirouter, 
+	uirouter,
+	angularInview,
 	dirPagination, 
 	ngFileUpload, 
 	ngAnimate, 
@@ -103,11 +108,14 @@ const app = angular.module('app', [
 ]);
 
 app.config(config);
+app.controller("addWord", AddWordController);
 app.controller("root", RootController);
 app.controller("layout", LayoutController);
 app.controller("login", LoginController);
 app.controller("index", IndexController);
+app.controller("indexTR", IndexTRController);
 app.controller("users", UsersController);
+app.controller("profile", ProfileController);
 app.controller("quotas", QuotasController);
 app.controller("words", WordsController);
 app.controller("word", WordController);

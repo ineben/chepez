@@ -6,7 +6,7 @@
 			.col.p-4.bg-white
 				form.col(ng-submit="enVM.update();")
 					.row.justify-content-center.mb-5
-						.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6(ng-repeat="(key, value) in enVM.schema", ng-if="value.updateable && value._$inputType")
+						.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6(ng-repeat="(key, value) in enVM.schema", ng-if="value.updateable && value._$inputType && (value._$conditional ? value._$conditional(enVM.Entity.update) : true)")
 							.form-group
 								label.text-muted {{rVM.Lang.lang[value._$label]}}:
 								input.form-control(ng-if="value._$inputType == 'password'", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", placeholder="{{rVM.Lang.lang[value._$label]}}", type="password", ng-required="value.updateRequired", ng-model="enVM.Entity.update[key]")
@@ -14,7 +14,7 @@
 								input.form-control(ng-if="value._$inputType == 'text'", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", placeholder="{{rVM.Lang.lang[value._$label]}}", type="text", ng-required="value.updateRequired", ng-model="enVM.Entity.update[key]")
 								input.form-control(ng-if="value._$inputType == 'integer'", placeholder="{{rVM.Lang.lang[value._$label]}}", step="1", min="{{ value.minimum || -2147483647}}",  max="{{ value.maximum || 2147483647}}", type="number", ng-required="value.updateRequired", ng-model="enVM.Entity.update[key]")
 								input.form-control(ng-if="value._$inputType == 'float'", placeholder="{{rVM.Lang.lang[value._$label]}}", step="any", min="{{ value.minimum || -2147483647}}",  max="{{ value.maximum || 2147483647}}", type="number", ng-required="value.updateRequired", ng-model="enVM.Entity.update[key]")
-								select.form-control(ng-if="value._$inputType == 'select'", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", ng-options="item.value as rVM.Lang.lang[item.option] for item in value._$options", ng-model="enVM.Entity.update[key]")
+								select.form-control(ng-if="value._$inputType == 'select'", ng-options="item.value as rVM.Lang.lang[item.option] for item in value._$options", ng-model="enVM.Entity.update[key]")
 						.col-12
 							button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.edit}}
 				

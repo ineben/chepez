@@ -24,6 +24,10 @@ export default function routing(paginationTemplateProvider, $locationProvider, t
 		url: '/',
 		template: require( './Views/index.pug')
 	})
+	.state('base.profile',{
+		url: '/profile',
+		template: require( './Views/profile.pug')
+	})
 	.state('base.signIn',{
 		url: '/signIn',
 		template: require( './Views/login.pug')
@@ -39,6 +43,10 @@ export default function routing(paginationTemplateProvider, $locationProvider, t
 	.state('base.words',{
 		url: '/words',
 		template: require( './Views/words.pug')
+	})
+	.state('base.addWord',{
+		url: '/addWord/:type',
+		template: require( './Views/addWord.pug')
 	})
 	.state('base.word',{
 		url: '/word/:id',

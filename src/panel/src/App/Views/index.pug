@@ -1,4 +1,38 @@
-.controllerWrapper.index-page(ng-controller='index as ixVM')
+.controllerWrapper.index-page(ng-controller='indexTR as ixVM', ng-if="rVM.Auth.isTranslator")
+	.container-fluid
+		.row
+			#results.col-12.px-3.mt-4
+				.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#resultsCollapse", aria-expanded="true", aria-controls="resultsCollapse", filter-color="black")
+					h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.wordsToTranslate}}
+						i.float-right.fas.fa-chevron-down
+				#resultsCollapse.show.collapse(in-view-container)
+					.col-12.px-2.py-4.bg-white
+						.table-responsive
+							table.table.table-bordered
+								thead.bg-info.text-white
+									tr
+										th.text-uppercase(scope="col") {{rVM.Lang.lang.docPalabra}}
+										th.text-uppercase(scope="col") {{rVM.Lang.lang.docType}}
+										th.text-uppercase(scope="col") {{rVM.Lang.lang.docSinonims}}
+										th.text-uppercase(scope="col") {{rVM.Lang.lang.accions}}
+								tbody
+									tr(ng-repeat='item in ixVM.Doc.itemsSSR')
+										td.text-uppercase(scope="col")
+											span {{item.fields.base}}
+										td.text-uppercase(scope="col")
+											div(ng-repeat="option in ixVM.schema.type._$options")
+												span(ng-if="option.value == item.fields.type") {{rVM.Lang.lang[option.option]}}
+										td.text-uppercase(scope="col")
+											span {{item.fields['key_'+rVM.Auth.user.region]}}
+										td.text-uppercase 
+											a.btn.rounded.btn-info(ui-sref="base.word({id : item.id})")
+												i.fas.fa-book
+				div(ng-if="ixVM.Doc.itemsSSR.length > 0 && ixVM.Doc.itemsSSR.length != ixVM.Doc.totalSSR", in-view="$inview && ixVM.loadMore($inview)") 
+					| {{rVM.Lang.lang.loading}}...
+
+
+
+.controllerWrapper.index-page(ng-controller='index as ixVM', ng-if="rVM.Auth.isAdmin")
 	.clear-filter(filter-color="orange")
 		.container-fluid#edit
 			.row.justify-content-center
@@ -12,11 +46,11 @@
 								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
 									.form-group
 										label.text-muted {{rVM.Lang.lang.userEmail}}:
-										input.form-control(placeholder="{{rVM.Lang.lang.userEmail}}", ng-model="ixVM.user.updateSelf.email", type="email")
+										input.form-control(placeholder="{{rVM.Lang.lang.userEmail}}", ng-model="ixVM.User.updateSelf.email", type="email")
 								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
 									.form-group
 										label.text-muted {{rVM.Lang.lang.userPassword}}:
-										input.form-control(placeholder="{{rVM.Lang.lang.userPassword}}", ng-model="ixVM.user.updateSelf.password", minlenghth="8", type="password")
+										input.form-control(placeholder="{{rVM.Lang.lang.userPassword}}", ng-model="ixVM.User.updateSelf.password", minlenghth="8", type="password")
 								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12.text-center
 									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.edit}}
 		.container-fluid

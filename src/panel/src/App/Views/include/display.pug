@@ -7,7 +7,7 @@
 			#viewCollapse.show.collapse.col.p-4.bg-white
 				form.col
 					.row.justify-content-center.mb-5
-						.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6(ng-repeat="(key, value) in enVM.vSchema", ng-if="!value.private && value._$inputType")
+						.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6(ng-repeat="(key, value) in enVM.vSchema", ng-if="!value.private && value._$inputType && (value._$conditional ? value._$conditional(enVM.vEntity.item) : true)")
 							.form-group
 								label.text-muted {{rVM.Lang.lang[value._$label]}}:
 								input.form-control(disabled="true", ng-if="value._$inputType == 'password'", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", placeholder="{{rVM.Lang.lang[value._$label]}}", type="password", ng-model="enVM.vEntity.item[key]")

@@ -74,7 +74,7 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 					}
 					
 					switch(translatedWords[keyword].type){
-						case "sujeto":
+						case 1: //sujeto
 							if(translatedWords[keyword].living){
 								
 								if(inclusive){
@@ -171,9 +171,8 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 										break;
 								}
 							}
-							
 							break;
-						case "adjetivo":
+						case 3: //adjetivo
 							if(newPhrase.length > 0){
 								let adjLen = newPhrase.length;
 								let matchGender = false;
@@ -254,7 +253,7 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 								replaceWord = genderize.matchNounGender(keyword, replaceWord, translatedWords[keyword]);	
 							}
 							break;
-						case "verbo":
+						case 2: //verbo
 							if(isPlural){
 								if(translatedWords[keyword].plural)
 									replaceWord = translatedWords[keyword].plural;

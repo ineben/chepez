@@ -26,6 +26,10 @@ div(ng-controller="layout as laVM")
 							a.nav-link(ui-sref="base.index")
 								i.fas.fa-home.fa-lg(style="width: 30px")
 								p {{rVM.Lang.lang.home}}
+						li.nav-item(ng-show="!rVM.Auth.isAdmin")
+							a.nav-link(ui-sref="base.profile")
+								i.fas.fa-user.fa-lg(style="width: 30px")
+								p {{rVM.Lang.lang.profile}}
 						li.nav-item(ng-show="rVM.Auth.isAdmin")
 							a.nav-link(ui-sref="base.users")
 								i.fas.fa-users.fa-lg(style="width: 30px")

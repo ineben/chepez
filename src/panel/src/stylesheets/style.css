@@ -1,3 +1,49 @@
+.piecesHolder {
+    display: flex;
+    flex-direction: row;
+}
+
+.mFab{
+	width: 48px;
+	height: 48px;
+    z-index: 999;
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 80px;
+    float: right;
+	padding: 10px !important;
+}
+
+.piecesHolder > .piece {
+    flex: 1 1 0;
+    margin: 0 10px;
+}
+
+.titles {
+    position: sticky;
+    top: 53px;
+    background-color: #fff;
+    z-index: 999;
+	align-items: center;
+}
+
+@media (orientation: landscape) {
+	.inTitle{
+		display: none;
+	}
+}
+
+@media (orientation: portrait) {
+	.titles{
+		display: none;
+	}
+	
+	.piecesHolder {
+		flex-direction: column;
+		border-bottom: 1px solid #ccc;
+	}
+}
+
 li.message {
     margin: 5px 0;
 }

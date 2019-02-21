@@ -20,6 +20,7 @@ export default class BaseEntity{
 		this.items = [];
 		this.total = 0;
 		this.insert = {};
+		this.insertMany = [];
 		this.search = {};
 		this.update = {};
 		this.updateSelf = {};
@@ -109,6 +110,43 @@ export default class BaseEntity{
 		
 		if(response.success){
 			this.insert = {};
+			emitSuccess(Lang.lang.addSuccess);
+		}else if(response.mes)
+			emitError(response.mes);
+		
+		emit();
+		return response;
+	}
+
+	async doInsertMany(cancelable = 0){
+		const config = {};
+		
+		if(this.ongoingInsertMany)
+			switch(this.tolerance){
+				case ALLOW:
+					break;
+				case BLOCK:
+					return new Response(false);
+					break;
+				case CANCEL:					
+					if(this._postManyCancel)
+						this._postManyCancel.cancel();
+					this._postManyCancel = CancelToken.source();
+					config.cancelToken = this._postManyCancel.token;
+					break;
+			}
+			
+		this.ongoingInsertMany = true;
+		
+		const response = await HTTPClient._post(`${this.endpoint}/bulk`, this.insertMany, {}, config);
+		
+		if(!response.cancelled){
+			delete this._postManyCancel;
+			this.ongoingInsertMany = false;
+		}
+		
+		if(response.success){
+			this.insertMany = [];
 			emitSuccess(Lang.lang.addSuccess);
 		}else if(response.mes)
 			emitError(response.mes);

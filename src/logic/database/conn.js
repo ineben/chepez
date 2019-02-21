@@ -10,5 +10,5 @@ const db = cloudant.db.use('guara');
 
 
 module.exports = function(){
-		return db;
-	};
+	return db;
+};

@@ -1,5 +1,13 @@
 const transformer = require('./_transformer');
 
+const genderedCondition = function(model){
+	return model.type == 1 || model.type == 3;
+};
+
+const pluralCondition = function(model){
+	return model.type != 5 && model.type != 6 && model.type != 2;
+};
+
 const sinonimSchema = {
 	_id: {
 		type: "string",
@@ -69,6 +77,7 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		_$conditional: genderedCondition,
 		_$label: "docFemale",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -78,6 +87,7 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		_$conditional: genderedCondition,
 		_$label: "docNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -87,6 +97,7 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		_$conditional: pluralCondition,
 		_$label: "docPlural",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -96,7 +107,8 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
-		_$label: "docPluralNeutral",
+		_$conditional: genderedCondition,
+		_$label: "docPluralFemale",
 		_$displayAs: "text",
 		_$inputType: "text",
 	}, 
@@ -105,6 +117,7 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		_$conditional: genderedCondition,
 		_$label: "docPluralNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -136,6 +149,7 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		_$conditional: genderedCondition,
 		_$label: "docFemale",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -146,6 +160,7 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		_$conditional: genderedCondition,
 		_$label: "docNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -156,7 +171,30 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		_$conditional: pluralCondition,
 		_$label: "docPlural",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	pluralFemale: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		_$conditional: genderedCondition,
+		_$label: "docPluralFemale",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	pluralNeutral: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		_$conditional: genderedCondition,
+		_$label: "docPluralNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
 	}, 
@@ -171,10 +209,12 @@ const EntitySchema = {
 		_$inputType: "select",
 		_$displayAs: "select",
 		_$options: [
-			{value: "sujeto", option: "docTypeNoun"},
-			{value: "verbo", option: "docTypeVerb"},
-			{value: "adjetivo", option: "docTypeAdjetive"},
-			{value: "adjverbio", option: "docTypeAdverb"},
+			{value: 1, option: "docTypeNoun"},
+			{value: 2, option: "docTypeVerb"},
+			{value: 3, option: "docTypeAdjetive"},
+			{value: 4, option: "docTypeAdverb"},
+			{value: 5, option: "docTypeName"},
+			{value: 6, option: "docTypeLastname"},
 		],
 	}, 
 	living: {
@@ -183,6 +223,7 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		_$conditional: genderedCondition,
 		_$label: "docLiving",
 		_$inputType: "select",
 		_$displayAs: "boolean",
@@ -197,6 +238,7 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		_$conditional: genderedCondition,
 		_$label: "docProfession",
 		_$inputType: "select",
 		_$displayAs: "boolean",
@@ -228,11 +270,22 @@ const EntitySchema = {
 
 
 const InsertSchema = transformer.create({...EntitySchema});
+const InsertBulkSchema = transformer.createBulk({...EntitySchema});
 const UpdateSchema = transformer.update({...EntitySchema});
 const RemoveSchema = transformer.remove({...EntitySchema});
 const GetSchema = transformer.get({...EntitySchema});
 const RetrieveSchema = transformer.retrieve({...EntitySchema});
 
+const InsertBulkSinonimSchema = transformer.createBulk({...sinonimSchema}, {
+	type: "object",
+	additionalProperties: false,
+	properties : {
+		word: {
+			type: "string", 
+			pattern: "^[0-9a-zA-Z-]{1,}$"
+		}
+	}
+});
 const InsertSinonimSchema = transformer.create({...sinonimSchema}, {
 	type: "object",
 	additionalProperties: false,
@@ -243,6 +296,8 @@ const InsertSinonimSchema = transformer.create({...sinonimSchema}, {
 		}
 	}
 });
+
+
 const UpdateSinonimSchema = transformer.update({...sinonimSchema}, {
 	type: "object",
 	additionalProperties: false,
@@ -275,11 +330,13 @@ const RemoveSinonimSchema = transformer.remove({...sinonimSchema}, {
 module.exports = {
 	sinonimSchema : {...sinonimSchema},
 	InsertSinonimSchema : InsertSinonimSchema,
+	InsertBulkSinonimSchema : InsertBulkSinonimSchema,
 	UpdateSinonimSchema : UpdateSinonimSchema,
 	RemoveSinonimSchema : RemoveSinonimSchema,
 	
 	EntitySchema : {...EntitySchema},
 	InsertSchema : InsertSchema,
+	InsertBulkSchema: InsertBulkSchema,
 	UpdateSchema : UpdateSchema,
 	RemoveSchema : RemoveSchema,
 	GetSchema : GetSchema,

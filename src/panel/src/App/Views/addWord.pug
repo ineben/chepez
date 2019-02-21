@@ -1,0 +1,26 @@
+#add.controllerWrapper(ng-controller='addWord as enVM')
+	.section.mt-0
+		.container-fluid
+			.row
+				.col-12.px-3.mt-4
+					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#addCollapse", aria-expanded="true", aria-controls="addCollapse", filter-color="black")
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.add}} {{enVM.title}}
+							i.float-right.fas.fa-chevron-down
+					#addCollapse.show.collapse.col.p-4.bg-white
+						form.col(ng-submit="enVM.insert();")
+							.piecesHolder.titles
+								.piece.text-center(ng-repeat="(key, value) in enVM.schema", ng-if="value.insertable && value._$inputType && (value._$conditional ? value._$conditional(enVM.gModel) : true)")
+									.form-group
+										label.text-muted {{rVM.Lang.lang[value._$label]}}:
+							.piecesHolder(ng-repeat="(index, element) in enVM.insertMany")
+								.piece(ng-repeat="(key, value) in enVM.schema", ng-if="value.insertable && value._$inputType && (value._$conditional ? value._$conditional(enVM.gModel) : true)")
+									.form-group
+										label.text-muted.inTitle {{rVM.Lang.lang[value._$label]}}:
+										input.form-control(ng-if="value._$inputType == 'password'", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", placeholder="{{rVM.Lang.lang[value._$label]}}", type="password", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										input.form-control(ng-if="value._$inputType == 'email'", placeholder="{{rVM.Lang.lang[value._$label]}}", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", type="email", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										input.form-control(ng-if="value._$inputType == 'text'", placeholder="{{rVM.Lang.lang[value._$label]}}", minlength="{{ value.minLength || 0}}",  maxlength="{{ value.maxLength || 9999}}", type="text", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										input.form-control(ng-if="value._$inputType == 'integer'", placeholder="{{rVM.Lang.lang[value._$label]}}", step="1", min="{{ value.minimum || -2147483647}}",  max="{{ value.maximum || 2147483647}}", type="number", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										input.form-control(ng-if="value._$inputType == 'float'", placeholder="{{rVM.Lang.lang[value._$label]}}", step="any", min="{{ value.minimum || -2147483647}}",  max="{{ value.maximum || 2147483647}}", type="number", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										select.form-control(ng-if="value._$inputType == 'select'", ng-options="item.value as rVM.Lang.lang[item.option] for item in value._$options", ng-model="enVM.insertMany[index][key]")
+						button.btn.btn-round.btn-circle.btn-primary.mFab(ng-click="enVM.insert();")
+							i.fa.fas.fa-save.fa-2x

@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "set NODE_ENV=production && node index.js",
+    "start:all": "set NODE_ENV=production && node index.js",
+    "start:server": "set NODE_ENV=production && node src/server/index.js",
+    "start:panel": "set NODE_ENV=production && node src/panel/server.js",
     "service:start": "pm2 start index.js -i max -n guara",
     "build:panel": "set NODE_COMMAND=build && webpack --config ./src/panel/webpack.config.dist.js",
     "test:panel": "set NODE_COMMAND=test && set NODE_ENV=development && webpack-dev-server --hot --inline --config ./src/panel/webpack.config.js"
@@ -62,6 +64,7 @@
     "angular-cookies": "^1.7.5",
     "angular-datetime-input": "^5.3.0",
     "angular-i18n": "^1.7.5",
+    "angular-inview": "^3.1.0",
     "angular-loading-bar": "^0.9.0",
     "angular-resource": "^1.7.5",
     "angular-sanitize": "^1.7.5",
@@ -98,10 +101,10 @@
     "imports-loader": "^0.8.0",
     "inject-loader": "^3.0.0",
     "jquery": "^3.3.1",
-    "live-server": "^1.2.0",
+    "live-server": "^1.2.1",
     "mini-css-extract-plugin": "^0.4.4",
-    "mocha": "^3.2.0",
-    "mocha-webpack": "^0.7.0",
+    "mocha": "^6.0.0",
+    "mocha-webpack": "^1.1.0",
     "moment": "^2.22.1",
     "moment-locales-webpack-plugin": "^1.0.7",
     "ng-annotate-loader": "^0.6.1",
@@ -118,6 +121,7 @@
     "pug-html-loader": "^1.1.5",
     "purify-css": "^1.2.5",
     "purifycss-webpack": "^0.7.0",
+    "qs": "^6.6.0",
     "raw-loader": "^0.5.1",
     "resolve-url-loader": "^2.3.1",
     "sass-loader": "^6.0.7",
@@ -129,11 +133,10 @@
     "toastr": "^2.1.4",
     "tooltip.js": "^1.2.0",
     "uglifyjs-webpack-plugin": "^1.2.7",
-    "ui-bootstrap": "^0.1.11",
     "url-loader": "^1.1.2",
     "watch": "^1.0.2",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "webpack-dev-server": "^3.2.0"
   }
 }

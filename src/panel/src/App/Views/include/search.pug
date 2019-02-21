@@ -24,7 +24,7 @@
 											div(ng-repeat="option in value._$options")
 												span(ng-if="option.value == item[key]") {{rVM.Lang.lang[option.option]}}
 									td.text-uppercase 
-										button.btn.rounded(class="{{button.class}}", type="button", ng-repeat="button in enVM.buttons", ng-click="button.function(item)")
+										button.btn.rounded(class="{{button.class}}", type="button", ng-repeat="button in enVM.buttons", ng-if="button.conditional ? button.conditional(item) : true", ng-click="button.function(item)")
 											i.fas(class="{{button.icon}}")
 							thead.bg-info.text-white(ng-if="enVM.Entity.items.length > 5")
 								tr

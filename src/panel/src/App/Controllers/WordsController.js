@@ -10,7 +10,7 @@ let insert = {
 	profession: false
 };
 
-export default class WordsController extends CRUDController{
+export default class WordsController extends CRUDController{ 
 	
 	constructor($timeout, $anchorScroll, toastr, $state){
 		'ngInject';
@@ -26,7 +26,11 @@ export default class WordsController extends CRUDController{
 			{
 				function: this.goSinonims.bind(context),
 				class: "btn-info",
-				icon: "fa-book"
+				icon: "fa-book",
+				conditional : function(item){
+					console.log("type", item);
+					return item.type != "name" && item.type != "lastname";
+				}
 			},
 		]; 
 		

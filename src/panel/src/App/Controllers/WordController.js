@@ -1,3 +1,4 @@
+import {default as Auth, addAuthCallback, removeAuthCallback, AuthInterface} from "../../Lib/Auth";
 import {Doc} from "../../Lib/Api";
 import {EntitySchema, sinonimSchema} from "../../../../logic/schemas/doc";
 import CRUDController from "./CRUDController";
@@ -6,12 +7,12 @@ let insert = {};
 
 export default class WordsController extends CRUDController{
 	
-	constructor($timeout, $anchorScroll, toastr, $stateParams){
+	constructor($timeout, $anchorScroll, toastr, $stateParams, $scope){
 		'ngInject';
 		super($timeout, $anchorScroll, toastr);
 		this.word = $stateParams.id;
+		this.Auth = Auth;
 		this.Entity = new Doc();
-		this.Entity.insert = insert;
 		this.vEntity = this.Entity;
 		this.Entity.doGet(this.word);
 		this.schema =  sinonimSchema;
@@ -29,19 +30,72 @@ export default class WordsController extends CRUDController{
 				icon: "fa-trash"
 			},
 		]; 
+		this.insertMany = [];
+		for(let i = 0; i < 50; i++)
+			this.insertMany[i] = {};
+		
+		this.AuthInterface = new AuthInterface(
+			() => { }, //onLogin
+			() => {
+				if(Auth.isTranslator){
+					this.setUp();
+					delete this.schema.region;
+				}
+			}, //onUserGotten
+			() => { }, //onLogout
+		);
+		addAuthCallback(this.AuthInterface);
+		if(Auth.user.region){
+			this.setUp();
+			delete this.schema.region;
+		}
+		$scope.$on('$destroy', () => {
+			removeAuthCallback(this.AuthInterface);
+		});
+	}
+	
+	setUp(){
+		for(const key in this.insertMany){
+			this.insertMany[key].region = this.Auth.user.region;
+		}
 	}
 	
 	async insert(){
-		let nI = {
-			region: insert.region,
-			grado: insert.grado
-		};
-		const response = await this.Entity.doInsertSinonimo(this.word);
+		const newArray = [];
+		for(const entry of this.insertMany)
+			if(entry.palabra || 
+				entry.female || 
+				entry.neutral || 
+				entry.plural || 
+				entry.pluralNeutral ||
+				entry.pluralFemale){
+					newArray.push(entry);
+				}
+		if(newArray.length == 0){
+			this.toastr.error(Lang.lang.inputAtLeastOneValidEntry, {progressBar:true});
+			return;
+		}
+		
+		let response;
+		if(newArray.length == 1){
+			this.Entity.insert = newArray[0];
+			response = await this.Entity.doInsertSinonimo(this.word);
+		}else{
+			this.Entity.insertMany = newArray;
+			response = await this.Entity.doInsertManySinonimo(this.word);
+		}
+		
 		if(response.success){
-			this.Entity.insert = insert = nI;
+			
+			this.insertMany = [];
+			for(let i = 0; i < 50; i++)
+				this.insertMany[i] = {};
+			
+			this.setUp();
 			this.Entity.doGet(this.word);
 		}
 	}
+	
 	
 	async update(){
 		const r = await this.Entity.doUpdateSinonimo(this.word);

@@ -4,6 +4,7 @@ import Auth from '../Auth';
 import Lang from '../Lang';
 import Response from './Response';
 import HTTPInterface from './HTTPInterface';
+import qs from 'qs';
 
 const globalCallbacks = [];
 
@@ -40,7 +41,6 @@ const callOnStops = () => {
 };
 
 const callOnProgress = (percentage) => {
-	console.log("percentage", percentage);
 	for(const cb of globalCallbacks)
 		cb._onProgress(percentage);
 };
@@ -106,11 +106,11 @@ const requestTransformer = (data, headers) => {
 };
 
 const http = axios.create({
-  baseURL: api,
-  timeout: 60 * 1000,
-  onDownloadProgress: updateCB,
-  onUploadProgress: updateCB,
-  transformRequest : [requestTransformer]
+	baseURL: api,
+	timeout: 60 * 1000,
+	onDownloadProgress: updateCB,
+	onUploadProgress: updateCB,
+	transformRequest : [requestTransformer]
 });
 
 http.interceptors.request.use(
@@ -137,6 +137,10 @@ http.interceptors.response.use(
 class HTTPClient{
 	
 	async doRequest(request){
+		request.paramsSerializer = (params) => {
+			return qs.stringify(params, { indices: false })
+		};
+		
 		try{
 			const response = await http(request);
 			const r = new Response(response.data);

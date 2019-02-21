@@ -1,13 +1,39 @@
 #add.controllerWrapper(ng-controller='word as enVM')
 	.section.mt-0
 		include ./include/display.pug
-		include ./include/insert.pug
+		//include ./include/insert.pug
+		
+		.container-fluid
+			.row
+				.col-12.px-3.mt-4
+					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#addCollapse", aria-expanded="true", aria-controls="addCollapse", filter-color="black")
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.add}} {{enVM.title}}
+							i.float-right.fas.fa-chevron-down
+					#addCollapse.show.collapse.col.p-4.bg-white
+						form.col(ng-submit="enVM.insert();")
+							.piecesHolder.titles
+								.piece.text-center(ng-repeat="(key, value) in enVM.schema", ng-if="value.insertable && value._$inputType && (value._$conditional ? value._$conditional(enVM.vEntity.item) : true)")
+									.form-group
+										label.text-muted {{rVM.Lang.lang[value._$label]}}:
+							.piecesHolder(ng-repeat="(index, element) in enVM.insertMany")
+								.piece(ng-repeat="(key, value) in enVM.schema", ng-if="value.insertable && value._$inputType && (value._$conditional ? value._$conditional(enVM.vEntity.item) : true)")
+									.form-group
+										label.text-muted.inTitle {{rVM.Lang.lang[value._$label]}}:
+										input.form-control(ng-if="value._$inputType == 'password'", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", placeholder="{{rVM.Lang.lang[value._$label]}}", type="password", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										input.form-control(ng-if="value._$inputType == 'email'", placeholder="{{rVM.Lang.lang[value._$label]}}", minlength="{{ value.minLength || 0}}", maxlength="{{ value.maxLength || 9999}}", type="email", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										input.form-control(ng-if="value._$inputType == 'text'", placeholder="{{rVM.Lang.lang[value._$label]}}", minlength="{{ value.minLength || 0}}",  maxlength="{{ value.maxLength || 9999}}", type="text", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										input.form-control(ng-if="value._$inputType == 'integer'", placeholder="{{rVM.Lang.lang[value._$label]}}", step="1", min="{{ value.minimum || -2147483647}}",  max="{{ value.maximum || 2147483647}}", type="number", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										input.form-control(ng-if="value._$inputType == 'float'", placeholder="{{rVM.Lang.lang[value._$label]}}", step="any", min="{{ value.minimum || -2147483647}}",  max="{{ value.maximum || 2147483647}}", type="number", ng-required="value.insertRequired", ng-model="enVM.insertMany[index][key]")
+										select.form-control(ng-if="value._$inputType == 'select'", ng-options="item.value as rVM.Lang.lang[item.option] for item in value._$options", ng-model="enVM.insertMany[index][key]")
+						button.btn.btn-round.btn-circle.btn-primary.mFab(ng-click="enVM.insert();")
+							i.fa.fas.fa-save.fa-2x
+		
 		
 		.container-fluid
 			.row
 				#results.col-12.px-3.mt-4
 					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#resultsCollapse", aria-expanded="true", aria-controls="resultsCollapse", filter-color="black")
-						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.results}}
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.sinonims}}
 							i.float-right.fas.fa-chevron-down
 					#resultsCollapse.show.collapse
 						.col-12.px-2.py-4.bg-white
@@ -16,9 +42,9 @@
 									thead.bg-info.text-white
 										tr
 											th.text-uppercase(scope="col", ng-repeat="(key, value) in enVM.schema", ng-if="value._$displayAs") {{rVM.Lang.lang[value._$label]}}
-											th.text-uppercase(scope="col") {{rVM.Lang.lang.accions}}
+											th.text-uppercase(scope="col", ng-if="rVM.Auth.isAdmin") {{rVM.Lang.lang.accions}}
 									tbody
-										tr(ng-repeat='item in enVM.Entity.item.sinonimos')
+										tr(ng-repeat='item in enVM.Entity.item.sinonimos', ng-if="rVM.Auth.isAdmin || rVM.Auth.user.region == item.region")
 											
 											td.text-uppercase(scope="col", ng-repeat="(key, value) in enVM.schema", ng-if="value._$displayAs")
 												span(ng-if="value._$displayAs == 'boolean'") {{item[key] ? rVM.Lang.lang.yes : rVM.Lang.lang.no}}
@@ -27,7 +53,7 @@
 												span(ng-if="value._$displayAs == 'select'") 
 													div(ng-repeat="option in value._$options")
 														span(ng-if="option.value == item[key]") {{rVM.Lang.lang[option.option]}}
-											td.text-uppercase 
+											td.text-uppercase(ng-if="rVM.Auth.isAdmin")
 												button.btn.rounded(class="{{button.class}}", type="button", ng-repeat="button in enVM.buttons", ng-click="button.function(item)")
 													i.fas(class="{{button.icon}}")
 									thead.bg-info.text-white(ng-if="enVM.Entity.items.length > 5")
