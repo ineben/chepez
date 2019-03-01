@@ -9,8 +9,45 @@ export default class Translate extends BaseEntity{
 	constructor(tolerance = 1){
 		super("translator", tolerance);
 		this.phrase = '';
+		this.identifyPhrase = '';
 	}
 
+	
+	async doIdentify(){
+		const config = {};
+		this.identifyPhrase = '';
+		if(this.ongoingIdentify)
+			switch(this.tolerance){
+				case ALLOW:
+					break;
+				case BLOCK:
+					return new Response(false);
+					break;
+				case CANCEL:					
+					if(this._searchCancel)
+						this._searchCancel.cancel();
+					this._searchCancel = CancelToken.source();
+					config.cancelToken = this._searchCancel.token;
+					break;
+			}
+			
+		this.ongoingIdentify = true;
+		
+		const response = await HTTPClient._get(`${this.endpoint}/identify/A0D7D114-7404-47F2-99F9-7809E7228959`, this.identify, config);
+		
+		if(response.success){
+			this.identifyPhrase = response.phrase;
+			emit();
+		}else if(response.mes)
+			emitError(response.mes);
+		
+		if(!response.cancelled){
+			delete this._searchCancel;
+			this.ongoingIdentify = false;
+		}
+		
+		return response;
+	}
 	
 	async doSearch(){
 		const config = {};

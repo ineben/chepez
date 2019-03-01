@@ -91,7 +91,8 @@ export default class WordsController extends CRUDController{
 			for(let i = 0; i < 50; i++)
 				this.insertMany[i] = {};
 			
-			this.setUp();
+			if(Auth.user.region)
+				this.setUp();
 			this.Entity.doGet(this.word);
 		}
 	}

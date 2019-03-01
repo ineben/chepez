@@ -3,6 +3,7 @@ import './stylesheets/now-ui-kit.css';
 import './stylesheets/style.css';
 import 'angular-toastr/dist/angular-toastr.min.css';
 import 'moment';
+import 'flag-icon-css/css/flag-icon.css';
 import './javascripts/static.js';
 import angular from 'angular';
 
@@ -18,9 +19,17 @@ import fasChevronDown from "@fortawesome/fontawesome-free-solid/faChevronDown";
 import fasArrowUp from "@fortawesome/fontawesome-free-solid/faArrowUp";
 import fasKey from "@fortawesome/fontawesome-free-solid/faKey";
 import fasUser from "@fortawesome/fontawesome-free-solid/faUser";
+import fasUserTie from "@fortawesome/fontawesome-free-solid/faUserTie";
 import fasSave from "@fortawesome/fontawesome-free-solid/faSave";
 import fasTimes from "@fortawesome/fontawesome-free-solid/faTimes";
 import fasBook from "@fortawesome/fontawesome-free-solid/faBook";
+import fasMars from "@fortawesome/fontawesome-free-solid/faMars";
+import fasVenus from "@fortawesome/fontawesome-free-solid/faVenus";
+import fasNeuter from "@fortawesome/fontawesome-free-solid/faNeuter";
+import fasStar from "@fortawesome/fontawesome-free-solid/faStar";
+import fasStarHalf from "@fortawesome/fontawesome-free-solid/faStarHalf";
+import fasSmile from "@fortawesome/fontawesome-free-solid/faSmile";
+import fasPoo from "@fortawesome/fontawesome-free-solid/faPoo";
 
 //import fasQuote from "@fortawesome/fontawesome-free-solid/faQuote";
 import fasBold from "@fortawesome/fontawesome-free-solid/faBold";
@@ -41,6 +50,13 @@ import fasOutdent from "@fortawesome/fontawesome-free-solid/faOutdent";
 import fasLink from "@fortawesome/fontawesome-free-solid/faLink";
  
 fontawesome.library.add(
+fasStar,
+fasStarHalf,
+fasPoo,
+fasSmile,
+fasMars,
+fasVenus,
+fasNeuter,
 //fasQuote,
 fasBold,
 //fasItallic,
@@ -59,7 +75,20 @@ fasIndent,
 fasOutdent,
 fasLink,
 fasBook,
-fasSave, fasTimes, fasArrowUp, fasUser, fasKey, fasUsers, fasHome, fasDollarSign, fasQuestion, fasInfo, fasEdit, fasTrash, fasChevronDown);
+fasSave, 
+fasTimes, 
+fasArrowUp, 
+fasUser, 
+fasUserTie,
+fasKey, 
+fasUsers, 
+fasHome, 
+fasDollarSign, 
+fasQuestion, 
+fasInfo, 
+fasEdit, 
+fasTrash, 
+fasChevronDown);
 
 
 

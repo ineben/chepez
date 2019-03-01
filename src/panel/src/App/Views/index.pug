@@ -103,3 +103,108 @@
 								.col-12(ng-if="ixVM.Translate.phrase")
 									h4.text-center {{rVM.Lang.lang.translateResults}}
 									h5 {{ixVM.Translate.phrase}}
+		.container-fluid(ng-if="!rVM.Auth.isUser")
+			.row
+				.col-12.px-3.mt-4
+					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#identifyCollapse", aria-expanded="true", aria-controls="identifyCollapse", filter-color="black")
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.identifyPhrase}}
+							i.float-right.fas.fa-chevron-down
+					#identifyCollapse.show.collapse.col.p-4.bg-white
+						form.col(ng-submit="ixVM.Translate.doIdentify();")
+							.row.justify-content-center.mb-5
+								.col-12
+									h6 {{rVM.Lang.lang.docType}}
+									.phraseHolder
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docTypeUnknown}}
+										span.wordtype_1
+											| {{rVM.Lang.lang.docTypeNoun}}
+										span.wordtype_2
+											| {{rVM.Lang.lang.docTypeVerb}}
+										span.wordtype_3
+											| {{rVM.Lang.lang.docTypeAdjetive}}
+										span.wordtype_4
+											| {{rVM.Lang.lang.docTypeAdverb}}
+										span.wordtype_5
+											| {{rVM.Lang.lang.docTypeName}}
+										span.wordtype_6
+											| {{rVM.Lang.lang.docTypeLastname}}
+										span.wordtype_7
+											| {{rVM.Lang.lang.docTypeArticle}}
+									h6 {{rVM.Lang.lang.docGender}}
+									.phraseHolder
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docGenderMale}}
+											i.fas.fa-mars
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docGenderFemale}}
+											i.fas.fa-venus
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docGenderNeutral}}
+											i.fas.fa-neuter
+									h6 {{rVM.Lang.lang.docQuantity}}
+									.phraseHolder
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSingular}}
+											i.fas.fa-user
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docPlural}}
+											i.fas.fa-users
+									h6 {{rVM.Lang.lang.docGrado}}
+									.phraseHolder
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docGradoFormal}}
+											i.fas.fa-star
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docGradoCasual}}
+											i.fas.fa-star-half
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docGradoInformal}}
+											i.fas.fa-smile
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docGradoVeryInformal}}
+											i.fas.fa-poo
+								.col-12.col-sm-12.col-md-12.col-lg-12.col-xl-12
+									.form-group
+										label.text-muted {{rVM.Lang.lang.identifyPhrase}}:
+										input.form-control(required, type="text", ng-model="ixVM.Translate.identify.phrase")
+								.col-12
+									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.send}}
+								.col-12(ng-if="ixVM.Translate.identifyPhrase")
+									h6 {{rVM.Lang.lang.identifyResults}}
+									.phraseHolder
+										span(ng-repeat="piece in ixVM.Translate.identifyPhrase", class="wordtype_{{piece.type}} region_{{piece.region}} gender_{{piece.gender}}") 
+											| {{piece.word}}
+											div(ng-if="piece.region")
+												span.flag-icon.flag-icon-squared.flag-icon-ar(ng-if="piece.region == 1")
+												span.flag-icon.flag-icon-squared.flag-icon-bo(ng-if="piece.region == 2")
+												span.flag-icon.flag-icon-squared.flag-icon-cl(ng-if="piece.region == 3")
+												span.flag-icon.flag-icon-squared.flag-icon-co(ng-if="piece.region == 4")
+												span.flag-icon.flag-icon-squared.flag-icon-cr(ng-if="piece.region == 5")
+												span.flag-icon.flag-icon-squared.flag-icon-cu(ng-if="piece.region == 6")
+												span.flag-icon.flag-icon-squared.flag-icon-ec(ng-if="piece.region == 7")
+												span.flag-icon.flag-icon-squared.flag-icon-sv(ng-if="piece.region == 8")
+												span.flag-icon.flag-icon-squared.flag-icon-es(ng-if="piece.region == 9")
+												span.flag-icon.flag-icon-squared.flag-icon-gt(ng-if="piece.region == 10")
+												span.flag-icon.flag-icon-squared.flag-icon-hn(ng-if="piece.region == 11")
+												span.flag-icon.flag-icon-squared.flag-icon-mx(ng-if="piece.region == 12")
+												span.flag-icon.flag-icon-squared.flag-icon-ni(ng-if="piece.region == 13")
+												span.flag-icon.flag-icon-squared.flag-icon-pa(ng-if="piece.region == 14")
+												span.flag-icon.flag-icon-squared.flag-icon-py(ng-if="piece.region == 15")
+												span.flag-icon.flag-icon-squared.flag-icon-pe(ng-if="piece.region == 16")
+												span.flag-icon.flag-icon-squared.flag-icon-pr(ng-if="piece.region == 17")
+												span.flag-icon.flag-icon-squared.flag-icon-do(ng-if="piece.region == 18")
+												span.flag-icon.flag-icon-squared.flag-icon-uy(ng-if="piece.region == 19")
+												span.flag-icon.flag-icon-squared.flag-icon-ve(ng-if="piece.region == 20")
+											div(ng-if="piece.grado")
+												i.fas.fa-star(ng-if="piece.grado == 1")
+												i.fas.fa-star-half(ng-if="piece.grado == 2")
+												i.fas.fa-smile(ng-if="piece.grado == 3")
+												i.fas.fa-poo(ng-if="piece.grado == 4")
+											div(ng-if="piece.gender")
+												i.fas.fa-mars(ng-if="piece.gender == 'male'")
+												i.fas.fa-venus(ng-if="piece.gender == 'female'")
+												i.fas.fa-neuter(ng-if="piece.gender == 'neutral'")
+											div(ng-if="piece.plural !== undefined")
+												i.fas.fa-users(ng-if="piece.plural")
+												i.fas.fa-user(ng-if="!piece.plural")

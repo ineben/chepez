@@ -3,6 +3,64 @@
     flex-direction: row;
 }
 
+.form-control:required {
+    border-bottom: #f00 2px solid !important;
+}
+
+.phraseHolder{
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+	margin-bottom: 10px;
+}
+
+.phraseHolder > span {
+	margin: 2px 2px;
+    padding: 1px 5px;
+	display: flex;
+	border-radius: 2px;
+	color: #fff;
+    align-items: center;
+}
+
+.phraseHolder > span > *{
+	margin: 0 2px;
+	color: #fff;
+}
+
+
+.wordtype_-1{
+	background-color: #424242;
+}
+
+.wordtype_1{
+	background-color: #c62828;
+}
+
+.wordtype_2{
+	background-color: #ad1457;
+}
+
+.wordtype_3{
+	background-color: #6a1b9a;
+}
+
+.wordtype_4{
+	background-color: #4527a0;
+}
+
+.wordtype_5{
+	background-color: #283593;
+}
+
+.wordtype_6{
+	background-color: #1565c0;
+}
+
+.wordtype_7{
+	background-color: #0277bd;
+}
+
 .mFab{
 	width: 48px;
 	height: 48px;

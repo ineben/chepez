@@ -1,5 +1,4 @@
 'use strict';
-
 const Response = require("../../logic/Entities/_Response");
 const watson = require("../../watson");
 

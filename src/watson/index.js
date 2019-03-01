@@ -1,7 +1,7 @@
 const AssistantV2 = require('watson-developer-cloud/assistant/v2');
 const Response = require('../logic/Entities/_Response');
 const {sinonimSchema} = require('../logic/schemas/doc');
-const translator = require('../translate');
+const translator = require('../guara/translate');
 
 
 const assistant = new AssistantV2({

@@ -1,11 +1,47 @@
 const transformer = require('./_transformer');
 
+const adverbCondition = function(model){
+	return model.type == 4;
+};
+
+const verbCondition = function(model){
+	return model.type == 2;
+};
+
+const sexualObject = function(model){
+	return model.type == 1;
+};
+
+const femaleAndNeutralCondition = function(model){
+	return model.type == 3 || model.living;
+};
+
 const genderedCondition = function(model){
-	return model.type == 1 || model.type == 3;
+	return model.type == 3 || model.type == 1;
 };
 
 const pluralCondition = function(model){
-	return model.type != 5 && model.type != 6 && model.type != 2;
+	return model.type == 1 || model.type == 3 && model.type == 4;
+};
+
+const baseCondition = function(model){
+	return model.type != 1 || (model.living);
+};
+
+const pluralBaseCondition = function(model){
+	return model.type == 3 || (model.living || (model.base != "" && model.base != null));
+};
+
+const pluralMaleCondition = function(model){
+	return model.type == 3 || (model.living || (model.palabra != "" && model.palabra != null));
+};
+
+const pluralFemaleCondition = function(model){
+	return model.type == 3 || (model.living || (model.female != "" && model.female != null));
+};
+
+const pluralNeutralCondition = function(model){
+	return model.type == 3 || (model.living || (model.neutral != "" && model.neutral != null));
 };
 
 const sinonimSchema = {
@@ -68,6 +104,7 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		toLowerCase: true,
 		_$label: "docPalabra",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -77,7 +114,9 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$requiredCondition: femaleAndNeutralCondition,
 		_$label: "docFemale",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -87,7 +126,9 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$requiredCondition: femaleAndNeutralCondition,
 		_$label: "docNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -97,7 +138,9 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		toLowerCase: true,
 		_$conditional: pluralCondition,
+		_$requiredCondition: pluralMaleCondition,
 		_$label: "docPlural",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -107,7 +150,9 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$requiredCondition: pluralFemaleCondition,
 		_$label: "docPluralFemale",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -117,7 +162,9 @@ const sinonimSchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
+		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$requiredCondition: pluralNeutralCondition,
 		_$label: "docPluralNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -131,15 +178,40 @@ const EntitySchema = {
 		_$label: "id",
 		_$displayAs: "text",
 		mainIndex: true,
-	}, 
+	},
 	base: {
 		type: "string",
 		$filter: "string",
 		insertable: true,
 		updateable: true,
-		insertRequired: true,
 		searchable: true,
+		toLowerCase: true,
+		_$requiredCondition: baseCondition,
 		_$label: "docPalabra",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	gerundio: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$conditional: verbCondition,
+		_$label: "docGerundio",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	participio: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$conditional: verbCondition,
+		_$label: "docParticipio",
 		_$displayAs: "text",
 		_$inputType: "text",
 	}, 
@@ -149,7 +221,9 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$requiredCondition: femaleAndNeutralCondition,
 		_$label: "docFemale",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -160,7 +234,9 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$requiredCondition: femaleAndNeutralCondition,
 		_$label: "docNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -171,7 +247,9 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		toLowerCase: true,
 		_$conditional: pluralCondition,
+		_$requiredCondition: pluralBaseCondition,
 		_$label: "docPlural",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -182,7 +260,9 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$requiredCondition: pluralFemaleCondition,
 		_$label: "docPluralFemale",
 		_$displayAs: "text",
 		_$inputType: "text",
@@ -193,14 +273,16 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
+		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$requiredCondition: pluralNeutralCondition,
 		_$label: "docPluralNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
 	}, 
 	type: {
 		type: "string",
-		$filter: "string",
+		$filter: "number",
 		insertable: true,
 		updateable: true,
 		insertRequired: true,
@@ -215,6 +297,31 @@ const EntitySchema = {
 			{value: 4, option: "docTypeAdverb"},
 			{value: 5, option: "docTypeName"},
 			{value: 6, option: "docTypeLastname"},
+			{value: 7, option: "docTypeArticle"},
+			{value: 8, option: "docTypePlace"},
+		],
+	}, 
+	adverbType: { //https://www.practicaespanol.com/los-adverbios-de-tiempo-lugar-modo-cantidad/
+		type: "integer",
+		$filter: "integer",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		_$conditional: adverbCondition,
+		_$requiredCondition: () => { return true; },
+		_$label: "docAdverbType",
+		_$inputType: "select",
+		_$displayAs: "select",
+		_$options: [
+			{value: 1, option: "docAdverbTypeTime"},
+			{value: 2, option: "docAdverbTypePlace"},
+			{value: 3, option: "docAdverbTypeMode"},
+			{value: 4, option: "docAdverbTypeQuantity"},
+			{value: 5, option: "docAdverbTypeAfirmation"},
+			{value: 6, option: "docAdverbTypeNegation"},
+			{value: 7, option: "docAdverbTypeDoubt"},
+			{value: 8, option: "docAdverbTypeExclusion"},
+			{value: 9, option: "docAdverbTypeInclusion"}
 		],
 	}, 
 	living: {
@@ -223,7 +330,7 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
-		_$conditional: genderedCondition,
+		_$conditional: sexualObject,
 		_$label: "docLiving",
 		_$inputType: "select",
 		_$displayAs: "boolean",
@@ -238,7 +345,7 @@ const EntitySchema = {
 		insertable: true,
 		updateable: true,
 		searchable: true,
-		_$conditional: genderedCondition,
+		_$conditional: sexualObject,
 		_$label: "docProfession",
 		_$inputType: "select",
 		_$displayAs: "boolean",
@@ -268,7 +375,6 @@ const EntitySchema = {
 	}
 };
 
-
 const InsertSchema = transformer.create({...EntitySchema});
 const InsertBulkSchema = transformer.createBulk({...EntitySchema});
 const UpdateSchema = transformer.update({...EntitySchema});
@@ -296,7 +402,6 @@ const InsertSinonimSchema = transformer.create({...sinonimSchema}, {
 		}
 	}
 });
-
 
 const UpdateSinonimSchema = transformer.update({...sinonimSchema}, {
 	type: "object",

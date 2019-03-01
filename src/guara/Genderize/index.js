@@ -126,18 +126,18 @@ genderize.switchPreviousWordsGender = function(phrase, translatedWords, oldPhras
 			
 			if(new RegExp(/[\.!?¡¿]/g).test(Okeyword)) break;
 			
-			const keyword = Okeyword.match(/([áéíóúña-z]{1,})/gi)[0];
+			let keyword = Okeyword.match(/([áéíóúña-z]{1,})/gi)[0];
 			const isPlural = pluralize.isPlural(keyword);
 			if(isPlural){
-				keyword = pluralize.singular(keyword);
+				//keyword = pluralize.singular(keyword);
 			}
 			
 			if(translatedWords.hasOwnProperty(keyword)){
 				let replaceWord = translatedWords[keyword].palabra;
-				if(translatedWords[keyword].type == "adjetivo"){
+				if(translatedWords[keyword].type == 3){
 					replaceWord = translatedWords[keyword][gender] || adjetiveGenderBender(replaceWord);
 					if(isPlural){
-						replaceWord = pluralize.plural(replaceWord);
+						//replaceWord = pluralize.plural(replaceWord);
 					}
 					phrase[len] = restoreCase(phrase[len], replaceWord);
 				}

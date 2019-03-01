@@ -102,8 +102,6 @@ class Doc extends Base{
 	
 	async insertBulkSinonim(lang, word, bodies){
 		
-		console.log("incomming word", bodies);
-		
 		const promises = [];
 		for(const body of bodies){
 			promises.push(this.makeData(body, Schema.sinonimSchema));
@@ -112,8 +110,6 @@ class Doc extends Base{
 		const datas = await Promise.all(promises);
 		const validDatas = [];
 		const errors = [];
-		
-		console.log("incomming datas", datas);
 		
 		for(const index in datas){
 			const data = datas[index];

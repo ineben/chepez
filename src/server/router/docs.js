@@ -4,7 +4,7 @@ const transformer = require("../../logic/schemas/_transformer");
 const {Doc} = require("../../logic/Entities");
 const UserC = require("../../logic/Entities/User");
 const Response = require("../../logic/Entities/_Response");
-const {queryWordsPromise} = require('../../translate/wordFinder');
+const {queryWordsPromise} = require('../../guara/translate/wordFinder');
 
 module.exports = async function(app, opts){
 	
@@ -151,7 +151,7 @@ module.exports = async function(app, opts){
 			const params = {
 				q : `key_${req.params.region}:[0 TO Infinity]`,
 				limit: req.query.$limit,
-				sort: [`-key_${req.params.region}`]
+				sort: [`key_${req.params.region}`]
 			};
 			
 			if(req.query.types){

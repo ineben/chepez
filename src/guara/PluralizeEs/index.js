@@ -106,6 +106,7 @@ function sanitizeWord(token, word, rules){
  */
 function replaceWord(replaceMap, keepMap, rules){
 	return function(word){
+		if(!word) return word;
 		// Get the correct token and case restoration functions.
 		var token = word.toLowerCase();
 
@@ -131,6 +132,7 @@ function replaceWord(replaceMap, keepMap, rules){
  */
 function checkWord(replaceMap, keepMap, rules, bool){
 	return function(word){
+		if(!word) return word;
 		var token = word.toLowerCase();
 
 		if (keepMap.hasOwnProperty(token)) return true;
