@@ -61,20 +61,32 @@ module.exports = async function(app, opts){
 									gender : {
 										type : "string"
 									},
+									isGerundio : {
+										type : "boolean"
+									},
+									isParticipio : {
+										type : "boolean"
+									},
+									isInfinitive : {
+										type : "boolean"
+									},
 									plural : {
 										type : "boolean"
 									},
-									living : {
-										type : "boolean"
+									sentiment : {
+										type : "number"
 									},
-									profession : {
-										type : "boolean"
+									adverbType : {
+										type : "number"
+									},
+									sustantiveType : {
+										type : "number"
 									},
 									grado : {
-										type : ["number", "string"]
+										type : "number"
 									},
 									region : {
-										type : ["number", "string"]
+										type : "number"
 									}
 								}
 							}

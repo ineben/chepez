@@ -62,44 +62,16 @@ const identify = async (query, fromRegion) => {
 				
 				if(translatedWords.hasOwnProperty(keyword)){
 					newWord = {...translatedWords[keyword], ...newWord};
-					
-					switch(newWord.type){
-						case 1:
-							delete newWord.adverbType;
-							delete newWord.participio;
-							delete newWord.gerundio;
-							break;
-						case 2:
-							delete newWord.plural;
-							delete newWord.adverbType;
-							break;
-						case 3:
-							delete newWord.adverbType;
-							delete newWord.participio;
-							delete newWord.gerundio;
-							break;
-						case 4:
-							delete newWord.adverbType;
-							delete newWord.participio;
-							delete newWord.gerundio;
-							break;
-						case 5:
-						case 6:
-							delete newWord.region;
-							delete newWord.grado;
-							delete newWord.plural;
-							delete newWord.adverbType;
-							delete newWord.participio;
-							delete newWord.gerundio;
-							break;
+					if(newWord.type != 1 && newWord.type != 3){
+						delete newWord.plural;
 					}
 				}else{
 					newWord.type = -1;
 					delete newWord.plural;
 				}
-				
 				newPhrase.push(newWord);
 			}
+			
 			resolve(newPhrase);
 		} )
 		.catch( (e) => {

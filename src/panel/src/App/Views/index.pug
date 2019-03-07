@@ -125,12 +125,137 @@
 											| {{rVM.Lang.lang.docTypeAdjetive}}
 										span.wordtype_4
 											| {{rVM.Lang.lang.docTypeAdverb}}
-										span.wordtype_5
-											| {{rVM.Lang.lang.docTypeName}}
-										span.wordtype_6
-											| {{rVM.Lang.lang.docTypeLastname}}
 										span.wordtype_7
 											| {{rVM.Lang.lang.docTypeArticle}}
+									h6 {{rVM.Lang.lang.docSentiment}}
+									.phraseHolder
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentExtremlyNegative}}
+											span.sentimentLevel -5
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentVeryNegative}}
+											span.sentimentLevel -4
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentNegative}}
+											span.sentimentLevel -3
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentSomewhatNegative}}
+											span.sentimentLevel -2
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentSlightlyNegative}}
+											span.sentimentLevel -1
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentNeutral}}
+											span.sentimentLevel 0
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentSlightlyPositive}}
+											span.sentimentLevel 1
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentSomewhatPositive}}
+											span.sentimentLevel 2
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentPositive}}
+											span.sentimentLevel 3
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentVeryPositive}}
+											span.sentimentLevel 4
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSentimentExtremlyPositive}}
+											span.sentimentLevel 5
+									h6 {{rVM.Lang.lang.docVerbType}}
+									.phraseHolder
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docInfinitive}}
+											span.verbType
+												span I
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docParticipio}}
+											span.verbType
+												span P
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docGerundio}}
+											span.verbType
+												span G
+									h6 {{rVM.Lang.lang.docAdverbType}}
+									.phraseHolder
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docAdverbTypeTime}}
+											span.adverbType
+												i.fas.fa-clock
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docAdverbTypePlace}}
+											span.adverbType
+												i.fas.fa-map-marker
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docAdverbTypeMode}}
+											span.adverbType
+												span M
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docAdverbTypeQuantity}}
+											span.adverbType
+												span C
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docAdverbTypeAfirmation}}
+											span.adverbType
+												i.fas.fa-check
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docAdverbTypeNegation}}
+											span.adverbType
+												i.fas.fa-times
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docAdverbTypeDoubt}}
+											span.adverbType
+												i.fas.fa-question
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docAdverbTypeExclusion}}
+											span.adverbType
+												i.fas.fa-plus
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docAdverbTypeInclusion}}
+											span.adverbType
+												i.fas.fa-minus
+									h6 {{rVM.Lang.lang.docSustantiveType}}
+									.phraseHolder
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypeHuman}}
+											span.sustantiveType
+												i.fas.fa-male
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypeProfession}}
+											span.sustantiveType
+												i.fas.fa-user-astronaut
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypeName}}
+											span.sustantiveType
+												span N
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypeLastname}}
+											span.sustantiveType
+												span A
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypeAnimal}}
+											span.sustantiveType
+												i.fas.fa-paw
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypeInnanimateObject}}
+											span.sustantiveType
+												i.fas.fa-car
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypeIdea}}
+											span.sustantiveType
+												i.fas.fa-lightbulb
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypePlace}}
+											span.sustantiveType
+												i.fas.fa-home
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypeGeographicPlace}}
+											span.sustantiveType
+												i.fas.fa-map-marker
+										span.wordtype_-1
+											| {{rVM.Lang.lang.docSustantiveTypeBrand}}
+											span.sustantiveType
+												i.fas.fa-tags
 									h6 {{rVM.Lang.lang.docGender}}
 									.phraseHolder
 										span.wordtype_-1
@@ -201,10 +326,60 @@
 												i.fas.fa-star-half(ng-if="piece.grado == 2")
 												i.fas.fa-smile(ng-if="piece.grado == 3")
 												i.fas.fa-poo(ng-if="piece.grado == 4")
+											div(ng-if="piece.type == 2")
+												span.verbType(ng-if="piece.isInfinitive") 
+													span I
+												span.verbType(ng-if="piece.isParticipio") 
+													span P
+												span.verbType(ng-if="piece.isGerundio") 
+													span G
+											div(ng-if="piece.type == 4")
+												span.adverbType(ng-if="adverbType == 1")
+													i.fas.fa-clock
+												span.adverbType(ng-if="adverbType == 2")
+													i.fas.fa-map-marker
+												span.adverbType(ng-if="adverbType == 3")
+													span M
+												span.adverbType(ng-if="adverbType == 4")
+													span C
+												span.adverbType(ng-if="adverbType == 5")
+													i.fas.fa-check
+												span.adverbType(ng-if="adverbType == 6")
+													i.fas.fa-times
+												span.adverbType(ng-if="adverbType == 7")
+													i.fas.fa-question
+												span.adverbType(ng-if="adverbType == 8")
+													i.fas.fa-plus
+												span.adverbType(ng-if="adverbType == 9")
+													i.fas.fa-minus
+											
+											div(ng-if="piece.type == 1")
+												span.sustantiveType(ng-if="piece.sustantiveType == 1")
+													i.fas.fa-male
+												span.sustantiveType(ng-if="piece.sustantiveType == 2")
+													i.fas.fa-user-astronaut
+												span.sustantiveType(ng-if="piece.sustantiveType == 3")
+													span N
+												span.sustantiveType(ng-if="piece.sustantiveType == 4")
+													span A
+												span.sustantiveType(ng-if="piece.sustantiveType == 5")
+													i.fas.fa-paw
+												span.sustantiveType(ng-if="piece.sustantiveType == 6")
+													i.fas.fa-car
+												span.sustantiveType(ng-if="piece.sustantiveType == 7")
+													i.fas.fa-lightbulb
+												span.sustantiveType(ng-if="piece.sustantiveType == 8")
+													i.fas.fa-home
+												span.sustantiveType(ng-if="piece.sustantiveType == 9")
+													i.fas.fa-map-marker
+												span.sustantiveType(ng-if="piece.sustantiveType == 10")
+													i.fas.fa-tags
 											div(ng-if="piece.gender")
 												i.fas.fa-mars(ng-if="piece.gender == 'male'")
 												i.fas.fa-venus(ng-if="piece.gender == 'female'")
 												i.fas.fa-neuter(ng-if="piece.gender == 'neutral'")
+											div(ng-if="piece.sentiment !== undefined")
+												span.sentimentLevel {{piece.sentiment}}
 											div(ng-if="piece.plural !== undefined")
 												i.fas.fa-users(ng-if="piece.plural")
 												i.fas.fa-user(ng-if="!piece.plural")

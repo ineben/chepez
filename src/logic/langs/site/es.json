@@ -75,6 +75,22 @@
 	"quotaLastUpdate": "Ultima actualización",
 	
 	"wordsToTranslate": "Palabras a traducir",
+	
+	"docSentiment": "Sentimiento",
+	"docSentimentNeutral": "Neutral",
+	
+	"docSentimentSlightlyPositive": "Poco positivo",
+	"docSentimentSomewhatPositive": "Un tanto positivo",
+	"docSentimentPositive": "Positivo",
+	"docSentimentVeryPositive": "Muy positivo",
+	"docSentimentExtremlyPositive": "Extremadamente positivo",
+	
+	"docSentimentSlightlyNegative": "Poco negativo",
+	"docSentimentSomewhatNegative": "Un tanto negativo",
+	"docSentimentNegative": "Negativo",
+	"docSentimentVeryNegative": "Muy negativo",
+	"docSentimentExtremlyNegative": "Extremadamente negativo",
+	
 	"docRegion": "Region",
 	"docGrado": "Grado de formalidad",
 	"docSinonims": "Cantidad de sinonimos",
@@ -85,6 +101,7 @@
 	"docPalabra": "Palabra",
 	"docGerundio": "Gerundio",
 	"docParticipio": "Participio",
+	"docInfinitive": "Infinitivo",
 	"docFemale": "Forma femenina",
 	"docNeutral": "Forma neutral (con e)",
 	"docGenderMale": "Masculino",
@@ -96,6 +113,8 @@
 	"docPluralFemale": "Plural femenino",
 	"docPluralNeutral": "Plural neutral (con e)",
 	"docType": "Tipo de palabra",
+	"docVerbType": "Tipo de palabra",
+	
 	"docAdverbType": "Tipo de adverbio",
 	"docAdverbTypeTime": "Tiempo",
 	"docAdverbTypePlace": "Lugar",
@@ -106,16 +125,29 @@
 	"docAdverbTypeDoubt": "Duda",
 	"docAdverbTypeExclusion": "Exclusion",
 	"docAdverbTypeInclusion": "Inclusion",
+	
+	"docSustantiveType": "Tipo de sustantivo",
+	"docSustantiveTypeHuman": "Ser humano (ej. niño)",
+	"docSustantiveTypeProfession": "Profesion (ej. profesor)",
+	"docSustantiveTypeName": "Nombre humano",
+	"docSustantiveTypeLastname": "Apellido humano",
+	"docSustantiveTypeAnimal": "Animal",
+	"docSustantiveTypeInnanimateObject": "Objeto inanimado",
+	"docSustantiveTypeIdea": "Idea",
+	"docSustantiveTypePlace": "Lugar relativo (ej. casa, escuela)",
+	"docSustantiveTypeGeographicPlace": "Lugar geografico (ej. Brasil)",
+	"docSustantiveTypeBrand": "Marca",
+	
 	"docGender": "Genero de la palabra",
 	"docTypeUnknown": "Desconocido",
+	
 	"docTypeNoun": "Sustantivo",
 	"docTypeVerb": "Verbo",
 	"docTypeAdverb": "Adverbio",
 	"docTypeAdjetive": "Adjetivo",
-	"docTypeName": "Nombre",
-	"docTypeLastname": "Apellido",
 	"docTypeArticle": "Articulo",
-	"docTypePlace": "Lugar",
+	"docTypeEntity": "Entidad",
+	
 	"docLiving": "Es un objeto animado?",
 	"docProfession": "Un objeto animado es un sustantivo de ser sexuado- Por ejemplo: profesora/profesor?",
 	"wordDisclaimer": "Antes de agregar una palabra es recomendable que la busques",

@@ -1,5 +1,13 @@
 const transformer = require('./_transformer');
 
+const sentimentCondition = function(model){
+	return model.type == 2 || model.type == 3;
+};
+
+const entityCondition = function(model){
+	return model.type == 5;
+};
+
 const adverbCondition = function(model){
 	return model.type == 4;
 };
@@ -8,40 +16,89 @@ const verbCondition = function(model){
 	return model.type == 2;
 };
 
-const sexualObject = function(model){
+const sustantiveCondition = function(model){
 	return model.type == 1;
 };
 
 const femaleAndNeutralCondition = function(model){
-	return model.type == 3 || model.living;
+	return model.type == 3 || (model.sustantiveType == 1 || model.sustantiveType == 2);
 };
 
 const genderedCondition = function(model){
 	return model.type == 3 || model.type == 1;
 };
 
+const neutralDisabledCondition = function(model){
+	if(model.type == 3) return false;
+	
+	return model.sustantiveType != 1 && model.sustantiveType != 2;
+}
+
 const pluralCondition = function(model){
-	return model.type == 1 || model.type == 3 && model.type == 4;
+	return model.type == 1 || model.type == 3;
 };
 
 const baseCondition = function(model){
-	return model.type != 1 || (model.living);
+	return model.type != 1 || (model.sustantiveType == 1 || model.sustantiveType == 2);
 };
 
 const pluralBaseCondition = function(model){
-	return model.type == 3 || (model.living || (model.base != "" && model.base != null));
+	if(model.type == 3) return true;
+	
+	if(model.sustantiveType != 3 && 
+		model.sustantiveType != 4 && 
+		model.sustantiveType != 9 &&
+		model.sustantiveType != 10){
+		
+		return model.base != "" && model.base != null;
+		
+	}else return false;
 };
 
 const pluralMaleCondition = function(model){
-	return model.type == 3 || (model.living || (model.palabra != "" && model.palabra != null));
+	if(model.type == 3) return true;
+	
+	if(model.sustantiveType != 3 && 
+		model.sustantiveType != 4 && 
+		model.sustantiveType != 9 &&
+		model.sustantiveType != 10){
+		
+		return model.palabra != "" && model.palabra != null;
+		
+	}else return false;
 };
 
 const pluralFemaleCondition = function(model){
-	return model.type == 3 || (model.living || (model.female != "" && model.female != null));
+	if(model.type == 3) return true;
+	
+	if(model.sustantiveType != 3 && 
+		model.sustantiveType != 4 && 
+		model.sustantiveType != 9 &&
+		model.sustantiveType != 10){
+		
+		return model.female != "" && model.female != null;
+		
+	}else return false;
+};
+
+const disablePluralCondition = function(model){
+	return model.sustantiveType == 3 || 
+		model.sustantiveType == 4 ||
+		model.sustantiveType == 9 || 
+		model.sustantiveType == 10;
 };
 
 const pluralNeutralCondition = function(model){
-	return model.type == 3 || (model.living || (model.neutral != "" && model.neutral != null));
+	if(model.type == 3) return true;
+	
+	if(model.sustantiveType != 3 && 
+		model.sustantiveType != 4 && 
+		model.sustantiveType != 9 &&
+		model.sustantiveType != 10){
+		
+		return model.neutral != "" && model.neutral != null;
+		
+	}else return false;
 };
 
 const sinonimSchema = {
@@ -105,31 +162,8 @@ const sinonimSchema = {
 		insertable: true,
 		updateable: true,
 		toLowerCase: true,
+		_$requiredCondition: baseCondition,
 		_$label: "docPalabra",
-		_$displayAs: "text",
-		_$inputType: "text",
-	}, 
-	female: {
-		type: "string",
-		$filter: "string",
-		insertable: true,
-		updateable: true,
-		toLowerCase: true,
-		_$conditional: genderedCondition,
-		_$requiredCondition: femaleAndNeutralCondition,
-		_$label: "docFemale",
-		_$displayAs: "text",
-		_$inputType: "text",
-	}, 
-	neutral: {
-		type: "string",
-		$filter: "string",
-		insertable: true,
-		updateable: true,
-		toLowerCase: true,
-		_$conditional: genderedCondition,
-		_$requiredCondition: femaleAndNeutralCondition,
-		_$label: "docNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
 	}, 
@@ -140,54 +174,9 @@ const sinonimSchema = {
 		updateable: true,
 		toLowerCase: true,
 		_$conditional: pluralCondition,
+		_$disabledCondition: disablePluralCondition,
 		_$requiredCondition: pluralMaleCondition,
 		_$label: "docPlural",
-		_$displayAs: "text",
-		_$inputType: "text",
-	}, 
-	pluralFemale: {
-		type: "string",
-		$filter: "string",
-		insertable: true,
-		updateable: true,
-		toLowerCase: true,
-		_$conditional: genderedCondition,
-		_$requiredCondition: pluralFemaleCondition,
-		_$label: "docPluralFemale",
-		_$displayAs: "text",
-		_$inputType: "text",
-	}, 
-	pluralNeutral: {
-		type: "string",
-		$filter: "string",
-		insertable: true,
-		updateable: true,
-		toLowerCase: true,
-		_$conditional: genderedCondition,
-		_$requiredCondition: pluralNeutralCondition,
-		_$label: "docPluralNeutral",
-		_$displayAs: "text",
-		_$inputType: "text",
-	}
-};
-
-const EntitySchema = {
-	_id: {
-		type: "string",
-		$filter: "uuid",
-		_$label: "id",
-		_$displayAs: "text",
-		mainIndex: true,
-	},
-	base: {
-		type: "string",
-		$filter: "string",
-		insertable: true,
-		updateable: true,
-		searchable: true,
-		toLowerCase: true,
-		_$requiredCondition: baseCondition,
-		_$label: "docPalabra",
 		_$displayAs: "text",
 		_$inputType: "text",
 	}, 
@@ -220,37 +209,10 @@ const EntitySchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
-		searchable: true,
 		toLowerCase: true,
 		_$conditional: genderedCondition,
 		_$requiredCondition: femaleAndNeutralCondition,
 		_$label: "docFemale",
-		_$displayAs: "text",
-		_$inputType: "text",
-	}, 
-	neutral: {
-		type: "string",
-		$filter: "string",
-		insertable: true,
-		updateable: true,
-		searchable: true,
-		toLowerCase: true,
-		_$conditional: genderedCondition,
-		_$requiredCondition: femaleAndNeutralCondition,
-		_$label: "docNeutral",
-		_$displayAs: "text",
-		_$inputType: "text",
-	}, 
-	plural: {
-		type: "string",
-		$filter: "string",
-		insertable: true,
-		updateable: true,
-		searchable: true,
-		toLowerCase: true,
-		_$conditional: pluralCondition,
-		_$requiredCondition: pluralBaseCondition,
-		_$label: "docPlural",
 		_$displayAs: "text",
 		_$inputType: "text",
 	}, 
@@ -259,11 +221,23 @@ const EntitySchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
-		searchable: true,
 		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$disabledCondition: disablePluralCondition,
 		_$requiredCondition: pluralFemaleCondition,
 		_$label: "docPluralFemale",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	neutral: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		toLowerCase: true,
+		_$conditional: genderedCondition,
+		_$requiredCondition: femaleAndNeutralCondition,
+		_$label: "docNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
 	}, 
@@ -272,35 +246,25 @@ const EntitySchema = {
 		$filter: "string",
 		insertable: true,
 		updateable: true,
-		searchable: true,
 		toLowerCase: true,
 		_$conditional: genderedCondition,
+		_$disabledCondition: disablePluralCondition,
 		_$requiredCondition: pluralNeutralCondition,
 		_$label: "docPluralNeutral",
 		_$displayAs: "text",
 		_$inputType: "text",
-	}, 
-	type: {
+	}
+};
+
+const EntitySchema = {
+	_id: {
 		type: "string",
-		$filter: "number",
-		insertable: true,
-		updateable: true,
-		insertRequired: true,
-		searchable: true,
-		_$label: "docType",
-		_$inputType: "select",
-		_$displayAs: "select",
-		_$options: [
-			{value: 1, option: "docTypeNoun"},
-			{value: 2, option: "docTypeVerb"},
-			{value: 3, option: "docTypeAdjetive"},
-			{value: 4, option: "docTypeAdverb"},
-			{value: 5, option: "docTypeName"},
-			{value: 6, option: "docTypeLastname"},
-			{value: 7, option: "docTypeArticle"},
-			{value: 8, option: "docTypePlace"},
-		],
-	}, 
+		$filter: "uuid",
+		_$label: "id",
+		_$displayAs: "text",
+		mainIndex: true,
+	},
+	
 	adverbType: { //https://www.practicaespanol.com/los-adverbios-de-tiempo-lugar-modo-cantidad/
 		type: "integer",
 		$filter: "integer",
@@ -313,47 +277,191 @@ const EntitySchema = {
 		_$inputType: "select",
 		_$displayAs: "select",
 		_$options: [
-			{value: 1, option: "docAdverbTypeTime"},
-			{value: 2, option: "docAdverbTypePlace"},
-			{value: 3, option: "docAdverbTypeMode"},
-			{value: 4, option: "docAdverbTypeQuantity"},
-			{value: 5, option: "docAdverbTypeAfirmation"},
-			{value: 6, option: "docAdverbTypeNegation"},
-			{value: 7, option: "docAdverbTypeDoubt"},
-			{value: 8, option: "docAdverbTypeExclusion"},
-			{value: 9, option: "docAdverbTypeInclusion"}
+			{value: 1, option: "docAdverbTypeTime"}, //faClock
+			{value: 2, option: "docAdverbTypePlace"}, //faMapMarker
+			{value: 3, option: "docAdverbTypeMode"}, //M
+			{value: 4, option: "docAdverbTypeQuantity"}, //C
+			{value: 5, option: "docAdverbTypeAfirmation"}, //faCheck
+			{value: 6, option: "docAdverbTypeNegation"}, //faTimes
+			{value: 7, option: "docAdverbTypeDoubt"}, //faQuestion
+			{value: 8, option: "docAdverbTypeExclusion"}, //faPlus
+			{value: 9, option: "docAdverbTypeInclusion"} //faMinus
 		],
 	}, 
-	living: {
-		type: "boolean",
-		$filter: "boolean",
+	sustantiveType: { 
+		type: "integer",
+		$filter: "integer",
 		insertable: true,
 		updateable: true,
 		searchable: true,
-		_$conditional: sexualObject,
-		_$label: "docLiving",
+		_$conditional: sustantiveCondition,
+		_$requiredCondition: () => { return true; },
+		_$label: "docSustantiveType",
 		_$inputType: "select",
-		_$displayAs: "boolean",
+		_$displayAs: "select",
 		_$options: [
-			{value: true, option: "yes"},
-			{value: false, option: "no"}
+			{value: 1, option: "docSustantiveTypeHuman"}, //faMale
+			{value: 2, option: "docSustantiveTypeProfession"}, //faUserAstronaut
+			{value: 3, option: "docSustantiveTypeName"}, //N
+			{value: 4, option: "docSustantiveTypeLastname"}, //A
+			{value: 5, option: "docSustantiveTypeAnimal"}, //faPaw
+			{value: 6, option: "docSustantiveTypeInnanimateObject"}, //faChair 
+			{value: 7, option: "docSustantiveTypeIdea"}, //faLightbulb
+			{value: 8, option: "docSustantiveTypePlace"}, //faHome
+			{value: 9, option: "docSustantiveTypeGeographicPlace"}, //faMapMarker
+			{value: 10, option: "docSustantiveTypeBrand"} //faApple
 		],
 	}, 
-	profession: {
-		type: "boolean",
-		$filter: "boolean",
+	sentiment: {
+		type: "integer",
+		$filter: "integer",
 		insertable: true,
 		updateable: true,
 		searchable: true,
-		_$conditional: sexualObject,
-		_$label: "docProfession",
+		_$conditional: sentimentCondition,
+		insertRequired: true,
+		_$label: "docSentiment",
 		_$inputType: "select",
-		_$displayAs: "boolean",
+		_$displayAs: "select",
 		_$options: [
-			{value: true, option: "yes"},
-			{value: false, option: "no"}
+			{value: 0, option: "docSentimentNeutral"},
+			{value: 1, option: "docSentimentSlightlyPositive"},
+			{value: 2, option: "docSentimentSomewhatPositive"},
+			{value: 3, option: "docSentimentPositive"},
+			{value: 4, option: "docSentimentVeryPositive"},
+			{value: 5, option: "docSentimentExtremlyPositive"},
+			{value: -1, option: "docSentimentSlightlyNegative"},
+			{value: -2, option: "docSentimentSomewhatNegative"},
+			{value: -3, option: "docSentimentNegative"},
+			{value: -4, option: "docSentimentVeryNegative"},
+			{value: -5, option: "docSentimentExtremlyNegative"}
 		],
+	},
+	base: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$requiredCondition: baseCondition,
+		_$label: "docPalabra",
+		_$displayAs: "text",
+		_$inputType: "text",
 	}, 
+	plural: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$conditional: pluralCondition,
+		_$disabledCondition: disablePluralCondition,
+		_$requiredCondition: pluralBaseCondition,
+		_$label: "docPlural",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	gerundio: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$conditional: verbCondition,
+		_$requiredCondition: verbCondition,
+		_$label: "docGerundio",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	participio: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$conditional: verbCondition,
+		_$requiredCondition: verbCondition,
+		_$label: "docParticipio",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	female: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$conditional: genderedCondition,
+		_$requiredCondition: femaleAndNeutralCondition,
+		_$label: "docFemale",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	pluralFemale: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$conditional: genderedCondition,
+		_$disabledCondition: disablePluralCondition,
+		_$requiredCondition: pluralFemaleCondition,
+		_$label: "docPluralFemale",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	neutral: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$conditional: genderedCondition,
+		_$disabledCondition: neutralDisabledCondition,
+		_$requiredCondition: femaleAndNeutralCondition,
+		_$label: "docNeutral",
+		_$displayAs: "text",
+		_$inputType: "text",
+	}, 
+	pluralNeutral: {
+		type: "string",
+		$filter: "string",
+		insertable: true,
+		updateable: true,
+		searchable: true,
+		toLowerCase: true,
+		_$conditional: genderedCondition,
+		_$disabledCondition: disablePluralCondition,
+		_$requiredCondition: pluralNeutralCondition,
+		_$label: "docPluralNeutral",
+		_$displayAs: "text",
+		_$inputType: "text",
+	},
+	type: {
+		type: "integer",
+		$filter: "integer",
+		insertable: true,
+		updateable: true,
+		insertRequired: true,
+		searchable: true,
+		_$label: "docType",
+		_$inputType: "select",
+		_$displayAs: "select",
+		_$options: [
+			{value: 1, option: "docTypeNoun"},
+			{value: 2, option: "docTypeVerb"},
+			{value: 3, option: "docTypeAdjetive"},
+			{value: 4, option: "docTypeAdverb"},
+			{value: 7, option: "docTypeArticle"},
+		],
+	},
 	created: {
 		type: "integer"
 	}, 

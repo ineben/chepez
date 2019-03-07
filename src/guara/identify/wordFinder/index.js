@@ -6,6 +6,72 @@ function WordState(dictionary, fromRegion){
 	this.fromRegion = fromRegion;
 }
 
+const wordKeys = [
+	"palabra", 
+	"female", 
+	"neutral", 
+	"pluralFemale", 
+	"pluralNeutral", 
+	"plural", 
+	"participio", 
+	"gerundio"
+];
+
+function setWord(dic, sinonim, word){
+	const ret = {
+		grado : sinonim.grado,
+		region : sinonim.region,
+		type : dic.type
+	};
+	
+	if(dic.type == 1){
+		ret.sustantiveType = dic.sustantiveType;
+	}
+	
+	if(dic.type == 2){
+		if(sinonim.gerundio == word){
+			ret.isGerundio = true;
+		}else if(sinonim.participio == word){
+			ret.isParticipio = true;
+		}else{
+			ret.isInfinitive = true;
+		}
+	}
+	
+	if(dic.type == 2 || dic.type == 3){
+		ret.sentiment = dic.sentiment;
+	}
+	
+	if(dic.type == 1 || dic.type == 3){
+		ret.plural = word == sinonim.plural || word == sinonim.pluralFemale || word == sinonim.pluralNeutral;
+		
+		if(sinonim.palabra == word || sinonim.plural == word){
+			ret.gender = "male";
+		}else if(sinonim.female == word || sinonim.pluralFemale == word){
+			ret.gender = "female";
+		}else if(sinonim.neutral == word || sinonim.pluralNeutral == word){
+			ret.gender = "neutral";
+		}
+	}
+	
+	if(dic.type == 4){
+		ret.adverbType = dic.adverbType;
+	}
+	
+	/*if(dic.type == 5){
+		ret.entityType = ret.entityType;
+	}*/
+	
+	for(const key of wordKeys){
+		if(sinonim[key] == word){
+			sinonim.word = word;
+			break;
+		}
+	}
+	
+	return ret;
+}
+
 function findWord(word, cb){
 	
 	let reWord, currentGrade = null;
@@ -24,31 +90,11 @@ function findWord(word, cb){
 			dic.pluralNeutral == word
 			
 		){
-			const ret = {
-				grado : 1,
-				region : 0,
-				type : dic.type
-			};
 			
-			if(dic.type == 2){
-				ret.living = dic.living;
-				ret.profession = dic.profession;
-			}
-			
-			if(dic.type == 1 || dic.type == 3){
-				if(dic.base == word || dic.plural == word){
-					ret.gender = "male";
-				}else if(dic.female == word || dic.pluralFemale == word){
-					ret.gender = "female";
-				}else if(dic.neutral == word || dic.pluralNeutral == word){
-					ret.gender = "neutral";
-				}
-			}
-			
-			if(dic.type != 5 && dic.type != 6 && dic.type != 2){
-				ret.plural = word == dic.plural || word == dic.pluralFemale || word == dic.pluralNeutral;
-			}
-			
+			dic.grado = 1;
+			dic.region = 0;
+			dic.palabra = dic.base;
+			const ret = setWord(dic, dic, word);
 			cb(null, ret);
 			return;
 		}else{
@@ -64,30 +110,8 @@ function findWord(word, cb){
 						sinonim.pluralFemale == word ||
 						sinonim.pluralNeutral == word
 					){
-						const ret = {
-							grado : sinonim.grado,
-							region : sinonim.region,
-							type : dic.type
-						};
 						
-						if(dic.type == 2){
-							ret.living = dic.living;
-							ret.profession = dic.profession;
-						}
-						
-						if(dic.type == 1 || dic.type == 3){
-							if(sinonim.palabra == word || sinonim.plural == word){
-								ret.gender = "male";
-							}else if(sinonim.female == word || sinonim.pluralFemale == word){
-								ret.gender = "female";
-							}else if(sinonim.neutral == word || sinonim.pluralNeutral == word){
-								ret.gender = "neutral";
-							}
-						}
-						
-						if(dic.type != 5 && dic.type != 6 && dic.type != 2){
-							ret.plural = word == sinonim.plural || word == sinonim.pluralFemale || word == sinonim.pluralNeutral;
-						}
+						const ret = setWord(dic, sinonim, word);
 						
 						cb(null, ret);
 						return;

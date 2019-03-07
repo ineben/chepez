@@ -9,7 +9,7 @@ function WordState(dictionary, toRegion, toGrade, fromRegion){
 	this.toGrade = toGrade;
 }
 
-function setWord(dic, sinonim){
+function setWord(dic, sinonim, isPlural, foundGerundio, foundParticipio){
 	const reWord = {
 		...sinonim,
 		palabra: sinonim.palabra,
@@ -102,49 +102,36 @@ function findWord(word, cb){
 		}
 		
 		if(found){
-			reWord = {
-				palabra : dic.base,
-				type : dic.type
-			};
+			dic.palabra = dic.base;
+			dic.region = 0;
 			
-			if(reWord.type == 1 || reWord.type == 3 || reWord.type == 4){
-				reWord.palabra = isPlural ? dic.plural || pluralize.plural(dic.base) : dic.base;
-			}
-			
-			if(reWord.type == 1 || reWord.type == 3){
-				reWord.female = isPlural ? dic.pluralFemale || pluralize.plural(dic.female)  : dic.female;
-				reWord.neutral = isPlural ? dic.pluralNeutral || pluralize.plural(dic.neutral)  : dic.neutral;
-			}
-			
-			if(reWord.type == 2){
-				if(foundGerundio)
-					reWord.palabra = dic.gerundio;
-				else if(foundParticipio)
-					reWord.palabra = dic.participio;
-			}
+			reWord = setWord(dic, dic, isPlural, foundGerundio, foundParticipio);
 			
 			for(const sinonim of dic.sinonimos){
 				if(sinonim.region == this.toRegion){
-					if(this.toGrade !== undefined){
-						if(this.toGrade == sinonim.grado){							
-							reWord = setWord(dic, sinonim);
-							break;
-						}else{
-							const dif = Math.abs(this.toGrade - sinonim.grado);
-							if(currentGrade === null || dif < currentGrade){
-								reWord = setWord(dic, sinonim);
-							}
-						}
-					}else{
-						reWord = setWord(dic, sinonim);
+					if(this.toGrade === undefined || this.toGrade == sinonim.grado){							
+						reWord = setWord(dic, sinonim, isPlural, foundGerundio, foundParticipio);
 						break;
+					}else{
+						const dif = Math.abs(this.toGrade - sinonim.grado);
+						if(currentGrade === null || dif < currentGrade){
+							currentGrade = sinonim.grado;
+							reWord = setWord(dic, sinonim, isPlural, foundGerundio, foundParticipio);
+						}
 					}
 				}
 			}
 			
 			if(reWord.type == 1){
-				reWord.living = dic.living;
-				reWord.profession = dic.profession;
+				reWord.sustantiveType = dic.sustantiveType;
+			}
+			
+			if(dic.type == 2 || dic.type == 3){
+				reWord.sentiment = dic.sentiment;
+			}
+			
+			if(dic.type == 4){
+				reWord.adverbType = dic.adverbType;
 			}
 			
 			if(reWord.type == 1 || reWord.type == 3){
@@ -156,9 +143,6 @@ function findWord(word, cb){
 					reWord.gender = "neutral";
 			}
 			
-			if(reWord.type == 4){
-				reWord.adverbType = dic.adverbType;
-			}
 			
 			return cb(null, reWord);
 		}
@@ -250,8 +234,9 @@ async function getWords(words, toRegion, toGrade, fromRegion){
 			}
 		};
 		
-		for(const query of queryString)
+		for(const query of queryString){
 			queryWords(query.join(" OR "), resolver);
+		}
 	});
 };
 

@@ -4,7 +4,6 @@ const genderize = require("../Genderize");
 const steed = require("../Steedz")();
 const {getWords} = require("./wordFinder");
 
-
 function findGender(keyword, indexInTranslated, newPhrase, translatedWords, oldPhrase){
 	if(translatedWords[indexInTranslated].gender)
 		return translatedWords[indexInTranslated].gender;
@@ -26,7 +25,13 @@ function findGender(keyword, indexInTranslated, newPhrase, translatedWords, oldP
 	return articleze.findGenderOfPreviousArticle(newPhrase, translatedWords, oldPhrase);
 }
 
-const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
+const tonicARegex = /^(a|ha|á)/i;
+
+const testForTonicA = function(word){
+	return tonicARegex.test(word);
+}
+
+const translate = (query, toRegion, toGrade, fromRegion, inclusive) => {
 	return new Promise( (resolve, reject) => {
 		
 		const workableQuery = query
@@ -80,7 +85,7 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 					
 					switch(translatedWords[keyword].type){
 						case 1: //sujeto
-							if(translatedWords[keyword].living){
+							if(translatedWords[keyword].sustantiveType == 1){
 								
 								if(inclusive){
 									if(newPhrase.length > 0){ //La nueva frase tiene mas de una entrada, buscamos el articulo anterior y corregimos el genero
@@ -89,44 +94,12 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 									
 									if(translatedWords[keyword].neutral){
 										replaceWord = translatedWords[keyword].neutral;
-									}else if(translatedWords[keyword].profession){
-										replaceWord = genderize.toProfessionNeutral(replaceWord);
 									}else{
 										replaceWord = genderize.toNounNeutral(replaceWord);
 									}
-								
-									//if(isPlural){
-									//	if(translatedWords[keyword].pluralNeutral)
-									//		replaceWord = translatedWords[keyword].pluralNeutral;
-									//	else
-									//		replaceWord = pluralize.plural(replaceWord);
-									//}
-								
-								}else{
-									/*if(isPlural){
-										
-										replaceWord = translatedWords[keyword].plural || pluralize.plural(replaceWord);
-										
-										const gender = findGender(keyword, keyword, newPhrase, translatedWords, oldPhrase);
-										
-										switch(gender){
-											case "male":
-												if(translatedWords[keyword].plural)
-													replaceWord = translatedWords[keyword].plural;
-												break;
-											case "female":
-												if(translatedWords[keyword].pluralFemale)
-													replaceWord = translatedWords[keyword].pluralFemale;
-												break;
-											case "neutral":
-												if(translatedWords[keyword].pluralNeutral)
-													replaceWord = translatedWords[keyword].pluralNeutral;
-												break;	
-										}
 									
-									}else{*/
-										replaceWord = genderize.matchNounGender(keyword, replaceWord, translatedWords[keyword]);
-									//}
+								}else{
+									replaceWord = genderize.matchNounGender(keyword, replaceWord, translatedWords[keyword]);
 								}
 								
 							}else{
@@ -135,7 +108,6 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 								//if not fix the previous article
 								const gender = findGender(keyword, keyword, newPhrase, translatedWords, oldPhrase);
 								
-								console.log("toSwitch", gender);
 								switch(gender){
 									case "male":
 										if(translatedWords[keyword].palabra){
@@ -178,6 +150,16 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 											}
 										break;
 								}
+							
+								if(
+									newPhrase.length > 0 && 
+									!isPlural && 
+									newPhrase[newPhrase.length-1].toLowerCase == "la" &&
+									testForTonicA(replaceWord)
+								){
+									newPhrase[newPhrase.length-1] = restoreCase(newPhrase[newPhrase.length-1], "el");
+								}
+								
 							}
 							break;
 						case 3: //adjetivo
@@ -208,7 +190,7 @@ const translate = async (query, toRegion, toGrade, fromRegion, inclusive) => {
 										}
 										let doGender = false;
 										
-										if(translatedWords[adjKeyword].living){
+										if(translatedWords[adjKeyword].sustantiveType == 1){
 											if(inclusive){
 												//if(isPlural){
 												//	replaceWord = translatedWords[keyword].pluralNeutral || ( translatedWords[keyword].neutral ? pluralize.plural(translatedWords[keyword].neutral) :  pluralize.plural(genderize.toAdjetiveNeutral(translatedWords[keyword].palabra || translatedWords[keyword].female)));

@@ -3,11 +3,11 @@ const maleArticleRules = [
 		toNeutral: "elle",
 		toFemale: "la"
 	}],
-	[/(ell|aquell|est)([o]{1})(s)?/i, {
+	[/^(?=[aquellst]{3,8}$)(ell|aquell|est)(o){1}(s)?$/i, {
 		toNeutral: "$1e$3",
 		toFemale: "$1a$3"
 	}],
-	[/(l)(o)(s)/i, {
+	[/^(?=[los]{2,3}$)(l)(o)(s)?$/i, {
 		toNeutral: "$1e$3",
 		toFemale: "$1a$3"
 	}],
@@ -18,22 +18,22 @@ const femaleArticleRules = [
 		toNeutral: "elle",
 		toMale: "el"
 	}],
-	[/(ell|aquell|est)([a]{1})(s)?/i, {
+	[/^(?=[a-z]{3,8}$)(ell|aquell|est)(a){1}(s)?$/i, {
 		toNeutral: "$1e$3",
 		toMale: "$1o$3"
 	}],
-	[/(l)(a)(s)?/i, {
+	[/^(?=[las]{2,3}$)(l)(a)(s)?$/i, {
 		toNeutral: "$1e$3",
 		toMale: "$1o$3"
 	}],
 ];
 
 const neutralArticleRules = [
-	[/(ell|aquell|est)(e|x|@){1}(s)?/i, {
+	[/^(?=[aquellstx@]{3,8}$)(ell|aquell|est)(e|x|@){1}(s)?$/i, {
 		toFemale: "$1a$3",
 		toMale: "$1o$3"
 	}],
-	[/(l)(e|x|@)(s)/i, {
+	[/^(?=[lex@s]{2,3}$)(l)(e|x|@)(s)?$/i, {
 		toFemale: "$1a$3",
 		toMale: "$1o$3"
 	}],
