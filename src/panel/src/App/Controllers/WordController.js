@@ -24,8 +24,6 @@ export default class WordsController extends CRUDController{
 			for(let i = 0; i < 25; i++)
 				this.insertMany[i] = {};
 			this.setUp();
-			
-			console.log(this.insertMany);
 			$rootScope.$apply();
 		});
 		
