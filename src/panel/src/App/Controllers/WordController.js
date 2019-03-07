@@ -2,19 +2,33 @@ import {default as Auth, addAuthCallback, removeAuthCallback, AuthInterface} fro
 import {Doc} from "../../Lib/Api";
 import {EntitySchema, sinonimSchema} from "../../../../logic/schemas/doc";
 import CRUDController from "./CRUDController";
+import Lang from "../../Lib/Lang";
 
 let insert = {};
 
 export default class WordsController extends CRUDController{
 	
-	constructor($timeout, $anchorScroll, toastr, $stateParams, $scope){
+	constructor($timeout, $anchorScroll, toastr, $stateParams, $scope, $rootScope){
 		'ngInject';
 		super($timeout, $anchorScroll, toastr);
 		this.word = $stateParams.id;
 		this.Auth = Auth;
 		this.Entity = new Doc();
 		this.vEntity = this.Entity;
-		this.Entity.doGet(this.word);
+		
+		this.Entity.doGet(this.word)
+		.then((res) => {
+			if(!res.success) return;
+			
+			this.insertMany = [];
+			for(let i = 0; i < 25; i++)
+				this.insertMany[i] = {};
+			this.setUp();
+			
+			console.log(this.insertMany);
+			$rootScope.$apply();
+		});
+		
 		this.schema =  sinonimSchema;
 		this.vSchema =  EntitySchema;
 		const context = this;
@@ -30,9 +44,6 @@ export default class WordsController extends CRUDController{
 				icon: "fa-trash"
 			},
 		]; 
-		this.insertMany = [];
-		for(let i = 0; i < 50; i++)
-			this.insertMany[i] = {};
 		
 		this.AuthInterface = new AuthInterface(
 			() => { }, //onLogin
@@ -56,8 +67,24 @@ export default class WordsController extends CRUDController{
 	
 	setUp(){
 		for(const key in this.insertMany){
+			this.insertMany[key].type = this.Entity.item.type;
+			this.insertMany[key].sustantiveType = this.Entity.item.sustantiveType;
+			this.insertMany[key].adverbType = this.Entity.item.adverbType;
 			this.insertMany[key].region = this.Auth.user.region;
 		}
+	}
+	
+	isDirty(combo){
+		const ret = (combo.grado != null && combo.grado != '') ||
+			(combo.palabra != null && combo.palabra != '') ||
+			(combo.female != null && combo.female != '') ||
+			(combo.neutral != null && combo.neutral != '') ||
+			(combo.gerundio != null && combo.gerundio != '') ||
+			(combo.participio != null && combo.participio != '') ||
+			(combo.plural != null && combo.plural != '') ||
+			(combo.pluralFemale != null && combo.pluralFemale != '') ||
+			(combo.pluralNeutral != null && combo.pluralNeutral != '');
+		return ret;
 	}
 	
 	async insert(){
@@ -67,6 +94,8 @@ export default class WordsController extends CRUDController{
 				entry.female || 
 				entry.neutral || 
 				entry.plural || 
+				entry.gerundio || 
+				entry.participio || 
 				entry.pluralNeutral ||
 				entry.pluralFemale){
 					newArray.push(entry);
@@ -88,11 +117,9 @@ export default class WordsController extends CRUDController{
 		if(response.success){
 			
 			this.insertMany = [];
-			for(let i = 0; i < 50; i++)
+			for(let i = 0; i < 25; i++)
 				this.insertMany[i] = {};
-			
-			if(Auth.user.region)
-				this.setUp();
+			this.setUp();
 			this.Entity.doGet(this.word);
 		}
 	}

@@ -48,8 +48,35 @@ import fasAlignJustify from "@fortawesome/fontawesome-free-solid/faAlignJustify"
 import fasIndent from "@fortawesome/fontawesome-free-solid/faIndent";
 import fasOutdent from "@fortawesome/fontawesome-free-solid/faOutdent";
 import fasLink from "@fortawesome/fontawesome-free-solid/faLink";
+
+
+import fasClock from "@fortawesome/fontawesome-free-solid/faClock";
+import fasMapMarker from "@fortawesome/fontawesome-free-solid/faMapMarker";
+import fasCheck from "@fortawesome/fontawesome-free-solid/faCheck";
+
+import fasPlus from "@fortawesome/fontawesome-free-solid/faPlus";
+import fasMinus from "@fortawesome/fontawesome-free-solid/faMinus";
+import fasMale from "@fortawesome/fontawesome-free-solid/faMale";
+import fasUserAstronaut from "@fortawesome/fontawesome-free-solid/faUserAstronaut";
+import fasPaw from "@fortawesome/fontawesome-free-solid/faPaw";
+import fasCar from "@fortawesome/fontawesome-free-solid/faCar";
+import fasLightbulb from "@fortawesome/fontawesome-free-solid/faLightbulb";
+import fasTags from "@fortawesome/fontawesome-free-solid/faTags";
  
 fontawesome.library.add(
+ fasClock ,
+ fasMapMarker ,
+ fasCheck ,
+ 
+ fasPlus ,
+ fasMinus ,
+ fasMale ,
+ fasUserAstronaut ,
+ fasPaw ,
+ fasCar ,
+ fasLightbulb ,
+ fasMapMarker ,
+ fasTags ,
 fasStar,
 fasStarHalf,
 fasPoo,

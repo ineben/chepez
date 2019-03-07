@@ -12,7 +12,7 @@ export default class AddWordController extends CRUDController{
 		this.insertMany = [];
 		this.gModel = angular.copy($stateParams);
 		for(let i = 0; i < 50; i++)
-			this.insertMany[i] = {type :  this.gModel.type, living: false, profession : false};
+			this.insertMany[i] = {type :  this.gModel.type};
 		
 		this.schema = angular.copy(EntitySchema);
 		
@@ -27,6 +27,19 @@ export default class AddWordController extends CRUDController{
 		const context = this;
 	}
 	
+	
+	isDirty(combo){
+		const ret = (combo.base != null && combo.base != '') ||
+			(combo.female != null && combo.female != '') ||
+			(combo.neutral != null && combo.neutral != '') ||
+			(combo.gerundio != null && combo.gerundio != '') ||
+			(combo.participio != null && combo.participio != '') ||
+			(combo.plural != null && combo.plural != '') ||
+			(combo.pluralFemale != null && combo.pluralFemale != '') ||
+			(combo.pluralNeutral != null && combo.pluralNeutral != '');
+		return ret;
+	}
+	
 	async insert(){
 		const newArray = [];
 		for(const entry of this.insertMany)
@@ -34,6 +47,8 @@ export default class AddWordController extends CRUDController{
 				entry.female || 
 				entry.neutral || 
 				entry.plural || 
+				entry.gerundio || 
+				entry.participio || 
 				entry.pluralNeutral ||
 				entry.pluralFemale){
 					newArray.push(entry);
