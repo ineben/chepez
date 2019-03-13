@@ -319,7 +319,6 @@ const EntitySchema = {
 		updateable: true,
 		searchable: true,
 		_$conditional: sentimentCondition,
-		insertRequired: true,
 		_$label: "docSentiment",
 		_$inputType: "select",
 		_$displayAs: "select",

@@ -37,6 +37,7 @@ export default class AddWordController extends CRUDController{
 			(combo.plural != null && combo.plural != '') ||
 			(combo.pluralFemale != null && combo.pluralFemale != '') ||
 			(combo.pluralNeutral != null && combo.pluralNeutral != '');
+		console.log(combo, ret);
 		return ret;
 	}
 	

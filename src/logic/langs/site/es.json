@@ -10,6 +10,7 @@
 	"youMustBeLogged": "Debes estar logeado",
 	"passwordsMustMatch": "Las contraseñas deben coincidir",
 	"registerSuccess": "Registro exitoso",
+	"redIsRequired": "Los campos subrayados en rojo son obligatorios",
 	"name": "Nombre",
 	"email": "E-mail",
 	"editProfile": "Editar perfil",
@@ -113,7 +114,7 @@
 	"docPluralFemale": "Plural femenino",
 	"docPluralNeutral": "Plural neutral (con e)",
 	"docType": "Tipo de palabra",
-	"docVerbType": "Tipo de palabra",
+	"docVerbType": "Tipo de verbo",
 	
 	"docAdverbType": "Tipo de adverbio",
 	"docAdverbTypeTime": "Tiempo",

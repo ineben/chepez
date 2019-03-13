@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:all": "set NODE_ENV=production && node index.js",
-    "start:server": "set NODE_ENV=production && node src/server/index.js",
-    "start:panel": "set NODE_ENV=production && node src/panel/server.js",
+    "start": "set NODE_ENV=production && node index.js",
     "service:start": "pm2 start index.js -i max -n guara",
     "build:panel": "set NODE_COMMAND=build && webpack --config ./src/panel/webpack.config.dist.js",
     "test:panel": "set NODE_COMMAND=test && set NODE_ENV=development && webpack-dev-server --hot --inline --config ./src/panel/webpack.config.js"

@@ -11,6 +11,7 @@
 							i.float-right.fas.fa-chevron-down
 					form#addCollapse.show.collapse.col.p-4.bg-white(ng-submit="enVM.insert();")
 						.col
+							h6 {{rVM.Lang.lang.redIsRequired}}
 							.piecesHolder.titles
 								.piece.text-center(ng-repeat="(key, value) in enVM.schema", ng-if="value.insertable && value._$inputType && (value._$conditional ? value._$conditional(enVM.vEntity.item) : true)")
 									.form-group

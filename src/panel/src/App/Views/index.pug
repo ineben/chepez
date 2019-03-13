@@ -13,7 +13,7 @@
 									tr
 										th.text-uppercase(scope="col") {{rVM.Lang.lang.docPalabra}}
 										th.text-uppercase(scope="col") {{rVM.Lang.lang.docType}}
-										th.text-uppercase(scope="col") {{rVM.Lang.lang.docSinonims}}
+										//th.text-uppercase(scope="col") {{rVM.Lang.lang.docSinonims}}
 										th.text-uppercase(scope="col") {{rVM.Lang.lang.accions}}
 								tbody
 									tr(ng-repeat='item in ixVM.Doc.itemsSSR')
@@ -22,7 +22,7 @@
 										td.text-uppercase(scope="col")
 											div(ng-repeat="option in ixVM.schema.type._$options")
 												span(ng-if="option.value == item.fields.type") {{rVM.Lang.lang[option.option]}}
-										td.text-uppercase(scope="col")
+										//td.text-uppercase(scope="col")
 											span {{item.fields['key_'+rVM.Auth.user.region]}}
 										td.text-uppercase 
 											a.btn.rounded.btn-info(ui-sref="base.word({id : item.id})")
