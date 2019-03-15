@@ -74,10 +74,7 @@ module.exports = async function(app, opts){
 						type : "string"
 					},
 					types : {
-						type : "array",
-						items : {
-							type : "number"
-						}
+						type : "number"
 					},
 					$limit: {
 						type: "integer", 
@@ -155,7 +152,7 @@ module.exports = async function(app, opts){
 			};
 			
 			if(req.query.types){
-				params.q = `${params.q} AND type:(${req.query.types.join(' OR ')})`;
+				params.q = `${params.q} AND type:${req.query.types}`;
 			}
 			
 			if(req.query.bookmark)

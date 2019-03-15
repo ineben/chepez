@@ -26,6 +26,12 @@ export default class IndexTRController{
 		});
 	}
 	
+	doChange(){
+		this.Doc.itemsSSR = [];
+		delete this.Doc.searchSSR.bookmark;
+		this.Doc.doSearchSinonimByRegion(Auth.user.region);
+	}
+	
 	loadMore(inView){
 		if(inView){
 			this.Doc.doSSRLoadMore(Auth.user.region);

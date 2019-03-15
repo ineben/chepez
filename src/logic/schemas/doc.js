@@ -324,16 +324,16 @@ const EntitySchema = {
 		_$displayAs: "select",
 		_$options: [
 			{value: 0, option: "docSentimentNeutral"},
-			{value: 1, option: "docSentimentSlightlyPositive"},
-			{value: 2, option: "docSentimentSomewhatPositive"},
+			//{value: 1, option: "docSentimentSlightlyPositive"},
+			//{value: 2, option: "docSentimentSomewhatPositive"},
 			{value: 3, option: "docSentimentPositive"},
-			{value: 4, option: "docSentimentVeryPositive"},
-			{value: 5, option: "docSentimentExtremlyPositive"},
-			{value: -1, option: "docSentimentSlightlyNegative"},
-			{value: -2, option: "docSentimentSomewhatNegative"},
+			//{value: 4, option: "docSentimentVeryPositive"},
+			//{value: 5, option: "docSentimentExtremlyPositive"},
+			//{value: -1, option: "docSentimentSlightlyNegative"},
+			//{value: -2, option: "docSentimentSomewhatNegative"},
 			{value: -3, option: "docSentimentNegative"},
-			{value: -4, option: "docSentimentVeryNegative"},
-			{value: -5, option: "docSentimentExtremlyNegative"}
+			//{value: -4, option: "docSentimentVeryNegative"},
+			//{value: -5, option: "docSentimentExtremlyNegative"}
 		],
 	},
 	base: {

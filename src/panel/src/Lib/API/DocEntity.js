@@ -11,8 +11,7 @@ export default class Doc extends BaseEntity{
 		super("docs", tolerance);
 		this.searchWord = {};
 		this.searchSSR = {
-			$limit : 10,
-			types : [1, 2, 3, 4]
+			$limit : 10
 		};
 	}
 	
@@ -30,8 +29,6 @@ export default class Doc extends BaseEntity{
 	
 	async doSearchSinonimByRegion(region = 1, skip = false){
 		const config = {};
-		
-		console.log("docent", this);
 		
 		if(this.ongoingSSR)
 			switch(this.tolerance){

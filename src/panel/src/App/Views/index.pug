@@ -6,6 +6,20 @@
 					h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.wordsToTranslate}}
 						i.float-right.fas.fa-chevron-down
 				#resultsCollapse.show.collapse(in-view-container)
+					.col-12.px-2.py-4.bg-white(ng-if="rVM.Auth.user.region")
+						.row.justify-content-center.mb-5
+							//.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+								.form-group
+									label.text-muted {{rVM.Lang.lang.translatePhrase}}:
+									input.form-control(required, type="text", ng-model="ixVM.Translate.search.phrase")
+							.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+								.form-group
+									label.text-muted {{rVM.Lang.lang.docType}}:
+									select.form-control(ng-model="ixVM.Doc.searchSSR.types", ng-change="ixVM.doChange();")
+										option(value="1") {{rVM.Lang.lang.docTypeNoun}}
+										option(value="2") {{rVM.Lang.lang.docTypeVerb}}
+										option(value="3") {{rVM.Lang.lang.docTypeAdjetive}}
+										option(value="4") {{rVM.Lang.lang.docTypeAdverb}}
 					.col-12.px-2.py-4.bg-white
 						.table-responsive
 							table.table.table-bordered
@@ -129,37 +143,37 @@
 											| {{rVM.Lang.lang.docTypeArticle}}
 									h6 {{rVM.Lang.lang.docSentiment}}
 									.phraseHolder
-										span.wordtype_-1
+										//span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentExtremlyNegative}}
 											span.sentimentLevel -5
-										span.wordtype_-1
+										//span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentVeryNegative}}
 											span.sentimentLevel -4
 										span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentNegative}}
 											span.sentimentLevel -3
-										span.wordtype_-1
+										//span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentSomewhatNegative}}
 											span.sentimentLevel -2
-										span.wordtype_-1
+										//span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentSlightlyNegative}}
 											span.sentimentLevel -1
 										span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentNeutral}}
 											span.sentimentLevel 0
-										span.wordtype_-1
+										//span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentSlightlyPositive}}
 											span.sentimentLevel 1
-										span.wordtype_-1
+										//span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentSomewhatPositive}}
 											span.sentimentLevel 2
 										span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentPositive}}
 											span.sentimentLevel 3
-										span.wordtype_-1
+										//span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentVeryPositive}}
 											span.sentimentLevel 4
-										span.wordtype_-1
+										//span.wordtype_-1
 											| {{rVM.Lang.lang.docSentimentExtremlyPositive}}
 											span.sentimentLevel 5
 									h6 {{rVM.Lang.lang.docVerbType}}
