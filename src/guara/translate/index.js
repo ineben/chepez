@@ -1,7 +1,6 @@
 const {restoreCase, pluralize} = require("../PluralizeEs");
 const articleze = require("../Articleze");
 const genderize = require("../Genderize");
-const steed = require("../Steedz")();
 const {getWords} = require("./wordFinder");
 
 function findGender(keyword, indexInTranslated, newPhrase, translatedWords, oldPhrase){

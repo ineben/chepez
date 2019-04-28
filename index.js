@@ -4,9 +4,9 @@ const server = require("./src/server");
 server.start();
 
 
-/*const translate = require("./src/guara/translate");
-const f = "El aguacate es feo";
+/*const spellcheck = require("./src/guara/spellcheck");
+const f = "hola qe ace pibe comoesta accion";
 
-translate(f, 3)
+spellcheck(f, 1)
 .then(console.log)
 .catch(console.error);*/
