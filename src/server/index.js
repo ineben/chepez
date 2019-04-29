@@ -14,6 +14,7 @@ app.use(require('./middlewares/locale'));
 
 app.register(require('./router/auth'), {prefix: '/api/auth'});
 app.register(require('./router/docs'), {prefix: '/api/docs'});
+app.register(require('./router/reps'), {prefix: '/api/reps'});
 app.register(require('./router/quotas'), {prefix: '/api/quotas'});
 app.register(require('./router/translator'), {prefix: '/api/translator'});
 app.register(require('./router/users'), {prefix: '/api/users'});

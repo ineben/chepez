@@ -43,6 +43,7 @@
 	"profile": "Mi perfil",
 	"users": "Admin",
 	"words": "Comunidad",
+	"replacements": "Correcciones",
 	"previous": "Anterior",
 	"welcome": "Bienvenido",
 	"next": "Siguiente",
@@ -76,6 +77,7 @@
 	"quotaLastUpdate": "Ultima actualización",
 	
 	"wordsToTranslate": "Palabras a traducir",
+	"replacementWords": "Palabras de remplazo",
 	
 	"docSentiment": "Sentimiento",
 	"docSentimentNeutral": "Neutral",
@@ -99,6 +101,8 @@
 	"docGradoCasual": "Casual",
 	"docGradoInformal": "Informal",
 	"docGradoVeryInformal": "Muy informal",
+	"repWord": "Palabra a remplazar",
+	"repReplace": "Remplazo",
 	"docPalabra": "Palabra",
 	"docGerundio": "Gerundio",
 	"docParticipio": "Participio",

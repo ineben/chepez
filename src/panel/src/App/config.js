@@ -36,6 +36,10 @@ export default function routing(paginationTemplateProvider, $locationProvider, t
 		url: '/users',
 		template: require( './Views/users.pug')
 	})
+	.state('base.reps',{
+		url: '/reps',
+		template: require( './Views/rep.pug')
+	})
 	.state('base.user',{
 		url: '/user/:id',
 		template: require( './Views/user.pug')

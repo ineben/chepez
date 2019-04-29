@@ -147,6 +147,7 @@ import IndexTRController from './App/Controllers/IndexTRController';
 import UsersController from './App/Controllers/UsersController';
 import ProfileController from './App/Controllers/ProfileController';
 import QuotasController from './App/Controllers/QuotasController';
+import RepsController from './App/Controllers/RepsController';
 import WordsController from './App/Controllers/WordsController';
 import WordController from './App/Controllers/WordController';
 
@@ -173,5 +174,6 @@ app.controller("indexTR", IndexTRController);
 app.controller("users", UsersController);
 app.controller("profile", ProfileController);
 app.controller("quotas", QuotasController);
+app.controller("reps", RepsController);
 app.controller("words", WordsController);
 app.controller("word", WordController);

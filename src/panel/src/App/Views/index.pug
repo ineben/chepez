@@ -85,7 +85,9 @@
 										input.form-control(placeholder="{{rVM.Lang.lang.message}}", required, type="text", ng-model="ixVM.Watson.insert.text", ng-disabled="ixVM.Watson.ongoingInsert")
 								.col-4.col-sm-4.col-md-2.col-lg-2.col-xl-2
 									button.btn.btn-primary.btn-block.m-0(type="submit", ng-disabled="ixVM.Watson.ongoingInsert") {{rVM.Lang.lang.send}}
+		
 		.container-fluid(ng-if="!rVM.Auth.isUser")
+			
 			.row
 				.col-12.px-3.mt-4
 					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#translateCollapse", aria-expanded="true", aria-controls="translateCollapse", filter-color="black")
@@ -117,6 +119,31 @@
 								.col-12(ng-if="ixVM.Translate.phrase")
 									h4.text-center {{rVM.Lang.lang.translateResults}}
 									h5 {{ixVM.Translate.phrase}}
+									
+			
+			.row
+				.col-12.px-3.mt-4
+					.col.py-3.px-5.pointerCursor.sectionHeader(data-toggle="collapse", role="button", data-target="#translateCollapse", aria-expanded="true", aria-controls="translateCollapse", filter-color="black")
+						h4.m-0.text-white.text-capitalize {{rVM.Lang.lang.corrector}}
+							i.float-right.fas.fa-chevron-down
+					#translateCollapse.show.collapse.col.p-4.bg-white
+						form.col(ng-submit="ixVM.Correct.doSearch();")
+							.row.justify-content-center.mb-5
+								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+									.form-group
+										label.text-muted {{rVM.Lang.lang.translatePhrase}}:
+										input.form-control(required, type="text", ng-model="ixVM.Correct.search.phrase")
+								.col-12.col-sm-12.col-md-6.col-lg-6.col-xl-6
+									.form-group
+										label.text-muted {{rVM.Lang.lang.docRegion}}:
+										select.form-control(ng-options="item.value as rVM.Lang.lang[item.option] for item in ixVM.secondSchema.region._$options track by item.value", ng-model="ixVM.Correct.search.toRegion")
+								.col-12
+									button.btn.btn-primary.btn-block(type="submit") {{rVM.Lang.lang.send}}
+								.col-12(ng-if="ixVM.Correct.phrase")
+									h4.text-center {{rVM.Lang.lang.translateResults}}
+									h5 {{ixVM.Correct.phrase}}
+									
+									
 		.container-fluid(ng-if="!rVM.Auth.isUser")
 			.row
 				.col-12.px-3.mt-4

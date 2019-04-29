@@ -107,7 +107,7 @@ class Base extends Database{
 				}
 			}
 			
-			let res = await this.insert(lang, data);
+			let res = await this.insertOne(lang, data);
 			return res;
 		}else
 			return new Response(false, lang.emptyBodyError);

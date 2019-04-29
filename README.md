@@ -133,6 +133,19 @@ Tropicaliza automáticamente y autocorrige
 			- success
 			- mes
 			- phrase
+	* /translator/correct/:token - Corrije la frase 
+		- Metodo
+			- GET
+		- Parametros
+			- token *
+		- Consulta
+			- phrase *
+			- toRegion : del 1 al 20
+		- Respuesta
+			- success
+			- mes
+			- phrase : Frase corregida con las palabras seleccionadas por el algoritmo
+			- suggestions : Objeto con cada palabra no encontrada en los diccionarios, y sus sugerencias
 * Rutas que *si* requieren Authorization
 	* /docs/ - Agrega una palabra
 		- Metodo

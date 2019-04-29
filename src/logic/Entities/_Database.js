@@ -135,11 +135,13 @@ class Database{
 			
 			conn.search(designDocumnt, index, params, 
 			(err, res) => {
+				
 				if(err){
 					console.log(err);
 					resolve(new Response(false, lang.searchError));
 					return;
 				}
+				
 				const r = new Response(true, res.rows);
 				r.bookmark = res.bookmark;
 				r.total = res.total_rows;

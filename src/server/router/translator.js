@@ -283,6 +283,8 @@ module.exports = async function(app, opts){
 				const update = await Quota.updateOne(req.raw.lang, token.item, {lastUsed: Date.now(), restante: token.item.restante-1});
 				const r = new Response(true);
 				
+				console.log(output);
+				
 				r.phrase = output.phrase;
 				r.suggestions = output.suggestions;
 				return r;
