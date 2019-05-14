@@ -46,37 +46,22 @@ function getDic(region){
 				
 				const d = new nodehun(dotAff, dotDic);
 				
-				d.isCorrectP = function(word){
-					return new Promise((resolve, reject) => {
-						this.isCorrect(word, function(err, correct, origWord){
-							
-							if(err){ 
-								reject(err);
-								return;
+				readFile(`${__dirname}/dics/extra/words.txt`, 'utf8', function(err, wordsFile){
+					
+					const wrds = wordsFile.split("\n");
+					let totalW = wrds.length, countW = 0;
+					
+					for(const word of wrds){
+						d.addWord(word, function(){
+							countW++;
+							if(totalW == countW){
+								dics[region] = d;
+								resolve(dics[region]);
 							}
-							
-							resolve(correct);
 						});
-					});
-				};
-				
-				 
-				d.spellSuggestionsP = function(word){
-					return new Promise((resolve, reject) => {
-						this.spellSuggestions(word, function(err, correct, suggestions, origWord){
-							
-							if(err){ 
-								reject(err);
-								return;
-							}
-							
-							resolve(suggestions);
-						});
-					});					
-				};
-				
-				dics[region] = d;
-				resolve(dics[region]);
+					}
+					return;
+				});
 				return;
 			});
 			return;

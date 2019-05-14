@@ -1,0 +1,52 @@
+Acre
+Alagoas
+Amapá
+Amazonas
+Aracaju
+Bahía
+Belo Horizonte
+Belém
+Boa Vista
+Brasilia
+Campo Grande
+Ceará
+Cuiabá
+Curitiba
+Distrito Federal
+Espírito Santo
+Florianópolis
+Fortaleza
+Goiás
+Goiânia
+João Pessoa
+Macapá
+Maceió
+Manaus
+Maranhão
+Mato Grosso
+Mato Grosso do Sul
+Minas Gerais
+Natal
+Palmas
+Paraná
+Paraíba
+Pará
+Pernambuco
+Piauí
+Porto Alegre
+Porto Velho
+Recife
+Rondônia
+Roraima
+Río Branco
+Río Grande do Norte
+Río Grande do Sul
+Río de Janeiro
+Salvador
+Santa Catarina
+Sergipe
+São Luís
+São Paulo
+Teresina
+Tocantins
+Vitória
