@@ -28,7 +28,6 @@ export default class WordsController extends CRUDController{
 				class: "btn-info",
 				icon: "fa-book",
 				conditional : function(item){
-					console.log("type", item);
 					return item.type != "name" && item.type != "lastname";
 				}
 			},

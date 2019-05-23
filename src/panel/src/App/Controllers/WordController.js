@@ -121,8 +121,7 @@ export default class WordsController extends CRUDController{
 			this.Entity.doGet(this.word);
 		}
 	}
-	
-	
+		
 	async update(){
 		const r = await this.Entity.doUpdateSinonimo(this.word);
 		if(r.success){
