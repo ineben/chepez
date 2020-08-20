@@ -23,7 +23,7 @@
     "@babel/polyfill": "^7.0.0",
     "@cloudant/cloudant": "^2.4.0",
     "ajv": "^6.5.5",
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "config": "^2.0.1",
     "fastfall": "^1.5.1",
     "fastify": "^1.13.0",
