@@ -32,7 +32,7 @@
     "fastify-cors": "^0.1.0",
     "fastify-favicon": "^0.2.4",
     "fastify-http-proxy": "^0.8.0",
-    "fastify-static": "^0.14.0",
+    "fastify-static": "^4.2.4",
     "fastparallel": "^2.3.0",
     "fastq": "^1.6.0",
     "fastseries": "^1.7.2",
