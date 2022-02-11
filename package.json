@@ -22,7 +22,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "@cloudant/cloudant": "^2.4.0",
-    "ajv": "^6.5.5",
+    "ajv": "^6.12.3",
     "bcrypt": "^3.0.0",
     "config": "^2.0.1",
     "fastfall": "^1.5.1",
