@@ -37,7 +37,7 @@
     "fastq": "^1.6.0",
     "fastseries": "^1.7.2",
     "hashids": "^1.1.4",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^9.0.0",
     "lorca-nlp": "^1.0.12",
     "moment": "^2.22.2",
     "nodehun": "^2.0.12",
